@@ -1,0 +1,151 @@
+﻿h1, select{
+	color: #666666 !important;/*#3B5998 !important;*/
+	border-radius: 6px;
+}
+
+h5{
+	color: #fff !important;
+}
+
+/*a:hover, #sidebar > ul li ul li.active a {
+	background: #f7931e !important;
+}*/
+
+/*.logo > h1 a img:hover{
+	background: #fff !important;
+}*/
+
+#sidebar > ul li a:hover {
+	background: #f7931e !important;
+}
+
+#sidebar> ul li ul li a:hover {
+	background: #3b5998 !important;
+}
+
+#breadcrumb  > a:hover {
+	background: #f7b85a !important;
+	border-bottom: 3px solid #fff !important;
+}
+
+#breadcrumb {
+	background: #f7931e !important;
+}
+
+.btn-success {
+	background: #f7931e !important;
+	border: 1px solid #fbc98f !important;
+	border-radius: 6px;
+}
+.btn-success:hover{
+	background: #f7b85a !important;
+}
+
+.border-blue {    
+	border-right: 1px solid #3b5998  !important;
+	/*border-right: 1px solid #3b5998;*/
+	/*border-right: 1px solid #3b5998;*/
+}
+
+.widget-title {
+	background: #3b5998 !important;
+}
+
+.span11 {
+	width: 50% !important;
+	border-radius: 6px !important;
+	min-height: 30px !important;
+}
+.span12 {
+	width: 80% !important;
+	border-radius: 6px !important;
+	min-height: 30px !important;
+}
+.span1 {
+	border-radius: 6px !important;
+}
+.body-graficos{
+	height: 150% !important;
+}
+
+.footer-graficos {
+	background-color: #2E363F;
+}
+.logo2 > h1 a img {
+	width: 17%;
+}
+.message-error {
+	background-color: #8b0000;
+}
+.message-success {
+	background-color: #32cd32;
+}
+.message-info {
+	background-color: #4682b4;
+}
+#messageDiv {
+	color: #FFF;
+	border: 2px solid #FFF;
+	z-index: 10000000 !important;
+	position: fixed;
+	font-weight: 500;
+	left: 35%;
+max-width: 30%;
+	padding: 5px;
+		margin-top: 10px;
+}
+#messageDiv > button {
+	margin-left: 5px;
+}
+/*Tab*/
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+/*Fin Tab*/
+.planbox {
+	background-color: #3B5998 !important;
+}
+.planbox > b ul li, b ul li strong {
+	color: #f7931e !important;
+}
+.caps > strong {
+	color: #f7931e;
+}
+.host_plans .planbox .prices a:hover {
+background: #f7931e !important;
+}
+#sidebar .submenu {
+-webkit-appearance: menulist;
+}
