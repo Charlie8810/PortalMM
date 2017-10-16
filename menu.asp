@@ -51,6 +51,7 @@
 			<li><a href="mant_pl_anu.asp">Planes Anuales</a></li>
 		</ul>
 	</li>
+          <li><a href="mant_venta.asp"><i class="icon icon-th-list"></i> <span>Venta</span></a></li>
 	<li class="submenu"><a href="#"><i class="icon icon-th-list"></i> <span>Informes</span></a>
 		<ul>
 			<li><a href="graficos.asp">Resumen</a></li>
