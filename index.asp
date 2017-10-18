@@ -1612,7 +1612,7 @@ end if
 
 		$("#bt_cotizar").on("click",function(e){
 			if($("#tipo").val()=="18"){
-			    location.href="http://www.google.cl";	
+			    location.href="resultado_busqueda.asp?eq=" + $("#equipo").val();	
 			}
 		})
 	})

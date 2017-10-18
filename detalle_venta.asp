@@ -1,4 +1,4 @@
-<!--#include file="con_app.asp"-->
+﻿<!--#include file="con_app.asp"-->
 <!DOCTYPE HTML>
 <!--
 	Alpha by HTML5 UP
@@ -1113,65 +1113,17 @@ end if
 						<div class="13u 10u(narrower)">
 							<section>
 
-                                 <%
-									sql ="exec BuscaNombreTipoDato "
-									sql = sql & request.QueryString("eq")
-                                   
-									 Set rs=nothing
-                                     Set rs = cn.Execute(sql)
-                                   
-                                    %>
-
-                                <div class="panel panel-default">
-                                    <h4 style="font-weight:bold; text-align:left; margin-left:10px;">BÚSQUEDA POR:  <% 
-                                            if request.QueryString("eq") <> "0" then 
-                                                   response.Write(rs("descripcion")) 
-                                            else    
-                                                    response.Write("Todos")
-                                            end if
-                                        %>
-
-                                    </h4>
-
-
-                                </div>
-
-
-
-
-					            <table>
 
 
                                     <%
-									sql ="exec ListarResultadosBusqueda "
-									sql = sql & request.QueryString("eq")
-                                   
-									Set rs=nothing
-									Set rs = cn.Execute(sql)
+									'sql ="exec DetalleVentaMaquinaria "
+									'sql = sql & request.QueryString("v")
+                                    '
+									'Set rs=nothing
+									'Set rs = cn.Execute(sql)
 									%>
-									
-
-                                    <%
-										if not rs.eof then
-											do while not rs.eof
-												
-													response.write "<tr><td style=""width:300px;"">" &_ 
-                                                                        "<a href=""detalle_venta.asp?id=" & rs("id_venta") & """><img src=""upload/logo10.jpg"" alt=""imagen_maq"" /></a></td>" & _
-                                                                        "<td style=""vertical-align:top; text-align:left;"">" & _
-                                                                                "<h4 style=""margin-bottom:1px; font-weight:bold;""><a href=""detalle_venta.asp?id=" & rs("id_venta") & """>" &  rs("Descripcion") & "</a></h4>" & _
-                                                                                "<p style=""margin-bottom:3px; font-weight:bold;"">" & rs("vent_equipo_modelo") & " - " & rs("vent_equipo_marca") & " - " & rs("vent_anio") & "</p>" & _
-                                                                                "<p style=""margin-bottom:3px; font-weight:bold;"">$ " & FormatNumber(rs("vent_equipo_precio"),0) & " p/d</p>" & _
-                                                                                
-                                                                                "<p style=""font-weight:bold; color:#F7931E;"">Disponibiliad Inmediata</p>" & _
-                                                                    "</td></tr>"
-												
-												rs.movenext
-											loop
-										end if
-									%>
-
-                                   
-					            </table>			 
+								                    
+					           	 
 
 							</section>
 						</div>

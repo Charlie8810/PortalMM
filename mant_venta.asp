@@ -18,12 +18,12 @@
 </head>
 <script type="text/javascript">
     function validarDatos(formulario, pagina) {
-        var Nombre = document.getElementById('Nombre').value;
+        /*var Nombre = document.getElementById('Nombre').value;
 
         if (Nombre == null || Nombre.length == 0 || /^\s+$/.test(Nombre)) {
             mostrarMensaje('El campo Nombre no debe ir vacío', 'error');
             return false;
-        }
+        }*/
 
         irA(formulario, pagina);
 
