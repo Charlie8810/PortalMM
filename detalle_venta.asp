@@ -1116,19 +1116,71 @@ end if
 
 
                                     <%
-									'sql ="exec DetalleVentaMaquinaria "
-									'sql = sql & request.QueryString("v")
-                                    '
-									'Set rs=nothing
-									'Set rs = cn.Execute(sql)
+									sql ="exec DetalleVentaMaquinaria "
+									sql = sql & request.QueryString("id")
+                                    
+									Set rs=nothing
+									Set rs = cn.Execute(sql)
 									%>
-								                    
-					           	 
 
-							</section>
-						</div>
+                                <div style="border:1px solid #ddd; border-radius: 3px 3px; margin: 5px 5px 5px 5px;">
+                                <div class="row">
+                                    <div class="col-md-12" >
+                                        <div style="background-color:#F7931E; border-radius: 2px 2px;">
+                                            <h4 style="color:white;font-weight:bold; text-align:left; margin-left:15px;">
+                                                <% response.Write( rs("vent_anio") & " " & rs("Descripcion") & " " & rs("vent_equipo_marca") & " " & rs("vent_equipo_modelo") ) %>
+                                            </h4>
+                                        </div>
+                                    </div>
+								</div>
+								<div class="row">
+                                    <div class="col-md-5">
+                                        <div style="padding: 5px 5px 5px 5px;">
+                                            <img src="images/1.png" style="width:100%;" />
+                                        </div>                                        
+                                    </div>
+                                    <div class="col-md-4" style="text-align:left;">
+                                        
+                                        <table style="width:100%;">
+                                            <tr>
+                                                <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;">Año</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;"><% response.Write(rs("vent_anio") ) %></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;">Marca</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;"><% response.Write(rs("vent_equipo_marca") ) %></p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                               <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;">Modelo</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;"><% response.Write(rs("vent_equipo_modelo") ) %></p>
+                                                </td>
+                                            </tr>
+                                            
+                                        </table>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h3 style="text-align:right; margin-right:20px;">$ <% response.Write(FormatNumber(rs("vent_equipo_precio"),0) ) %></h3>
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <div style="text-align:justify; border-top:1px solid #ddd; padding: 15px 15px 15px 15px;">
+                                            <% response.Write(rs("vent_decripcion") ) %>
+                                        </div>
 
-						
+                                    </div>
+								</div>    
+                            </div>
 					</section>			
 				</section>
 					
