@@ -29,6 +29,83 @@
 
     }
 </script>
+<script type="text/javascript">
+    function validarDatos(formulario, pagina){
+        var Marca 			= document.getElementById('Marca').value;
+        var Modelo 			= document.getElementById('Modelo').value;
+        var Anio 	        = document.getElementById('Anio').value;
+        var Precio	        = document.getElementById('Precio').value;
+        var Descripcion	    = document.getElementById('Descripcion').value;
+
+        if(Marca == null || Marca.length == 0 || /^\s+$/.test(Marca)){
+            mostrarMensaje('El campo Marca no debe ir vacío', 'error');
+            return false;
+        }
+      
+        if(Modelo == null || Modelo.length == 0 || /^\s+$/.test(Modelo)){
+            mostrarMensaje('La Modelo no debe estar en blanco', 'error');
+            return false;
+        }
+        if(Anio == null || Anio.length == 0 || /^\s+$/.test(Anio)){
+            //alert('ERROR: El Rubro no debe estar en blanco');
+            mostrarMensaje('El Año no debe estar en blanco', 'error');
+            return false;
+        }
+        if(Precio == null || Precio.length == 0 || /^\s+$/.test(Precio)){
+            mostrarMensaje('El Precio de contacto no debe estar en blanco', 'error');
+            return false;
+        }
+        if(Descripcion == null || Descripcion.length == 0 || /^\s+$/.test(Descripcion)){
+            mostrarMensaje('El Descripción de contacto no debe estar en blanco', 'error');
+            return false;
+        }    
+        irA(formulario, pagina);
+	
+    }
+</script>
+<script language="JavaScript">
+    <%
+    productos_Sql = "SELECT Id_DatosComunes, Descripcion, Nivel_Superior FROM Datos_Comunes WHERE Tipo=4 and Nivel = 1 and Estado = 1 order by Descripcion asc "
+    Set rs=nothing
+    Set rs = cn.Execute(productos_Sql)
+    x=0
+    %>
+
+    // FUNCION DE COMBO BOX COMBINADO
+
+    function sublist(inform, selecteditem)
+    {
+        inform.subcatagory.length = 0
+
+        <%
+        count= 0
+        y=0
+        do while not rs.eof
+        %>
+
+        x = <%= trim(y) %>;
+
+    subcat = new Array();
+        subcatagorys = "<%=(rs("Descripcion")) %>";
+        subcatagoryof = "<%=(rs("Nivel_Superior"))%>";
+        subcatagoryid = "<%=(rs("Id_DatosComunes"))%>";
+        subcat[x,0] = subcatagorys;
+        subcat[x,1] = subcatagoryof;
+        subcat[x,2] = subcatagoryid;
+        if (subcat[x,1] == selecteditem) {
+            var option<%= trim(count) %> = new Option(subcat[x,0], subcat[x,2]);
+            inform.subcatagory.options[inform.subcatagory.length]=option<%= trim(count)%>;
+        }
+        <%
+        count = count + 1
+        y = y + 1
+        rs.movenext
+        loop
+        rs.close
+        %>
+        }
+
+</script>
 
 <%
 '*************************** Inicia Sesion ********************************
@@ -95,6 +172,7 @@ end if
             <div id="breadcrumb"><a href="index.asp" title="Go to Home" class="tip-bottom" style="color: #666666"><i class="icon-home"></i>Inicio</a></div>
             <h1>Mantenedor de Ventas</h1>
         </div>
+   
         <div class="container-fluid">
             <hr>
             <div class="row-fluid">
@@ -105,16 +183,7 @@ end if
                             <h5>Mantenedor de Ventas</h5>
                         </div>
                         <div class="widget-content nopadding">
-                            <form name="form3_crit" method="post" class="form-horizontal">
-                                <div>
-                                    <label class="control-label">Tipo :</label>
-                                    <div class="controls">
-                                    	<select name="tipo" id="tipo" style="font-weight:bold; color:#3B5998; cursor: pointer;" >
-								<option value="17">Venta</option>
-							</select>
-                                        </div>
-                                </div>
-                                
+                            <form name="form3_crit" method="post" class="form-horizontal" enctype="multipart/form-data">
                                 <div>
                                     <label class="control-label">Equipo :</label>
                                     <div class="controls">
@@ -244,58 +313,25 @@ end if
                                     <label class="control-label">Descripción :</label>
                                     <div class="controls">
                                         <textarea rows="4" cols="50" class="span11" name="Descripcion" id="Descripcion" value="<%=vDescripcion%>">
-
-</textarea>
+                                         </textarea>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="control-label">Imagenes :</label>
                                     <div class="controls">
-                                        <input  type="file" name="file1" />
-                                        <input  type="file" name="file2" />
-                                        <input  type="file" name="file3" />
-                                        <input  type="file" name="file4" />
-                                        <input  type="file" name="file5" />
+                                        <input type="file" name="file1" />
+                                        <input type="file" name="file2" />
+                                        <input type="file" name="file3" />
+                                        <input type="file" name="file4" />
+                                        <input type="file" name="file5" />
                                     </div>
                                 </div>
                                 <div class="form-actions">
-
-                                    <!-- <%if session ("Perfil_Administrador") = 1 then%>
-				<%if vEstado = 1344 then%>
-					<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'act_dat.asp?opc=sav2&vIdUsuario=<%=vIdUsuario%>');">Guardar</button>
-				<%else%>
-					<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'act_dat.asp?opc=sav&vIdUsuario=<%=vIdUsuario%>');">Guardar</button>
-				<%end if%>
-			<%else%>
-					<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'act_dat.asp?opc=sav');">Guardar</button>		
-			<%end if%> -->
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalDatosFidedignos">Guardar</button>
-                                </div>
-
-                                <div class="modal fade" id="modalDatosFidedignos" role="dialog">
-                                    <div class="modal-dialog">
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header" style="background: #3b5998; color: #CCC;">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h4 class="modal-title">Datos Fidedignos</h4>
-                                            </div>
-                                            <div class="modal-body align-left">
-                                                <span>Favor afirmar que los datos ingresados son fidedignos</span>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <%if session ("Perfil_Administrador") = 1 then%>
-                                                <%if vEstado = 1344 then%>
-                                                <button type="button" class="btn btn-success" onclick="javascript:validarDatos(document.forms.form3_crit,'act_dat.asp?opc=sav2&vIdUsuario=<%=vIdUsuario%>');">Aceptar</button>
-                                                <%else%>
-                                                <button type="button" class="btn btn-success" onclick="javascript:validarDatos(document.forms.form3_crit,'act_dat.asp?opc=sav&vIdUsuario=<%=vIdUsuario%>');">Aceptar</button>
-                                                <%end if%>
-                                                <%else%>
-                                                <button type="button" class="btn btn-success" onclick="javascript:validarDatos(document.forms.form3_crit,'act_dat.asp?opc=sav');">Aceptar</button>
-                                                <%end if%>
-                                            </div>
-                                        </div>
+                                    <div class="form-actions">
+                                        <button type="button" class="btn btn-success" onclick="javascript:validarDatos(document.forms.form3_crit,'mant_eq.asp?opc=sav');">Guardar</button>
+                                        <button type="submit" class="btn btn-success" onclick="javascript:irA(document.forms.form3_crit,'mant_eq.asp?opc=del');">Eliminar</button>
                                     </div>
+
                                 </div>
                             </form>
                         </div>
@@ -321,8 +357,7 @@ end if
     <script src="assets/js/matrix.js"></script>
     <script src="assets/js/matrix.tables.js"></script>
     <script type="text/javascript" src="assets/js/funciones.js"></script>
-    $('.textarea_editor').wysihtml5();
-</script>
+    </script>
     <script type="text/javascript">
         $(document).ready(function () {
             var mensaje = $.getURLParam("msg");
