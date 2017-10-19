@@ -22,7 +22,7 @@
         },
         dataTable_fun: function () {
 
-            $('#dataTables-example').dataTable();
+            //$('#dataTables-example').dataTable();
 
         },
        

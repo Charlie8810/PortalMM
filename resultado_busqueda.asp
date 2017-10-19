@@ -1,4 +1,4 @@
-﻿<!--#include file="con_app.asp"-->
+<!--#include file="con_app.asp"-->
 <!DOCTYPE HTML>
 <!--
 	Alpha by HTML5 UP
@@ -613,27 +613,16 @@ end if
 		<div id="page-wrapper">
 
 			<!-- Header -->
-				<header id="header" class="alt">
+				<header id="header" class="">
 					<h1><a href="index.asp"><img src="./images/logo_chico.png" /></a></h1>
 					<div class="form-group" style="height: 15%;">
 						<!-- #include file="HeaderMenu.asp" -->
 					</div>
 					<!-- [Renato] : Inicio -->
 					<div class="form-group">
-						<nav id="nav2" style="display: none;"></nav>
-					</div>
-					<!-- [Renato] : Fin -->
-				</header>
+						<nav id="nav2">
 
-			<!-- Banner -->
-				<section id="banner" class="banner-index">
-					<h2>La máquina que buscas está aquí</h2>
-					<p>Maquinarias en arriendo, venta y servicio técnico.</p>
-
-					<ul class="actions">
-						<form name="formCotizacion" method="post" >
-						<nav id="nav1"><!-- [Renato] : Se cambia "id" para copiar el contenido innerHtml y replicar en el header. -->
-						<ul class="nav-ul-top">
+                            <ul class="nav-ul-top">
 
 							<li>
 								<div class="select-wrapper">
@@ -1094,8 +1083,22 @@ end if
 								</div>
 							</li>
 						</ul>
+
+						</nav>
+					</div>
+					<!-- [Renato] : Fin -->
+				</header>
+
+			<!-- Banner -->
+				<section id="banner" class="banner-index">
+					
+					<ul class="actions" style="display:none;">
+						<form name="formCotizacion" method="post" >
+						<nav id="nav1"><!-- [Renato] : Se cambia "id" para copiar el contenido innerHtml y replicar en el header. -->
+						
+						</nav>
 						</form>
-					</nav>
+					
 
 					</ul>
 				</section>
@@ -1103,116 +1106,80 @@ end if
 			<!-- Main -->
 				<section id="main" class="container">
 
+
+                    
+
 					<section class="box special features">
 						<div class="13u 10u(narrower)">
 							<section>
-								 <div >
-                    <div id="carousel-example" class="carousel slide slide-bdr" data-ride="carousel" >
 
-                    <div class="carousel-inner">
-                       <%
-						sql="exec MantenedorPublicidad "
-						sql=sql & " 4 , -1 , '' , 0 , 0, '', 1231, ''"
+                                 <%
+									sql ="exec BuscaNombreTipoDato "
+									sql = sql & request.QueryString("eq")
+                                   
+									 Set rs=nothing
+                                     Set rs = cn.Execute(sql)
+                                   
+                                    %>
 
-						set rs4 = nothing
-						Set rs4 = cn.Execute(sql)
+                                <div class="panel panel-default">
+                                    <h4 style="font-weight:bold; text-align:left; margin-left:10px;">BÚSQUEDA POR:  <% 
+                                            if request.QueryString("eq") <> "0" then 
+                                                   response.Write(rs("descripcion")) 
+                                            else    
+                                                    response.Write("Todos")
+                                            end if
+                                        %>
 
-						vIdPublicidad = rs4("Id_Publicidad")
+                                    </h4>
 
-						%>
-					   <div class="item active">
-							<img src="<%=rs4("ruta")%>" alt="" />
-                       </div>
-						<%
-						sql="exec MantenedorPublicidad "
-						sql=sql & " 5 , "
-						sql=sql & " " & vIdPublicidad &" , "
-						sql=sql & " '' , "
-						sql=sql & " 0 , "
-						sql=sql & " 0 , "
-						sql=sql & " '', 1231, '' "
 
-						set rs5 = nothing
-						Set rs5 = cn.Execute(sql)
-						if not rs5.eof then
-							Do while not rs5.eof
-						%>
-                        <div class="item">
-                            <img src="<%=rs5("ruta")%>" alt="" />
+                                </div>
 
-                        </div>
-						<%
-							rs5.movenext
-							loop
-						end if
-						%>
-                    </div>
-                    <!--INDICATORS-->
-                     <ol class="carousel-indicators">
-                        <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example" data-slide-to="1"></li>
-                        <li data-target="#carousel-example" data-slide-to="2"></li>
-                    </ol>
-                    <!--PREVIUS-NEXT BUTTONS-->
-                     <a class="left carousel-control" href="#carousel-example" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
-  </a>
-  <a class="right carousel-control" href="#carousel-example" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
-  </a>
-                </div>
-              </div>
+
+
+
+					            <table>
+
+
+                                    <%
+									sql ="exec ListarResultadosBusqueda "
+									sql = sql & request.QueryString("eq")
+                                   
+									Set rs=nothing
+									Set rs = cn.Execute(sql)
+									%>
+									
+
+                                    <%
+										if not rs.eof then
+											do while not rs.eof
+												
+													response.write "<tr><td style=""width:300px;"">" &_ 
+                                                                        "<a href=""detalle_venta.asp?id=" & rs("id_venta") & """><img src=""upload/logo10.jpg"" alt=""imagen_maq"" /></a></td>" & _
+                                                                        "<td style=""vertical-align:top; text-align:left;"">" & _
+                                                                                "<h4 style=""margin-bottom:1px; font-weight:bold;""><a href=""detalle_venta.asp?id=" & rs("id_venta") & """>" &  rs("Descripcion") & "</a></h4>" & _
+                                                                                "<p style=""margin-bottom:3px; font-weight:bold;"">" & rs("vent_equipo_modelo") & " - " & rs("vent_equipo_marca") & " - " & rs("vent_anio") & "</p>" & _
+                                                                                "<p style=""margin-bottom:3px; font-weight:bold;"">$ " & FormatNumber(rs("vent_equipo_precio"),0) & " p/d</p>" & _
+                                                                                
+                                                                                "<p style=""font-weight:bold; color:#F7931E;"">Disponibiliad Inmediata</p>" & _
+                                                                    "</td></tr>"
+												
+												rs.movenext
+											loop
+										end if
+									%>
+
+                                   
+					            </table>			 
 
 							</section>
 						</div>
 
-						<div class="features-row" >
-							<section style="border-style: solid; border-width: 1px;">
-								<%
-								sql="exec MantenedorPublicidad "
-								sql=sql & " 5 , "
-								sql=sql & " " & vIdPublicidad &" , "
-								sql=sql & " '' , "
-								sql=sql & " 0 , "
-								sql=sql & " 0 , "
-								sql=sql & " '', 1232, '' "
-								set rs6 = nothing
-								Set rs6 = cn.Execute(sql)
-								if not rs6.eof then
-								%>
-								<p><img src="<%=rs6("ruta")%>" alt="" /></p>
-								<%end if%>
-							</section >
-							<section style="border-style: solid; border-width: 1px;">
-								<%
-								sql="exec MantenedorPublicidad "
-								sql=sql & " 5 , "
-								sql=sql & " " & vIdPublicidad &" , "
-								sql=sql & " '' , "
-								sql=sql & " 0 , "
-								sql=sql & " 0 , "
-								sql=sql & " '', 1233, '' "
-
-								set rs7 = nothing
-								Set rs7 = cn.Execute(sql)
-								if not rs7.eof then
-								%>
-								<p><img src="<%=rs7("ruta")%>" alt="" /></p>
-								<%end if%>
-							</section>
-						</div>
+						
 					</section>			
 				</section>
-				<section id="resultados_busqueda"  class="container" style="display:none;">
-					<section class="box special features">
-						<div class="13u 10u(narrower)">
-							<section>
-								hola busquedas
-
-							</section>
-						</div>
-					</section>
-				</section>	
+					
 <div class="modal fade" id="myModal7" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 <form name="formContacto" method="post" >
 <div class="modal-dialog">
@@ -1587,10 +1554,13 @@ end if
 	//Agregado Funciones para lo nuevo  16.10.2017
 	$(function(){
 
-		console.log("hola mundo")
+
+       
+
+
 		$("#tipo").on("change",function(e){
 			
-			console.log("hola mundo")
+			
 
 			if($(this).val()=="18"){
 				$("#bt_cotizar").text("BUSCAR");
