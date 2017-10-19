@@ -245,7 +245,8 @@ lngDataLenth = lngEndPos - lngBeginPos
 strFileData = mid(strData,lngBeginPos,lngDataLenth)
 'Create the file. 
 Set fso = CreateObject("Scripting.FileSystemObject")
-Set f = fso.OpenTextFile(server.mappath("..") & "\upload\" &_
+
+Set f = fso.OpenTextFile(Server.MapPath("..") & "\upload\" &_
 FileName, ForWriting, True)
 f.Write strFileData
 Set f = nothing

@@ -161,6 +161,50 @@ function validaContacto(formulario, pagina){
 
 	irA(formulario, pagina);
 }
+
+
+function validaContactoVenta(formulario, pagina){
+
+    var Rut	    	= document.getElementById('vta_rut').value;
+    var Nombre		= document.getElementById('vta_nombre').value;
+    var Mail		= document.getElementById('vta_mail').value;
+    var Telefono	= document.getElementById('vta_fono').value;
+    var Mensaje		= document.getElementById('vta_mensaje').value;
+
+
+    if(Rut == null || Rut.length == 0 || /^\s+$/.test(Rut)){
+        mostrarMensaje('El Rut no debe estar en blanco','error');
+        return false;
+    }
+
+    if(Nombre == null || Nombre.length == 0 || /^\s+$/.test(Nombre)){
+        mostrarMensaje('El Nombre no debe estar en blanco','error');
+        return false;
+    }
+
+    if(Mail == null || Mail.length == 0 || /^\s+$/.test(Mail)){
+        mostrarMensaje('El Mail no debe estar en blanco','error');
+        return false;
+    }
+
+    if(Telefono == null || Telefono.length == 0 || /^\s+$/.test(Telefono)){
+        mostrarMensaje('El Teléfono no debe estar en blanco','error');
+        return false;
+    }
+
+    expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if ( !expr.test(Mail) ){
+        mostrarMensaje('La dirección de correo ' + Mail + ' es incorrecta','error');
+        return false;
+    }
+
+    if(Mensaje == null || Mensaje.length == 0 || /^\s+$/.test(Mensaje)){
+        mostrarMensaje('Debe escribir un mensaje','error');
+        return false;
+    }
+
+    irA(formulario, pagina);
+}
 </script>
 <script type="text/javascript">
 // function validaDatos(formulario, pagina){
@@ -1123,10 +1167,10 @@ end if
 									Set rs = cn.Execute(sql)
 									%>
 
-                                <div style="border:1px solid #ddd; border-radius: 3px 3px; margin: 5px 5px 5px 5px;">
+                                <div style="border:1px solid #ddd; border-radius: 3px 3px; margin: 5px 5px 5px 5px; background: rgb(247, 250, 249);">
                                 <div class="row">
                                     <div class="col-md-12" >
-                                        <div style="background-color:#F7931E; border-radius: 2px 2px;">
+                                        <div style="background-color:#F7931E; border-radius: 2px 2px 0px 0px; padding-bottom:10px;">
                                             <h4 style="color:white;font-weight:bold; text-align:left; margin-left:15px;">
                                                 <% response.Write( rs("vent_anio") & " " & rs("Descripcion") & " " & rs("vent_equipo_marca") & " " & rs("vent_equipo_modelo") ) %>
                                             </h4>
@@ -1136,7 +1180,29 @@ end if
 								<div class="row">
                                     <div class="col-md-5">
                                         <div style="padding: 5px 5px 5px 5px;">
-                                            <img src="images/1.png" style="width:100%;" />
+                                            <div id="carousel-example" class="carousel slide slide-bdr" data-ride="carousel" >
+
+                                                <div class="carousel-inner">
+                      
+					                               <div class="item active">
+							                            <img src="images/1.png" style="width:100%; max-height:330px;" />
+                                                   </div>
+						
+                                                    <div class="item">
+                                                       <img src="images/2.jpg" style="width:100%; max-height:330px;" />
+
+                                                    </div>
+						
+                                                </div>
+                    
+                                                <!--PREVIUS-NEXT BUTTONS-->
+                                                  <a class="left carousel-control" href="#carousel-example" data-slide="prev">
+                                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                                  </a>
+                                                  <a class="right carousel-control" href="#carousel-example" data-slide="next">
+                                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                                  </a>
+                                            </div>
                                         </div>                                        
                                     </div>
                                     <div class="col-md-4" style="text-align:left;">
@@ -1170,7 +1236,7 @@ end if
                                         </table>
                                     </div>
                                     <div class="col-md-3">
-                                        <h3 style="text-align:right; margin-right:20px;">$ <% response.Write(FormatNumber(rs("vent_equipo_precio"),0) ) %></h3>
+                                        <h3 style="text-align:right; margin-right:20px; font-weight:bold;">$ <% response.Write(FormatNumber(rs("vent_equipo_precio"),0) ) %></h3>
                                     </div>
                                     
                                     <div class="col-md-12">
@@ -1179,11 +1245,115 @@ end if
                                         </div>
 
                                     </div>
+
+                                    <div class="col-md-12">
+                                        <div style="text-align:right; border-top:1px solid #ddd; padding: 15px 15px 15px 15px;">
+                                            <button class="btn btn-primary" data-toggle="modal" data-target="#MdlContactoVenta">Contactar</button>
+
+
+                                        </div>
+                                        
+                                    </div>
+
 								</div>    
                             </div>
 					</section>			
 				</section>
-					
+	
+                    
+                    
+<%
+
+if(request.QueryString("handle") = "newvta") then
+
+    Response.ContentType = "text/html"
+	Response.AddHeader "Content-Type", "text/html;charset=UTF-8"
+	Response.CodePage = 65001
+	Response.CharSet = "UTF-8"
+
+
+    sch = "http://schemas.microsoft.com/cdo/configuration/"
+	Set cdoConfig = CreateObject("CDO.Configuration")
+			
+    With cdoConfig.Fields
+		.Item("http://schemas.microsoft.com/cdo/configuration/sendusing") = cdoSendUsingPort
+	    .Item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = iServer
+	    .Item("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = 465
+	    .Item("http://schemas.microsoft.com/cdo/configuration/smtpconnectiontimeout") = 50
+	    .Item("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") = 1
+	    .Item("http://schemas.microsoft.com/cdo/configuration/sendusername") = "contacto@mundomaquinaria.cl" 
+	    .Item("http://schemas.microsoft.com/cdo/configuration/sendpassword") = "webweb008"
+	    .Item("http://schemas.microsoft.com/cdo/configuration/smtpusessl") = 1
+	    .Update
+	End With
+
+	Set MailObject = Server.CreateObject("CDO.Message")
+	Set MailObject.Configuration = cdoConfig
+
+	MailObject.From	= vCorreo_Cotizacion
+	MailObject.To	= "carlpradenas@gmail.com; cristian.munoz.donoso@gmail.com"'vMailCotizacion & ";" & vMailUsuario
+	MailObject.Subject = "Contacto Venta Mundo Maquinaria"
+	Cuerpo = "<br><br><h3 style=color:#3B5998>Estimado(a) Cliente de Mundo Maquinaria, <br>&nbsp;&nbsp;&nbsp;&nbsp;Se ha enviado una consulta de venta "
+	Cuerpo = Cuerpo & "con los siguientes datos:</h3> <br><br><h4 style=color:#F7931E>  Rut: " & request.Form("vta_rut") & "<br>Nombre: " & request.Form("vta_nombre") & "<br> mail: " & request.Form("vta_mail") & "<br> Telefono: " & request.Form("vta_fono") & "<br> Equipo: " & rs("vent_anio") & " " & rs("Descripcion") & " " & rs("vent_equipo_marca") & " " & rs("vent_equipo_modelo") & "</a>"
+	Cuerpo = Cuerpo & "<br>Mensaje: " & request.Form("vta_mensaje")
+	Cuerpo = Cuerpo & "</h4><br><br>"
+	Cuerpo = Cuerpo & "<h3 style=color:#3B5998>Atentamente,<br>"
+	Cuerpo = Cuerpo & "Equipo Mundo Maquinaria</h3>"
+	Cuerpo = Cuerpo & "<br><br><img src= http://www.mundomaquinaria.cl/marchablanca/images/logo2.png>"
+
+	MailObject.HTMLBody = Cuerpo
+	MailObject.Send
+	Set MailObject = Nothing
+	Set cdoConfig = Nothing
+
+
+
+end if
+    
+    
+%>                    
+<div class="modal fade" id="MdlContactoVenta" tabindex="-1" role="dialog" aria-labelledby="MdlContactoVenta_Label" aria-hidden="true">
+<div class="modal-dialog">
+    <form name="contactoVenta" method="post">
+	    <div class="modal-content">
+		    <div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			    <h4 class="modal-title" id="MdlContactoVenta_Label">CONTACTO</h4>
+		    </div>
+		    <div class="modal-body">
+			
+                <div class="form-group">
+				    <label>RUT</label>
+				    <input class="form-control text-box-modal" type="text" style="color:#F7931E" name="vta_rut" id="vta_rut"/>
+			    </div>
+                <div class="form-group">
+				    <label>NOMBRE</label>
+				    <input class="form-control text-box-modal" type="text" style="color:#F7931E" name="vta_nombre" id="vta_nombre"/>
+			    </div>
+			    <div class="form-group">
+				    <label>MAIL</label>
+				    <input class="form-control text-box-modal" type="text" style="color:#F7931E" name="vta_mail" id="vta_mail"/>
+			    </div>
+                <div class="form-group">
+				    <label>TELÉFONO</label>
+				    <input class="form-control text-box-modal" type="text" style="color:#F7931E" name="vta_fono" id="vta_fono"/>
+			    </div>
+			
+			    <div class="form-group">
+				    <label>MENSAJE</label>
+				    <textarea class="text-area" name="vta_mensaje" id="vta_mensaje"></textarea>
+			    </div>
+		    </div>
+		    <div class="modal-footer">
+			    <button type="button" class="btn btn-success" onClick="javascript:validaContactoVenta(document.forms.contactoVenta,'detalle_venta.asp?id=<%= request.QueryString("id") %>&handle=newvta');">ENVIAR</button>
+		    </div>
+	    </div>
+    </form>
+</div>
+
+</div>                    
+                    
+                    				
 <div class="modal fade" id="myModal7" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 <form name="formContacto" method="post" >
 <div class="modal-dialog">
