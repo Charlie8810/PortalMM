@@ -738,7 +738,17 @@ end if
                                                     <% 
                                                          rs.movenext
 			                                           incrementor = incrementor +1 
-                                                         loop %>
+                                                         loop 
+                                                        
+                                                        if incrementor = 0 then
+                                                        %>
+                                                    <div class="item active">
+							                            <img src="upload/logo10.jpg" style="width:100%; max-height:330px;" />
+                                                   </div>
+                                                    <%
+                                                        end if
+                                                        
+                                                        %>
 						
                                                 </div>
                      <%
