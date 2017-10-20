@@ -808,16 +808,13 @@ end if
                                         <div style="text-align:justify; border-top:1px solid #ddd; padding: 15px 15px 15px 15px;">
                                             <% response.Write(rs("vent_decripcion") ) %>
                                         </div>
-
                                     </div>
 
                                     <div class="col-md-12">
                                         <div style="text-align:right; border-top:1px solid #ddd; padding: 15px 15px 15px 15px;">
+                                            <button class="btn btn-primary" onclick="history.back(-1)">Volver</button>
                                             <button class="btn btn-primary" data-toggle="modal" data-target="#MdlContactoVenta">Contactar</button>
-
-
                                         </div>
-                                        
                                     </div>
 
 								</div>    

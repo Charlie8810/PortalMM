@@ -15,6 +15,15 @@
 <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="assets/css/mantenedores.css" />
+<script src="assets/js/jquery.min.js"></script> 
+<script src="assets/js/jquery.ui.custom.js"></script>
+<script src="assets/js/bootstrap.min.js"></script> 
+<script src="assets/js/jquery.uniform.js"></script> 
+<script src="assets/js/select2.min.js"></script>  
+<script src="assets/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/matrix.js"></script> 
+<script src="assets/js/matrix.tables.js"></script>
+<script type="text/javascript" src="assets/js/funciones.js"></script>
 </head>
 <script type="text/javascript">
 function validarDatos(formulario, pagina){
@@ -74,29 +83,29 @@ end if
     
 '***************************  Fin Sesion   ********************************
 '************************* Inicia HTTP_REFERER ****************************
-Estado_HTTP_REFERER = 0
-if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
-    sql="Exec Consultar_Paginas '"  & Request.ServerVariables("HTTP_REFERER") & "'"
-    set Rs = nothing
-    Set Rs = cn.Execute(sql)
-    do while not rs.eof
-        if instr(1,Request.ServerVariables("HTTP_REFERER"),Rs("Nombre_Pagina")) > 0 then
-            Estado_HTTP_REFERER = 1
-			exit do
-        end if
-        rs.movenext
-    Loop
-    Rs.close
-    set Rs = nothing
-    'if Estado_HTTP_REFERER = 0 then
-    '    Response.Redirect("./index.asp?msg=3")
-    '   Response.End
-    'end if
-else
-    Response.Redirect("./index.asp?msg=3")
-    Response.End
-end if
-'************************** Fin HTTP_REFERER ******************************
+'Estado_HTTP_REFERER = 0
+'if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
+'    sql="Exec Consultar_Paginas '"  & Request.ServerVariables("HTTP_REFERER") & "'"
+'    set Rs = nothing
+'    Set Rs = cn.Execute(sql)
+'    do while not rs.eof
+'        if instr(1,Request.ServerVariables("HTTP_REFERER"),Rs("Nombre_Pagina")) > 0 then
+'            Estado_HTTP_REFERER = 1
+'			exit do
+'        end if
+'        rs.movenext
+'    Loop
+'    Rs.close
+'    set Rs = nothing
+'    'if Estado_HTTP_REFERER = 0 then
+'    '    Response.Redirect("./index.asp?msg=3")
+'    '   Response.End
+'    'end if
+'else
+'    Response.Redirect("./index.asp?msg=3")
+'    Response.End
+'end if
+''************************** Fin HTTP_REFERER ******************************
 %>
 <body>
 
@@ -172,7 +181,7 @@ end if
 %>
 <%if request.QueryString("opc")= "idvta" then 
 	
-	var_chk_sel=request.form("idVenta")
+	var_chk_sel=request.form("venta")
 	arr_chk_sel=split(var_chk_sel,",")
 
 	For i=LBound(arr_chk_sel) to UBound(arr_chk_sel)
@@ -360,7 +369,7 @@ end if
 						%>			
 						
 						<tr class="gradeX">
-						  <td><input type="checkbox" name="Equipo" id="cEquipo" style="display: block !important;" value=<%=rs("id_venta")%> /></td>
+						  <td><input type="checkbox" name="venta" id="venta" style="display: block !important;" value=<%=rs("id_venta")%> /></td>
 						  <th><%=rs("vent_equipo_marca")%></th>
                           <th><%=rs("vent_equipo_modelo")%></th>
                             <th><%=rs("vent_anio")%></th>
@@ -386,7 +395,7 @@ end if
           </div>
         </div>
 		<div class="form-actions">
-            <% ' <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'mant_venta.asp?opc=idmaq');">Editar</button> %>
+            <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'mant_venta.asp?opc=idvta');">Editar</button>
 			<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'mant_venta.asp?opc=new');">Nuevo</button>
 			<input name="bandera" type="hidden" id="bandera" value="1" />
 		</div>
@@ -396,19 +405,13 @@ end if
   </div>
   <%end if%>
   <%if request.QueryString("opc")="edit" then 
-  
-		sql="exec MantenedorEquipos "
-		sql=sql & " 1 , "
-		sql=sql & " " & request.QueryString("id") & ", "
-		sql=sql & " '' , "
-		sql=sql & " 0 "
-		set rs = nothing
-		Set rs = cn.Execute(sql)
-		if not rs.eof then
-		
-		vEquipos	 	= rs("Id_DatosComunes")
-		vNombre			= rs("Descripcion")
-		vEstado			= rs("estado")
+  	
+        sql ="exec DetalleVentaMaquinaria "
+        sql = sql & request.QueryString("id")
+	
+        set rs = nothing
+        Set rs = cn.Execute(sql)
+        if not rs.eof then
 
   %>
   
@@ -421,6 +424,40 @@ end if
           <h5>Equipos</h5>
         </div>
         <div class="widget-content nopadding">
+
+            <script>
+
+          
+
+
+
+                $(document).ready(function(){
+                 
+                <% dim est 
+                est =1
+                if rs("vent_estado")<> True then
+                    est = 0
+                end if
+                
+                 %>
+
+                    $("#ekipo").val("<%= rs("Id_DatosComunes") %>");
+                    $("#Marca").val("<%= rs("vent_equipo_marca") %>");
+                    $("#Modelo").val("<%= rs("vent_equipo_modelo") %>");
+                    $("#Anio").val("<%= rs("vent_anio") %>");
+                    $("#Precio").val("<%= rs("vent_equipo_precio") %>");
+                    $("#familia").val("<%= rs("id_region") %>");
+                    $("#familia").trigger("change");
+                    $("#subcatagory").val("<%= rs("id_ciudad") %>");
+                    $("#Descripcion").val("<%= rs("vent_decripcion") %>");
+                    $("#estado").val("<%= est %>");
+                
+                });
+
+            </script>
+
+
+
            <form name="form3_crit" method="post" class="form-horizontal">
 
 
@@ -434,7 +471,7 @@ end if
 					Set rs = cn.Execute(sql)
 					
 					%>
-					<select name="vEquipos" class="span11" style="color:#F7931E">
+					<select name="vEquipos" class="span11" id="ekipo" style="color:#F7931E">
 						<%
 						response.write "<option value=-1>SELECCIONE EQUIPO</option>"
 						if not rs.eof then
@@ -453,22 +490,84 @@ end if
             </div>
 
 
-			<div>
-			  <label class="control-label">Nombre :</label>
-              <div class="controls">
-                <input type="text" class="span11" name="Nombre" id="Nombre" value="<%=vNombre%>"/>
-				<input type="hidden" name="idEquipos" value="<%=vEquipos%>"/>
-			  </div>
+
+               <div>
+                <label class="control-label">Marca :</label>
+                <div class="controls">
+                    <input type="text" class="span11" name="Marca" id="Marca"  />
+                </div>
             </div>
+            <div>
+                <label class="control-label">Modelo :</label>
+                <div class="controls">
+                    <input type="text" class="span11" name="Modelo" id="Modelo" />
+                </div>
+            </div>
+            <div>
+                <label class="control-label">Año :</label>
+                <div class="controls">
+                    <input type="text" class="span11" name="Anio" id="Anio" />
+                </div>
+            </div>
+            <div>
+                <label class="control-label">Precio :</label>
+                <div class="controls">
+                    <input type="text" class="span11" name="Precio" id="Precio" />
+                </div>
+            </div>
+            <div>
+                                    <label class="control-label">Región :</label>
+                                    <div class="controls">
+                                        <select size="1" id="familia" class="span11" name="familia" onchange="javascript:sublist(this.form, familia.value);" style="color: #3B5998; cursor: pointer;" value="<%=Ucase(vRegion)%>">
+                                            <option selected value="0">Región</option>
+                                            <%
+                                                familias_Sql = "SELECT Id_DatosComunes, Descripcion FROM Datos_Comunes WHERE Tipo = 3 and Nivel = 1 and Estado = 1"
+					                            Set rs=nothing
+					                            Set rs = cn.Execute(familias_Sql)
+					                            do while not rs.eof
+                                            %>
+                                            <option value="<%=rs("Id_DatosComunes")%>"><%=Ucase(rs("Descripcion"))%></option>
+                                            <%rs.movenext
+					                            loop
+                                            %>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div>
+                                    <label class="control-label">Ciudad :</label>
+                                    
+                                    <div class="controls">
+                                        <select id="subcatagory" name="subcatagory" class="span11" style="color: #3B5998; cursor: pointer;">
+                                            <option selected value="0">Ciudad</option>
+                                        </select>
+                                    </div>
+                                 </div>   
+                                    
+
+                <div>
+                    <label class="control-label">Descripción :</label>
+                    <div class="controls">
+                        <textarea rows="4" cols="50" class="span11" name="Descripcion" id="Descripcion">
+                            </textarea>
+                    </div>
+                </div>
+
+
             <div class="control-group">
               <label class="control-label">Estado :</label>
               <div class="controls">
-			    <select name="estado" class="span11" value="<%=vEstado%>">
+			    <select name="estado" id="estado" class="span11">
 					<option value="1">Activado</option>
 					<option value="0">Desactivado</option>
 				</select>
               </div>
 			</div>
+
+
+
+
+
 			<div class="form-actions">
 				<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_eq.asp?opc=sav');">Guardar</button>
 				<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_eq.asp?opc=del');">Eliminar</button>
@@ -919,17 +1018,7 @@ end if
   <div id="footer" class="span12"> 2017 &copy; Desarrollado por Go4 <a href="http://www.gofour.cl">Gofour.cl</a> </div>
 </div>
 <!--end-Footer-part--> 
-<script src="assets/js/jquery.min.js"></script> 
-<script src="assets/js/jquery.ui.custom.js"></script>
-<script src="assets/js/bootstrap.min.js"></script> 
-<script src="assets/js/jquery.uniform.js"></script> 
-<script src="assets/js/select2.min.js"></script>  
-<script src="assets/js/jquery.dataTables.min.js"></script>
-<script src="assets/js/matrix.js"></script> 
-<script src="assets/js/matrix.tables.js"></script>
-	<script type="text/javascript" src="assets/js/funciones.js"></script>
-	$('.textarea_editor').wysihtml5();
-</script>
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		var mensaje = $.getURLParam("msg");
