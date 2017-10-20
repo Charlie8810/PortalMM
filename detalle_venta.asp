@@ -695,6 +695,8 @@ end if
                                     
 									Set rs=nothing
 									Set rs = cn.Execute(sql)
+
+
 									%>
 
                                 <div style="border:1px solid #ddd; border-radius: 3px 3px; margin: 5px 5px 5px 5px; background: rgb(247, 250, 249);">
@@ -713,18 +715,41 @@ end if
                                             <div id="carousel-example" class="carousel slide slide-bdr" data-ride="carousel" >
 
                                                 <div class="carousel-inner">
-                      
-					                               <div class="item active">
-							                            <img src="images/1.png" style="width:100%; max-height:330px;" />
-                                                   </div>
-						
-                                                    <div class="item">
-                                                       <img src="images/2.jpg" style="width:100%; max-height:330px;" />
+                                                    <%
+                                                        sql ="exec spMantenedorVenta_ListarImagenes "
+									                    sql = sql & request.QueryString("id")
+                                    
+									                    Set rs=nothing
+									                    Set rs = cn.Execute(sql)
+                                                        dim incrementor , textoActivo 
+                                                        incrementor = 0
+                                                        textoActivo = "active"
+                                                        do while not rs.eof
+                                                            
+                                                        if incrementor > 0 then
+                                                            textoActivo = ""
+                                                        end if
 
-                                                    </div>
+                                                         %>
+					                               <div class="item <%= textoActivo %>">
+							                            <img src="<%= rs("url_img_normal") %>" style="width:100%; max-height:330px;" />
+                                                   </div>
+
+                                                    <% 
+                                                         rs.movenext
+			                                           incrementor = incrementor +1 
+                                                         loop %>
 						
                                                 </div>
-                    
+                     <%
+									sql ="exec DetalleVentaMaquinaria "
+									sql = sql & request.QueryString("id")
+                                    
+									Set rs=nothing
+									Set rs = cn.Execute(sql)
+
+
+									%>
                                                 <!--PREVIUS-NEXT BUTTONS-->
                                                   <a class="left carousel-control" href="#carousel-example" data-slide="prev">
                                                     <span class="glyphicon glyphicon-chevron-left"></span>

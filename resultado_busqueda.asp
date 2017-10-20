@@ -724,8 +724,20 @@ end if
 										if not rs.eof then
 											do while not rs.eof
 												
+                                                dim url_img 
+                                                url_img = "upload/logo10.jpg" 
+
+
+                                            
+
+                                                if rs("url_img_chica") <> "" then
+                                                   set url_img = rs("url_img_chica")
+
+                                                end if
+                                                
+
 													response.write "<tr><td style=""width:300px;"">" &_ 
-                                                                        "<a href=""detalle_venta.asp?id=" & rs("id_venta") & """><img src=""upload/logo10.jpg"" alt=""imagen_maq"" /></a></td>" & _
+                                                                        "<a href=""detalle_venta.asp?id=" & rs("id_venta") & """><img style=""width:100%;"" src="""& url_img &""" alt=""imagen_maq"" /></a></td>" & _
                                                                         "<td style=""vertical-align:top; text-align:left;"">" & _
                                                                                 "<h4 style=""margin-bottom:1px; font-weight:bold;""><a href=""detalle_venta.asp?id=" & rs("id_venta") & """>" &  rs("Descripcion") & "</a></h4>" & _
                                                                                 "<p style=""margin-bottom:3px; font-weight:bold;"">" & rs("vent_equipo_modelo") & " - " & rs("vent_equipo_marca") & " - " & rs("vent_anio") & "</p>" & _
