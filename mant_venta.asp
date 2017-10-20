@@ -71,30 +71,31 @@ else
     Response.Redirect("./index.asp")
     Response.End
 end if
+    
 '***************************  Fin Sesion   ********************************
 '************************* Inicia HTTP_REFERER ****************************
-'Estado_HTTP_REFERER = 0
-'if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
-'    sql="Exec Consultar_Paginas '"  & Request.ServerVariables("HTTP_REFERER") & "'"
-'    set Rs = nothing
-'    Set Rs = cn.Execute(sql)
-'    do while not rs.eof
-'        if instr(1,Request.ServerVariables("HTTP_REFERER"),Rs("Nombre_Pagina")) > 0 then
-'            Estado_HTTP_REFERER = 1
-'			exit do
-'        end if
-'        rs.movenext
-'    Loop
-'    Rs.close
-'    set Rs = nothing
-'    if Estado_HTTP_REFERER = 0 then
-'        Response.Redirect("./index.asp")
-'        Response.End
-'    end if
-'else
-'    Response.Redirect("./index.asp")
-'    Response.End
-'end if
+Estado_HTTP_REFERER = 0
+if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
+    sql="Exec Consultar_Paginas '"  & Request.ServerVariables("HTTP_REFERER") & "'"
+    set Rs = nothing
+    Set Rs = cn.Execute(sql)
+    do while not rs.eof
+        if instr(1,Request.ServerVariables("HTTP_REFERER"),Rs("Nombre_Pagina")) > 0 then
+            Estado_HTTP_REFERER = 1
+			exit do
+        end if
+        rs.movenext
+    Loop
+    Rs.close
+    set Rs = nothing
+    'if Estado_HTTP_REFERER = 0 then
+    '    Response.Redirect("./index.asp?msg=3")
+    '   Response.End
+    'end if
+else
+    Response.Redirect("./index.asp?msg=3")
+    Response.End
+end if
 '************************** Fin HTTP_REFERER ******************************
 %>
 <body>
@@ -112,7 +113,7 @@ end if
 		<p>message</p>
 	</div>
   <div id="breadcrumb"> <a href="index.asp" title="Go to Home" class="tip-bottom" style="color:#666666"><i class="icon-home"></i> Inicio</a></div>
-  <h1>Mantenedor de ventas</h1>
+  <h1>Mantenedor de Clientes - Publica tu Venta</h1>
 </div>
 <%if request.QueryString("opc")= "sav" then 
 	sql="exec MantenedorVenta "
@@ -141,7 +142,8 @@ end if
             "" & request.form("familia") & " , " &_        
             "" & request.form("subcatagory") & " , " &_      
             "'" & request.form("Descripcion") & "', " &_
-            "" & request.form("estado") & " " 
+            "'" & request.form("estado") & "', " &_
+            "" & session("id_usuario") & " " 
 	set rs = nothing
 	Set rs = cn.Execute(sql)
 	

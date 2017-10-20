@@ -21,11 +21,14 @@
 			<%	if session("Perfil_Administrador") <> "1" then	%>
 				<li><a href="act_dat.asp">Actualiza tus Datos</a></li>
 				<li><a href="pub_maq.asp">Publica tus Equipos</a></li>
+                <li><a href="mant_venta.asp">Publicar tu Venta</a></li>
 				<!-- <li><a href="rev_plan.asp">Planes de Clientes</a></li> -->
 				<li><a href="rev_pag.asp">Revisar Mi Plan</a></li>
 			<%else%>
 				<li><a href="act_dat.asp">Datos Clientes</a></li>
 				<li><a href="pub_maq.asp">Equipos Clientes</a></li>
+                <li><a href="pub_adminventa.asp">Ventas Clientes</a></li>
+                
 				<!-- <li><a href="rev_plan.asp">Planes de Clientes</a></li> -->
 				<!--<li><a href="rev_pag.asp">Revisar Mi Plan</a></li>-->
 			<%end if%>
@@ -51,7 +54,6 @@
 			<li><a href="mant_pl_anu.asp">Planes Anuales</a></li>
 		</ul>
 	</li>
-      	<li><a href="mant_venta.asp"><i class="icon icon-th-list"></i> <span>Ventas</span></a></li>
 	<li class="submenu"><a href="#"><i class="icon icon-th-list"></i> <span>Informes</span></a>
 		<ul>
 			<li><a href="graficos.asp">Resumen</a></li>
