@@ -410,8 +410,8 @@ if session ("Perfil_Administrador") = 1 then
               </div>         
             <div class="form-actions">
               <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'pub_adminventa.asp?opc=sch');">Buscar</button>
-			  <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'pub_adminventa.asp?opc=new');">Nuevo</button>
-			  <button type="submit" class="btn btn-success" onClick="irAFuera(document.forms.form1_crit,'pub_adminventa.asp?opc=sch&exp=xls','_blank')">Exportar</button>
+			 <!-- <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'pub_adminventa.asp?opc=new');">Nuevo</button>-->
+			  <!--<button type="submit" class="btn btn-success" onClick="irAFuera(document.forms.form1_crit,'pub_adminventa.asp?opc=sch&exp=xls','_blank')">Exportar</button>-->
             </div>
           </form>
         </div>
@@ -505,7 +505,8 @@ if session ("Perfil_Administrador") = 1 then
                   <th>Marca</th>
                   <th>Modelo</th>
 				  <th>Equipo</th>
-                  <th>Region</th>
+                  <th>Región</th>
+                    <th>Estado</th>
                   
                 </tr>
               </thead>
@@ -527,6 +528,7 @@ if session ("Perfil_Administrador") = 1 then
                         vDescModelo	= rs("Modelo")
 						vDescEquipo	= rs("Equipo")
 						vDescRegion	= rs("Region")
+                  vDescEstado= rs("Estado")
 						
 
 						%>
@@ -537,6 +539,7 @@ if session ("Perfil_Administrador") = 1 then
                           <th><%=vDescModelo%></th>
 						  <th><%=vDescEquipo%></th>
 						  <th><%=vDescRegion%></th>
+                            <th><%=vDescEstado%></th>
 						 </tr>
 						<%
 						rs.movenext
