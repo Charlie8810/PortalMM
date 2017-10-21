@@ -29,6 +29,10 @@
 function validarDatos(formulario, pagina){
     var Equipo 			= document.getElementById('Equipo').value;
     var Marca           = document.getElementById('Marca').value;
+    var Modelo           = document.getElementById('Modelo').value;
+    var Anio           = document.getElementById('Anio').value;
+    var Precio           = document.getElementById('Precio').value;
+
 
 
 
@@ -41,7 +45,31 @@ function validarDatos(formulario, pagina){
         mostrarMensaje('El campo Marca no debe ir vacío', 'error');
         return false;
     }
+    if(Modelo == null || Modelo.length == 0 || /^\s+$/.test(Modelo)){
+        mostrarMensaje('El campo Modelo no debe ir vacío', 'error');
+        return false;
+    }
 	
+    if(Anio == null || Anio.length == 0 || /^\s+$/.test(Anio)){
+        //alert('ERROR: El Telefono de Contacto no debe estar en blanco');
+        mostrarMensaje('El Año no debe estar en blanco', 'error');
+        return false;
+    }
+    if (!/^([0-9])*$/.test(Anio)){
+        //alert("El valor " + TelefonoContacto + " no es un número");
+        mostrarMensaje('El valor Año no es un número', 'error');
+        return false;
+    }
+    if(Precio == null || Precio.length == 0 || /^\s+$/.test(Precio)){
+        //alert('ERROR: El Telefono de Contacto no debe estar en blanco');
+        mostrarMensaje('El Precio no debe estar en blanco', 'error');
+        return false;
+    }
+    if (!/^([0-9])*$/.test(Precio)){
+        //alert("El valor " + TelefonoContacto + " no es un número");
+        mostrarMensaje('El valor Precio no es un número', 'error');
+        return false;
+    }
     /*
 
     if(Marca == null || Marca.length == 0 || /^\s+$/.test(Marca)){
