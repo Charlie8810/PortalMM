@@ -789,6 +789,16 @@ end if
                 Response.Write "<BR><BR><INPUT type='button' onclick='history.go(-1)' value='<< Volver' id='button'1 name='button'1>"
                 Response.End 
                 End if
+
+                if LenBinary > 5000000 Then
+
+                    Response.Write "<H2> Ha ocurrido el siguiente error.</H2>"
+                    Response.Write "El peso (mb) de la imagen debe ser inferior a 5 Mb " & (LenBinary)
+                    Response.Write "<BR><BR>Pulsa el botón volver, realiza la corrección."
+                    Response.Write "<BR><BR><INPUT type='button' onclick='history.go(-1)' value='<< Volver' id='button'1 name='button'1>"
+                    Response.End 'guille123, angel123
+                End if
+
                 'There could be one or more empty file b
                 ' oxes. 
                 if lngBeginFileName <> lngEndFileName Then
