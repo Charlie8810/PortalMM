@@ -201,7 +201,7 @@ end if
   <div id="breadcrumb"> <a href="index.asp" title="Go to Home" class="tip-bottom" style="color:#666666"><i class="icon-home"></i> Inicio</a></div>
   <h1>Mantenedor de Clientes - Publica tus Ventas</h1>
 </div>
-<%if request.QueryString("opc")= "sav" then
+<%if request.QueryString("opc")= "sav7" then
 	sql="exec MantenedorEquiposClientes "
 	sql=sql & " 2 ,"
 	sql=sql & " " & session("id_usuario") & ", "
@@ -234,7 +234,7 @@ end if
 	<%
 	end if
 end if
-if request.QueryString("opc")= "sav2" then
+if request.QueryString("opc")= "sav8" then
 	
 	
 	
@@ -282,7 +282,7 @@ if request.QueryString("opc")= "sav2" then
 		end if
 	end if
 end if
-if request.QueryString("opc")= "del" then
+if request.QueryString("opc")= "del2" then
 	sql="exec MantenedorEquiposClientes "
 	sql=sql & " 4 ,"
 	sql=sql & " " & session("id_usuario") & ", "
@@ -372,6 +372,203 @@ if request.QueryString("opc")= "idmaq3" then
 end if 
 if session ("Perfil_Administrador") = 1 then
 %>
+    <%if request.QueryString("opc")= "sav" then 
+	sql="exec spMantenedorVenta_Guardar "
+	sql=sql &  request.form("idVta") & " , " &_
+            "" & request.form("vEquipos") & ", " &_
+            "'" & request.form("Marca") & "' , " &_
+            "'" & request.form("Modelo") & "' , " &_    
+	        "" & request.form("Precio") & " , " &_    
+	        "'" & request.form("Anio") & "' , " &_    
+            "" & request.form("familia") & " , " &_        
+            "" & request.form("subcatagory") & " , " &_      
+            "'" & request.form("Descripcion") & "', " &_
+            "'" & request.form("estado") & "', " &_
+            "" & session("id_usuario") & " " 
+
+
+    
+	set rs = nothing
+	Set rs = cn.Execute(sql)
+
+    chkIdImg = request.Form("idImg")
+    arrIdImg = Split(chkIdImg, ",")
+    
+    For i=LBound(arrIdImg) to UBound(arrIdImg)
+	    
+        sql="exec spMantenedorVenta_EliminarImagen "
+	    sql=sql &  arrIdImg(i) & "  "
+
+        set rs = nothing
+	    Set rs = cn.Execute(sql)
+
+    Next
+
+    if request.QueryString("end") = "1" then
+	%>
+	<script type="text/javascript">
+	    //mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
+	    window.location = "mant_venta.asp?msg=1";
+	    //window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
+	</script>
+	<% else %>
+    <script type="text/javascript">
+        //mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
+        //window.location = "mant_venta.asp?msg=1";
+        window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
+	</script>
+    <%
+    end if
+end if
+%>
+<%if request.QueryString("opc")= "sav2" then 
+	sql="exec spMantenedorVenta_Guardar "
+	sql=sql & "0, " &_
+            "" & request.form("Equipo") & ", " &_
+            "'" & request.form("Marca") & "' , " &_
+            "'" & request.form("Modelo") & "' , " &_    
+	        "" & request.form("Precio") & " , " &_    
+	        "'" & request.form("Anio") & "' , " &_    
+            "" & request.form("familia") & " , " &_        
+            "" & request.form("subcatagory") & " , " &_      
+            "'" & request.form("Descripcion") & "', " &_
+            "'" & request.form("estado") & "', " &_
+            "" & session("id_usuario") & " " 
+	set rs = nothing
+	Set rs = cn.Execute(sql)
+	
+		%>
+		<script type="text/javascript">
+		    //mostrarMensaje('Equipo Agregado Exitosamente.','success');
+		    //window.location="mant_venta.asp?msg=2";
+		    window.location="mant_venta.asp?opc=addImg&vta=<%= rs("IdVenta")%>";
+		</script>
+		<%
+	
+end if
+%>
+<%if request.QueryString("opc")= "del" then 
+	sql="exec spMantenedorVenta_Eliminar "
+	sql=sql & " " & request.form("idVenta") & " "
+	set rs = nothing
+	Set rs = cn.Execute(sql)
+	%>
+	<script type="text/javascript">
+	    //mostrarMensaje('Equipo Eliminado Exitosamente.', 'success');
+	    window.location="mant_venta.asp?msg=4";
+	</script>
+<%
+end if
+%>
+<%if request.QueryString("opc")= "idvta" then 
+	
+	var_chk_sel=request.form("venta")
+	arr_chk_sel=split(var_chk_sel,",")
+
+	For i=LBound(arr_chk_sel) to UBound(arr_chk_sel)
+	Next 
+	if i > 1 then
+	%>
+	<script type="text/javascript">
+	    //mostrarMensaje('Debe seleccionar solo un equipo.', 'success');
+	    window.location="mant_venta.asp?msg=5";
+	</script>
+<%	else
+		if len(var_chk_sel) > 0 then
+			Response.Redirect("mant_venta.asp?opc=edit&id="& var_chk_sel)
+			Response.End
+		end if
+	end if
+end if
+%>
+
+    <script language = "JavaScript">
+        <%
+        productos_Sql = "SELECT Id_DatosComunes, Descripcion, Nivel_Superior FROM Datos_Comunes WHERE Tipo=4 and Nivel = 1 and Estado = 1 order by Descripcion asc "
+        Set rs=nothing
+        Set rs = cn.Execute(productos_Sql)
+        x=0
+
+        productos_Sql2 = "SELECT Id_DatosComunes, Descripcion, Nivel_Superior FROM Datos_Comunes WHERE Tipo=4 and Nivel = 1 and Estado = 1 order by Descripcion asc "
+        Set rs2=nothing
+        Set rs2 = cn.Execute(productos_Sql2)
+        x2=0
+        %>
+
+        // FUNCION DE COMBO BOX COMBINADO
+        function sublist(inform, selecteditem)
+        {
+            inform.subcatagory.length = 0
+
+			<%
+			count= 0
+            y=0
+            do while not rs.eof
+			%>
+
+			x = <%= trim(y) %>;
+
+        subcat = new Array();
+            subcatagorys = "<%=(rs("Descripcion")) %>";
+            subcatagoryof = "<%=(rs("Nivel_Superior"))%>";
+            subcatagoryid = "<%=(rs("Id_DatosComunes"))%>";
+            subcat[x,0] = subcatagorys;
+            subcat[x,1] = subcatagoryof;
+            subcat[x,2] = subcatagoryid;
+            if (subcat[x,1] == selecteditem) {
+                var option<%= trim(count) %> = new Option(subcat[x,0], subcat[x,2]);
+                inform.subcatagory.options[inform.subcatagory.length]=option<%= trim(count)%>;
+            }
+            <%
+			count = count + 1
+            y = y + 1
+            rs.movenext
+            loop
+            rs.close
+			%>
+            }
+
+        function sublist2(inform, selecteditem2)
+        {
+            // console.log('$subcatagory.length: ' + $('#subcatagory').length);
+            $('#subcatagory2')["0"].length = 0; //inform.subcatagory.length = 0
+
+            <%
+			count2= 0
+            y2=0
+            do while not rs2.eof
+			%>
+
+			x2 = <%= trim(y) %>;
+
+        subcat2 = new Array();
+            subcatagorys2 = "<%=(rs2("Descripcion")) %>";
+            subcatagoryof2 = "<%=(rs2("Nivel_Superior"))%>";
+            subcatagoryid2 = "<%=(rs2("Id_DatosComunes"))%>";
+            subcat2[x2,0] = subcatagorys2;
+            subcat2[x2,1] = subcatagoryof2;
+            subcat2[x2,2] = subcatagoryid2;
+            if (subcat2[x2,1] == selecteditem2) {
+                var option<%= trim(count2) %> = new Option(subcat2[x2,0], subcat2[x2,2]);
+                $('#subcatagory2')["0"].options[$('#subcatagory2')["0"].length]=option<%= trim(count2)%>;
+                // console.log('inform.subcatagory.length: ' + inform.subcatagory.length);
+                // console.log('$subcatagory.length: ' + $('#subcatagory')["0"].length);
+            }
+            <%
+			count2 = count2 + 1
+            y2 = y2 + 1
+            rs2.movenext
+            loop
+            rs2.close
+			%>
+            }
+
+		</script>
+
+
+
+
+
 <div class="widget-content nopadding">
           <form name="form1_crit" action="#" method="post" class="form-horizontal">
               <div class="control-group">
@@ -410,8 +607,8 @@ if session ("Perfil_Administrador") = 1 then
               </div>         
             <div class="form-actions">
               <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'pub_adminventa.asp?opc=sch');">Buscar</button>
-			  <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'pub_adminventa.asp?opc=new');">Nuevo</button>
-			  <button type="submit" class="btn btn-success" onClick="irAFuera(document.forms.form1_crit,'pub_adminventa.asp?opc=sch&exp=xls','_blank')">Exportar</button>
+			 <!-- <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'pub_adminventa.asp?opc=new');">Nuevo</button>-->
+			  <!--<button type="submit" class="btn btn-success" onClick="irAFuera(document.forms.form1_crit,'pub_adminventa.asp?opc=sch&exp=xls','_blank')">Exportar</button>-->
             </div>
           </form>
         </div>
@@ -505,7 +702,8 @@ if session ("Perfil_Administrador") = 1 then
                   <th>Marca</th>
                   <th>Modelo</th>
 				  <th>Equipo</th>
-                  <th>Region</th>
+                  <th>Región</th>
+                    <th>Estado</th>
                   
                 </tr>
               </thead>
@@ -522,21 +720,22 @@ if session ("Perfil_Administrador") = 1 then
 						do while not rs.eof
 
 						vIdCliPlan	= rs("id_venta")
-
 						vDescTipo	= rs("Marca")
                         vDescModelo	= rs("Modelo")
 						vDescEquipo	= rs("Equipo")
 						vDescRegion	= rs("Region")
+                        vDescEstado= rs("Estado")
 						
 
 						%>
 
 						<tr class="gradeX">
-						  <td><input type="checkbox" name="vIdCliPlan" id="vIdCliPlan" style="display: block !important;" value=<%=vIdCliPlan%>  /></td>
+						  <td><input type="checkbox" name="venta" id="venta" style="display: block !important;" value=<%=rs("id_venta")%> /></td>
 						  <th><%=vDescTipo%></th>
                           <th><%=vDescModelo%></th>
 						  <th><%=vDescEquipo%></th>
 						  <th><%=vDescRegion%></th>
+                            <th><%=vDescEstado%></th>
 						 </tr>
 						<%
 						rs.movenext
@@ -547,14 +746,14 @@ if session ("Perfil_Administrador") = 1 then
 
 			</form>
           </div>
-		 
-        </div>
 		<div class="form-actions">
-            <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idmaq3');">Editar</button>
-			<input name="bandera" type="hidden" id="bandera" value="1" />
-			<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=new&idCP=<%=vCliPlan%>');">Nuevo</button>
-			<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idmaq2');">Eliminar</button>
-		</div>
+            <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idvta');">Editar</button>
+			<input name="bandera" type="hidden" id="Hidden1" value="1" />
+			<!--<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=new&idCP=<%=vCliPlan%>');">Nuevo</button>
+			<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idmaq2');">Eliminar</button>-->
+		</div> 
+        </div>
+		
   <%end if%>
 <%
 else	
@@ -953,25 +1152,24 @@ else
 <script src="assets/js/matrix.tables.js"></script>
 	<script type="text/javascript" src="assets/js/funciones.js"></script>
 </script>
+
 <script type="text/javascript">
-	$(document).ready(function(){
-		var mensaje = $.getURLParam("msg");
-		if (mensaje != null) {
-			if (mensaje == 1) {
-				mostrarMensaje('Su Plan no permite realizar esta operación, favor revisar su plan con el Administrador.', 'error');
-			} else if (mensaje == 2) {
-				mostrarMensaje('Equipo Modificado Exitosamente', 'success');
-			} else if (mensaje == 3) {
-				mostrarMensaje('Equipo Agregado Exitosamente.', 'success');
-			} else if (mensaje == 4) {
-				mostrarMensaje('Equipo Eliminado Exitosamente.', 'success');
-			} else if (mensaje == 5) {
-				mostrarMensaje('Debe seleccionar solo un equipo.', 'error');
-			} else if (mensaje == 6) {
-				mostrarMensaje('El Equipo que intenta agregar, ya se encuentra creado para la region seleccionada.', 'error');	
-			}
-		}
-	});
+    $(document).ready(function(){
+        var mensaje = $.getURLParam("msg");
+        if (mensaje != null) {
+            if (mensaje == 1) {
+                mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
+            } else if (mensaje == 2) {
+                mostrarMensaje('Equipo Agregado Exitosamente.', 'success');
+            } else if (mensaje == 3) {
+                mostrarMensaje('Este equipo ya existe con este nombre.', 'error');
+            } else if (mensaje == 4) {
+                mostrarMensaje('Equipo Eliminado Exitosamente.', 'success');
+            } else if (mensaje == 5) {
+                mostrarMensaje('Debe seleccionar solo un equipo.', 'success');
+            }
+        }
+    });
 </script>
 </body>
 </html>

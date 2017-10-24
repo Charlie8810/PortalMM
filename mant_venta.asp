@@ -29,6 +29,10 @@
 function validarDatos(formulario, pagina){
     var Equipo 			= document.getElementById('Equipo').value;
     var Marca           = document.getElementById('Marca').value;
+    var Modelo           = document.getElementById('Modelo').value;
+    var Anio           = document.getElementById('Anio').value;
+    var Precio           = document.getElementById('Precio').value;
+
 
 
 
@@ -41,7 +45,31 @@ function validarDatos(formulario, pagina){
         mostrarMensaje('El campo Marca no debe ir vacío', 'error');
         return false;
     }
+    if(Modelo == null || Modelo.length == 0 || /^\s+$/.test(Modelo)){
+        mostrarMensaje('El campo Modelo no debe ir vacío', 'error');
+        return false;
+    }
 	
+    if(Anio == null || Anio.length == 0 || /^\s+$/.test(Anio)){
+        //alert('ERROR: El Telefono de Contacto no debe estar en blanco');
+        mostrarMensaje('El Año no debe estar en blanco', 'error');
+        return false;
+    }
+    if (!/^([0-9])*$/.test(Anio)){
+        //alert("El valor " + TelefonoContacto + " no es un número");
+        mostrarMensaje('El valor Año no es un número', 'error');
+        return false;
+    }
+    if(Precio == null || Precio.length == 0 || /^\s+$/.test(Precio)){
+        //alert('ERROR: El Telefono de Contacto no debe estar en blanco');
+        mostrarMensaje('El Precio no debe estar en blanco', 'error');
+        return false;
+    }
+    if (!/^([0-9])*$/.test(Precio)){
+        //alert("El valor " + TelefonoContacto + " no es un número");
+        mostrarMensaje('El valor Precio no es un número', 'error');
+        return false;
+    }
     /*
 
     if(Marca == null || Marca.length == 0 || /^\s+$/.test(Marca)){
@@ -52,7 +80,15 @@ function validarDatos(formulario, pagina){
 
     */
 
-		irA(formulario, pagina);
+    irA(formulario, pagina);
+    var fileInput = document.getElementById('foto1');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
+    if(!allowedExtensions.exec(filePath)){
+        alert('Las extensiones de archivo permitidas son: .jpeg/.jpg/.png/.gif ');
+        fileInput.value = '';
+        return false;
+    }
 	
 }
 </script>
@@ -125,19 +161,71 @@ end if
   <h1>Mantenedor de Clientes - Publica tu Venta</h1>
 </div>
 <%if request.QueryString("opc")= "sav" then 
-	sql="exec MantenedorVenta "
-	sql=sql & " 2 , "
-	sql=sql & " " & request.form("idEquipos") & ", "
-	sql=sql & "'" & request.form("nombre") & "'," 
-	sql=sql & " " & request.form("estado") & " "
+	sql="exec spMantenedorVenta_Guardar "
+	sql=sql &  request.form("idVta") & " , " &_
+            "" & request.form("vEquipos") & ", " &_
+            "'" & request.form("Marca") & "' , " &_
+            "'" & request.form("Modelo") & "' , " &_    
+	        "" & request.form("Precio") & " , " &_    
+	        "'" & request.form("Anio") & "' , " &_    
+            "" & request.form("familia") & " , " &_        
+            "" & request.form("subcatagory") & " , " &_      
+            "'" & request.form("Descripcion") & "', " &_
+            "'" & request.form("estado") & "', " &_
+            "" & session("id_usuario") & " " 
+
+
+    
 	set rs = nothing
 	Set rs = cn.Execute(sql)
+
+    chkIdImg = request.Form("idImg")
+    arrIdImg = Split(chkIdImg, ",")
+    
+    For i=LBound(arrIdImg) to UBound(arrIdImg)
+	    
+        sql="exec spMantenedorVenta_EliminarImagen "
+	    sql=sql &  arrIdImg(i) & "  "
+
+        set rs = nothing
+	    Set rs = cn.Execute(sql)
+
+    Next
+    if session ("Perfil_Administrador") = 1 then
+    if request.QueryString("end") = "1" then
 	%>
+
 	<script type="text/javascript">
 		//mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
-		window.location="mant_venta.asp?msg=1";
+	    window.location = "pub_adminventa.asp?msg=1";
+        //window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
 	</script>
-	<%
+	<% else %>
+    <script type="text/javascript">
+		//mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
+        //window.location = "mant_venta.asp?msg=1";
+        window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
+	</script>
+    <%
+    end if
+        else
+           if request.QueryString("end") = "1" then
+	%>
+
+	<script type="text/javascript">
+	    //mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
+	    window.location = "mant_venta.asp?msg=1";
+	    //window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
+	</script>
+	<% else %>
+    <script type="text/javascript">
+        //mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
+        //window.location = "mant_venta.asp?msg=1";
+        window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
+	</script>
+    <%
+    end if
+        end if
 end if
 %>
 <%if request.QueryString("opc")= "sav2" then 
@@ -161,6 +249,7 @@ end if
 			//mostrarMensaje('Equipo Agregado Exitosamente.','success');
 		    //window.location="mant_venta.asp?msg=2";
 		    window.location="mant_venta.asp?opc=addImg&vta=<%= rs("IdVenta")%>";
+		  
 		</script>
 		<%
 	
@@ -441,7 +530,7 @@ end if
                 
                  %>
 
-                    $("#ekipo").val("<%= rs("Id_DatosComunes") %>");
+                    $("#Equipo").val("<%= rs("Id_DatosComunes") %>");
                     $("#Marca").val("<%= rs("vent_equipo_marca") %>");
                     $("#Modelo").val("<%= rs("vent_equipo_modelo") %>");
                     $("#Anio").val("<%= rs("vent_anio") %>");
@@ -451,6 +540,7 @@ end if
                     $("#subcatagory").val("<%= rs("id_ciudad") %>");
                     $("#Descripcion").val("<%= rs("vent_decripcion") %>");
                     $("#estado").val("<%= est %>");
+                    $("#idVta").val("<%= rs("id_venta") %>");
                 
                 });
 
@@ -471,7 +561,7 @@ end if
 					Set rs = cn.Execute(sql)
 					
 					%>
-					<select name="vEquipos" class="span11" id="ekipo" style="color:#F7931E">
+					<select name="vEquipos" class="span11" id="Equipo" style="color:#F7931E">
 						<%
 						response.write "<option value=-1>SELECCIONE EQUIPO</option>"
 						if not rs.eof then
@@ -563,14 +653,39 @@ end if
 				</select>
               </div>
 			</div>
+               <input type="hidden" name="idVta" id="idVta" value="" />
 
+               <%
+                        sql ="exec spMantenedorVenta_ListarImagenes "
+						sql = sql & request.QueryString("id")    
+                   
+                        Set rs=nothing
+					    Set rs = cn.Execute(sql)
+               %>
+               <table class="table-bordered" style="width:100%;">
+                   <caption>Eliminar imagenes seleccionadas</caption>
+                   <tr>
+                       <td style="text-align:center;">Seleccion</td>
+                       <td style="text-align:center;">Imagen</td>
+                   </tr>
 
+                   <% do while not rs.eof %>
 
+                   <tr>
+                       <th><input type="checkbox" name="idImg" id="idImg" value="<%= rs("id_imagen") %>" /></th>
+                       <th>
+                           <img src="<%= rs("url_img_chica") %>" style="width:250px;" alt="iam" />
+                       </th>
+                   </tr>
 
+                   <% rs.movenext 
+                      loop  %>
+               </table>
 
 			<div class="form-actions">
-				<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_eq.asp?opc=sav');">Guardar</button>
-				<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_eq.asp?opc=del');">Eliminar</button>
+				<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav');">Guardar y Agregar Imagenes</button>
+                <button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav&end=1');">Guardar y Finalizar</button>
+				<% '<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_venta.asp?opc=del');">Eliminar</button> %>
            </div>
           </form>
         </div>
@@ -882,7 +997,22 @@ end if
                 lngCurrentEnd = instr(lngCurrentBegin + 1,strDataWhole,strBoundry) - 1
                 loop
 
+        
+if session ("Perfil_Administrador") = 1 then
+
         if request.QueryString("end")="1" then
+            %>
+                <script>
+                    window.location = "pub_adminventa.asp?msg=1"
+                </script>
+            <%
+        else %>
+                <script>
+                    window.location = "mant_venta.asp?opc=addImg&vta=<%= request.QueryString("vta") %>"
+                </script>
+        <% end if
+            else
+   if request.QueryString("end")="1" then
             %>
                 <script>
                     window.location = "mant_venta.asp"
@@ -893,9 +1023,14 @@ end if
                     window.location = "mant_venta.asp?opc=addImg&vta=<%= request.QueryString("vta") %>"
                 </script>
         <% end if
+            end if
 
 
- end if %>
+
+
+
+
+             end if %>
     <%if request.QueryString("opc")="addImg" then%>
 
 
