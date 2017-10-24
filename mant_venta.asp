@@ -80,7 +80,15 @@ function validarDatos(formulario, pagina){
 
     */
 
-		irA(formulario, pagina);
+    irA(formulario, pagina);
+    var fileInput = document.getElementById('foto1');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
+    if(!allowedExtensions.exec(filePath)){
+        alert('Las extensiones de archivo permitidas son: .jpeg/.jpg/.png/.gif ');
+        fileInput.value = '';
+        return false;
+    }
 	
 }
 </script>
@@ -183,12 +191,13 @@ end if
 	    Set rs = cn.Execute(sql)
 
     Next
-
+    if session ("Perfil_Administrador") = 1 then
     if request.QueryString("end") = "1" then
 	%>
+
 	<script type="text/javascript">
 		//mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
-        window.location = "mant_venta.asp?msg=1";
+	    window.location = "pub_adminventa.asp?msg=1";
         //window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
 	</script>
 	<% else %>
@@ -199,6 +208,24 @@ end if
 	</script>
     <%
     end if
+        else
+           if request.QueryString("end") = "1" then
+	%>
+
+	<script type="text/javascript">
+	    //mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
+	    window.location = "mant_venta.asp?msg=1";
+	    //window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
+	</script>
+	<% else %>
+    <script type="text/javascript">
+        //mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
+        //window.location = "mant_venta.asp?msg=1";
+        window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
+	</script>
+    <%
+    end if
+        end if
 end if
 %>
 <%if request.QueryString("opc")= "sav2" then 
@@ -222,6 +249,7 @@ end if
 			//mostrarMensaje('Equipo Agregado Exitosamente.','success');
 		    //window.location="mant_venta.asp?msg=2";
 		    window.location="mant_venta.asp?opc=addImg&vta=<%= rs("IdVenta")%>";
+		  
 		</script>
 		<%
 	
@@ -959,7 +987,22 @@ end if
                 lngCurrentEnd = instr(lngCurrentBegin + 1,strDataWhole,strBoundry) - 1
                 loop
 
+        
+if session ("Perfil_Administrador") = 1 then
+
         if request.QueryString("end")="1" then
+            %>
+                <script>
+                    window.location = "pub_adminventa.asp?msg=1"
+                </script>
+            <%
+        else %>
+                <script>
+                    window.location = "mant_venta.asp?opc=addImg&vta=<%= request.QueryString("vta") %>"
+                </script>
+        <% end if
+            else
+   if request.QueryString("end")="1" then
             %>
                 <script>
                     window.location = "mant_venta.asp"
@@ -970,9 +1013,14 @@ end if
                     window.location = "mant_venta.asp?opc=addImg&vta=<%= request.QueryString("vta") %>"
                 </script>
         <% end if
+            end if
 
 
- end if %>
+
+
+
+
+             end if %>
     <%if request.QueryString("opc")="addImg" then%>
 
 
