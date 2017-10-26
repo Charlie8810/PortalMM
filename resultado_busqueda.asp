@@ -1132,11 +1132,104 @@ end if
                                         %>
 
                                     </h4>
-
-
+                                    
                                 </div>
 
+                                <div class="row">
 
+
+                                    <div class="col-lg-2">
+                                        
+                                            <label style="margin-bottom:3px;">Filtrar por:</label>
+                                        
+                                    </div>
+
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label for="slanio" style="margin-bottom:3px;">A&ntilde;o</label>
+                                            <select id="slanio" class="form-control" name="anio">
+                                                <option value="0">Seleccione</option>
+                                                 <%
+									                sql ="exec spMantenedorVenta_AniosDisponibles "
+									                Set rs=nothing
+									                Set rs = cn.Execute(sql)
+
+                                                     if not rs.eof then
+											do while not rs.eof
+
+                                                     if rs("vent_anio") = request.QueryString("an") then
+									                %>
+
+                                                 <option value="<%= rs("vent_anio") %>" selected="selected"><%= rs("vent_anio") %></option>
+                                                <% else %>
+
+                                                <option value="<%= rs("vent_anio") %>"><%= rs("vent_anio") %></option>
+                                                <%
+                                                 end if
+												rs.movenext
+											loop
+                                        
+										end if   
+                                                     %>
+                                            </select>
+                                          </div>
+
+                                    </div>
+
+
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="txmodelo" style="margin-bottom:3px;">Modelo</label>
+                                            <input type="text" class="form-control" id="txmodelo" name="modelo" value="<%= request.QueryString("md") %>" />
+                                          </div>
+
+                                    </div>
+
+                                    <div class="col-lg-1">
+                                        <br />
+                                        <button class="btn btn-default" onclick="filtrar()">Filtrar</button>
+                                        
+                                    </div>
+                                    <% if Len(cstr(request.QueryString("md"))) or request.QueryString("an") then   %>
+                                    <div class="col-lg-1">
+                                        <br />
+                                        <button class="btn btn-warning" onclick="limpiar()">Limpiar Filtros</button>
+                                        
+                                    </div>
+                                    <% end if %>
+
+                                    <script type="text/javascript">
+
+                                        function filtrar()
+                                        {
+
+                                            var sl_anio = document.getElementById("slanio");
+                                            var tx_modelo = document.getElementById("txmodelo");
+
+                                            var enlace = "resultado_busqueda.asp?eq=<%= request.QueryString("eq")  %>&an=" + sl_anio.value 
+
+                                            if(tx_modelo.value.length > 0)
+                                            {
+                                                enlace = enlace + "&md=" + tx_modelo.value
+                                            }
+
+
+                                            window.location=enlace
+
+                                        }
+
+
+                                        function limpiar()
+                                        {
+                                            var enlace = "resultado_busqueda.asp?eq=<%= request.QueryString("eq")  %>"
+                                            window.location=enlace
+
+                                        }
+
+                                    </script>
+                                    
+
+                                </div>
 
 
 					            <table>
@@ -1145,7 +1238,23 @@ end if
                                     <%
 									sql ="exec ListarResultadosBusqueda "
 									sql = sql & request.QueryString("eq")
+
+
+                                    
+
+                                    if request.QueryString("an") then 
+                                        sql = sql & " , " &  request.QueryString("an")
+                                    else
+                                        sql = sql & " , 0"
+                                    end if
+
+                                       
+                                    
+                                    if Len(cstr(request.QueryString("md"))) then 
+                                        sql = sql & " , '" & request.QueryString("md") & "' "
                                    
+                                    end if
+
 									Set rs=nothing
 									Set rs = cn.Execute(sql)
 									%>
@@ -1171,14 +1280,15 @@ end if
                                                                         "<a href=""detalle_venta.asp?id=" & rs("id_venta") & """><img style=""width:100%;"" src="""& url_img &""" alt=""imagen_maq"" /></a></td>" & _
                                                                         "<td style=""vertical-align:top; text-align:left;"">" & _
                                                                                 "<h4 style=""margin-bottom:1px; font-weight:bold;""><a href=""detalle_venta.asp?id=" & rs("id_venta") & """>" &  rs("Descripcion") & "</a></h4>" & _
-                                                                                "<p style=""margin-bottom:3px; font-weight:bold;"">" & rs("vent_equipo_modelo") & " - " & rs("vent_equipo_marca") & " - " & rs("vent_anio") & "</p>" & _
-                                                                                "<p style=""margin-bottom:3px; font-weight:bold;"">$ " & FormatNumber(rs("vent_equipo_precio"),0) & " p/d</p>" & _
-                                                                                
-                                                                                "<p style=""font-weight:bold; color:#F7931E;"">Disponibiliad Inmediata</p>" & _
+                                                                                "<p style=""margin-bottom:3px; font-weight:bold;"">Modelo: " & rs("vent_equipo_modelo") & " <br/> Marca: " & rs("vent_equipo_marca") & " <br/> A&ntilde;o: " & rs("vent_anio") & "</p>" & _
+                                                                                "<p style=""margin-bottom:3px; font-weight:bold;"">Precio: $ " & FormatNumber(rs("vent_equipo_precio"),0) & " </p>" & _
+                                                                                "<p style=""font-weight:bold; color:#F7931E;"">Publicado el: " & Day(rs("vent_fecha")) & "/" & Month(rs("vent_fecha")) & "/" & Year(rs("vent_fecha"))  & "</p>" & _
                                                                     "</td></tr>"
+
 												
 												rs.movenext
 											loop
+                                        
 										end if
 									%>
 

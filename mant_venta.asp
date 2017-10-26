@@ -257,7 +257,7 @@ end if
 %>
 <%if request.QueryString("opc")= "del" then 
 	sql="exec spMantenedorVenta_Eliminar "
-	sql=sql & " " & request.form("idVenta") & " "
+	sql=sql & " " & request.form("idVta") & " "
 	set rs = nothing
 	Set rs = cn.Execute(sql)
 	%>
@@ -685,7 +685,7 @@ end if
 			<div class="form-actions">
 				<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav');">Guardar y Agregar Imagenes</button>
                 <button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav&end=1');">Guardar y Finalizar</button>
-				<% '<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_venta.asp?opc=del');">Eliminar</button> %>
+				<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_venta.asp?opc=del');">Eliminar</button>
            </div>
           </form>
         </div>
