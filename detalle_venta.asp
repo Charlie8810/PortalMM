@@ -853,7 +853,7 @@ if(request.QueryString("handle") = "newvta") then
 	Set MailObject.Configuration = cdoConfig
 
 	MailObject.From	= vCorreo_Cotizacion
-	MailObject.To	= "carlpradenas@gmail.com; cristian.munoz.donoso@gmail.com"'vMailCotizacion & ";" & vMailUsuario
+	MailObject.To	= vMailCotizacion & ";" & vMailUsuario
 	MailObject.Subject = "Contacto Venta Mundo Maquinaria"
 	Cuerpo = "<br><br><h3 style=color:#3B5998>Estimado(a) Cliente de Mundo Maquinaria, <br>&nbsp;&nbsp;&nbsp;&nbsp;Se ha enviado una consulta de venta "
 	Cuerpo = Cuerpo & "con los siguientes datos:</h3> <br><br><h4 style=color:#F7931E>  Rut: " & request.Form("vta_rut") & "<br>Nombre: " & request.Form("vta_nombre") & "<br> mail: " & request.Form("vta_mail") & "<br> Telefono: " & request.Form("vta_fono") & "<br> Equipo: " & rs("vent_anio") & " " & rs("Descripcion") & " " & rs("vent_equipo_marca") & " " & rs("vent_equipo_modelo") & "</a>"
@@ -1177,10 +1177,10 @@ end if
 			mostrarMensaje('Estimado Usuario, el MAIL ingresado ya es parte de nuestros registros', 'error');
 		}
 
-		$('#textfield').blur(function(){
-			var rut = $('#textfield').val();
+		$('#vta_rut').blur(function(){
+		    var rut = $('#vta_rut').val();
 			var rutFormateado = $.formatRut(rut);
-			$('#textfield').val(rutFormateado);
+			$('#vta_rut').val(rutFormateado);
 
 			if (rut != '')
 			{

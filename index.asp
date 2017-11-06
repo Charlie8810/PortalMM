@@ -9,7 +9,8 @@
 	<head>
 	<!--Mail vencimiento del plan-->
 	<%
-	
+	Const cdoSendUsingPort = 2
+iServer = "smtp.gmail.com"
 		Response.ContentType = "text/html"
 		Response.AddHeader "Content-Type", "text/html;charset=UTF-8"
 		Response.CodePage = 65001
@@ -78,8 +79,7 @@
 	
 		<!-- Cuenta visitas-->
 		<%
-Const cdoSendUsingPort = 2
-iServer = "smtp.gmail.com"
+
 
 		Response.CodePage = 65001
 		Response.CharSet = "utf-8"
@@ -122,13 +122,8 @@ iServer = "smtp.gmail.com"
 		})(document);
 		</script>
 	</head>
-
-
-
-
-
-
 <!--
+
 ------Validaciones JavaScript ---------------------
 ----------------- GSC 2017-07-01 ------------------
 -->
@@ -667,7 +662,7 @@ end if
 									Set rs=nothing
 									Set rs = cn.Execute(sql)
 									%>
-									<select name="equipo" id="equipo" style="font-weight:bold; color:#3B5998; cursor: pointer;" value="<%=vEquipo%>">
+									<select name="equipo" id="equipo" onChange = "javascript:ValorEquipo()" style="font-weight:bold; color:#3B5998; cursor: pointer;" value="<%=vEquipo%>">
 										<%
 										response.write "<option value=0>EQUIPO</option>"
 										if not rs.eof then
@@ -686,17 +681,12 @@ end if
 							</li>
 							<li>
 	<div class="select-wrapper">
-		<script language = "JavaScript">
+		<script type="text/javascript">
 			<%
 			productos_Sql = "SELECT Id_DatosComunes, Descripcion, Nivel_Superior FROM Datos_Comunes WHERE Tipo=4 and Nivel = 1 and Estado = 1 order by Descripcion asc "
 			Set rs=nothing
 			Set rs = cn.Execute(productos_Sql)
 			x=0
-
-			productos_Sql2 = "SELECT Id_DatosComunes, Descripcion, Nivel_Superior FROM Datos_Comunes WHERE Tipo=4 and Nivel = 1 and Estado = 1 order by Descripcion asc "
-			Set rs2=nothing
-			Set rs2 = cn.Execute(productos_Sql2)
-			x2=0
 			%>
 
 			// FUNCION DE COMBO BOX COMBINADO
@@ -730,89 +720,17 @@ end if
 			loop
 			rs.close
 			%>
+			ValorRegion();
 			}
 
 			function sublist2(inform, selecteditem2)
 			{
-			// console.log('$subcatagory.length: ' + $('#subcatagory').length);
-			$('#subcatagory2')["0"].length = 0; //inform.subcatagory.length = 0
-
-			<%
-			count2= 0
-			y2=0
-			do while not rs2.eof
-			%>
-
-			x2 = <%= trim(y) %>;
-
-			subcat2 = new Array();
-			subcatagorys2 = "<%=(rs2("Descripcion")) %>";
-			subcatagoryof2 = "<%=(rs2("Nivel_Superior"))%>";
-			subcatagoryid2 = "<%=(rs2("Id_DatosComunes"))%>";
-			subcat2[x2,0] = subcatagorys2;
-			subcat2[x2,1] = subcatagoryof2;
-			subcat2[x2,2] = subcatagoryid2;
-			if (subcat2[x2,1] == selecteditem2) {
-			var option<%= trim(count2) %> = new Option(subcat2[x2,0], subcat2[x2,2]);
-			$('#subcatagory2')["0"].options[$('#subcatagory2')["0"].length]=option<%= trim(count2)%>;
-			// console.log('inform.subcatagory.length: ' + inform.subcatagory.length);
-			// console.log('$subcatagory.length: ' + $('#subcatagory')["0"].length);
+			    //console.log('sublist2()');
+			    ValorRegion();
 			}
-			<%
-			count2 = count2 + 1
-			y2 = y2 + 1
-			rs2.movenext
-			loop
-			rs2.close
-			%>
-			}
-
-		</script>
-		<script language = "JavaScript">
-				<%	
-				productos_Sql2 = "SELECT Id_DatosComunes, Descripcion, Nivel_Superior FROM Datos_Comunes WHERE Tipo=4 and Nivel = 1 and Estado = 1 order by Descripcion asc "
-				Set rs2=nothing
-				Set rs2 = cn.Execute(productos_Sql2)
-				x2=0
-				%>
-	
-				function sublist2(inform, selecteditem2)
-				{
-				// console.log('$subcatagory.length: ' + $('#subcatagory').length);
-				$('#subcatagory2')["0"].length = 0; //inform.subcatagory.length = 0
-	
-				<%
-				count2= 0
-				y2=0
-				do while not rs2.eof
-				%>
-	
-				x2 = <%= trim(y) %>;
-	
-				subcat2 = new Array();
-				subcatagorys2 = "<%=(rs2("Descripcion")) %>";
-				subcatagoryof2 = "<%=(rs2("Nivel_Superior"))%>";
-				subcatagoryid2 = "<%=(rs2("Id_DatosComunes"))%>";
-				subcat2[x2,0] = subcatagorys2;
-				subcat2[x2,1] = subcatagoryof2;
-				subcat2[x2,2] = subcatagoryid2;
-				if (subcat2[x2,1] == selecteditem2) {
-				var option<%= trim(count2) %> = new Option(subcat2[x2,0], subcat2[x2,2]);
-				$('#subcatagory2')["0"].options[$('#subcatagory2')["0"].length]=option<%= trim(count2)%>;
-				console.log('$subcatagory2.length: ' + $('#subcatagory2')["0"].length);
-				}
-				<%
-				count2 = count2 + 1
-				y2 = y2 + 1
-				rs2.movenext
-				loop
-				rs2.close
-				%>
-				}
 	
 			</script>
-
-			<select size="1" id="familia" name="familia" onChange = "javascript:sublist(this.form, familia.value);" style="font-weight:bold; color:#3B5998; height: 3em; cursor: pointer;" value="<%=Ucase(vRegion)%>">
+			<select size="1" id="familia" name="familia" onChange = "javascript:sublist(document.forms.formCotizacion, familia.value);" style="font-weight:bold; color:#3B5998; height: 3em; cursor: pointer;" value="<%=Ucase(vRegion)%>">
 
 			<option selected value = "0">REGION</option>
 			<%familias_Sql = "SELECT Id_DatosComunes, Descripcion FROM Datos_Comunes WHERE Tipo = 3 and Nivel = 1 and Estado = 1"
@@ -831,18 +749,18 @@ end if
 	</li>
 	<li>
 	<div class="select-wrapper">
-		<SELECT id="subcatagory" name="subcatagory" size="1" style="font-weight:bold; color:#3B5998; height: 3em; cursor: pointer;" value="<%=Ucase(vCiudad)%>">
+		<SELECT id="subcatagory" name="subcatagory" onChange = "javascript:ValorCiudad()" size="1" style="font-weight:bold; color:#3B5998; height: 3em; cursor: pointer;" value="<%=Ucase(vCiudad)%>">
 			<Option selected value="0">CIUDAD</option>
 		</SELECT>
 	</div>
 	</li>
 							<li>
 								<div class="btn-header">
-								<button type="button" class="button" id="bt_cotizar" style="background:#F7931E" data-toggle="modal" data-target="#myModal9">
+								<button type="button" class="button"  id="bt_cotizar" style="background:#F7931E" data-toggle="modal" data-target="#myModal9">
 									COTIZAR
 								</button>
                                                                 </div>
-								<div class="modal fade" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<!-- <div class="modal fade" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 
 										<div class="modal-content">
@@ -885,7 +803,7 @@ end if
 									</div>
 
 									</div>
-								</div>
+								</div> -->
 
 	<!-- POPUP-->			</li>
 
@@ -1094,9 +1012,53 @@ end if
 								</div>
 							</li>
 						</ul>
-						</form>
+						
 					</nav>
+					<div class="modal fade" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
 
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="myModalLabel">Cotizar</h4>
+								</div>
+								<div class="modal-body ">
+									<div class="form-group">
+										<label>RUT</label>
+										<input class="form-control text-box-modal" placeholder="11111111-1" type="text" style="color:#F7931E" id ="textfield" name="textfield" value="<%=vRut2%>"/>
+										<div data-role="popup" class="popUp-validacion" id="popUpRut"></div>
+									</div>
+									<div class="form-group">
+										<label>RAZÓN SOCIAL / NOMBRE</label>
+										<input class="form-control text-box-modal" placeholder="Nombre Empresa" type="text" style="color:#F7931E" id="textfield2" name="textfield2" value="<%=vRazonSocial%>"/>
+										<div data-role="popup" class="popUp-validacion" id="popUpRS"></div>
+									</div>
+									<div class="form-group">
+										<label>CORREO</label>
+										<input class="form-control text-box-modal" placeholder="mail@mail.cl" type="text" style="color:#F7931E" id="textfield3" name="textfield3" value="<%=vMail%>"/>
+										<div data-role="popup" class="popUp-validacion" id="popUpCorreo"></div>
+									</div>
+									<div class="form-group">
+										<label>NOMBRE CONTACTO</label>
+										<input class="form-control text-box-modal" placeholder="Nombre Contacto" type="text" style="color:#F7931E" id="textfield4" name="textfield4" value="<%=vNombre%>"/>
+										<div data-role="popup" class="popUp-validacion" id="popUpContacto"></div>
+									</div>
+									<div class="form-group">
+										<label>TELÉFONO CONTACTO</label>
+										<input class="form-control text-box-modal" placeholder="Teléfono Contacto" type="text" style="color:#F7931E" id="textfield5" name="textfield5" value="<%=vTelefono%>"/>
+										<div data-role="popup" class="popUp-validacion" id="popUpTContacto"></div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-modal" style="background:#F7931E" onClick="javascript:validarCotizacion(document.forms.formCotizacion,'index.asp?est=1');">Cotizar</button>
+
+
+								</div>
+						</div>
+
+						</div>
+					</div>
+				</form>
 					</ul>
 				</section>
 
@@ -1180,7 +1142,7 @@ end if
 								Set rs6 = cn.Execute(sql)
 								if not rs6.eof then
 								%>
-								<p><img src="<%=rs6("ruta")%>" alt="" /></p>
+								<p><img src="<%=rs6("ruta")%>" alt="" width="400" height="175" /></p>
 								<%end if%>
 							</section >
 							<section style="border-style: solid; border-width: 1px;">
@@ -1201,7 +1163,7 @@ end if
 								<%end if%>
 							</section>
 						</div>
-					</section>			
+					</section>				
 				</section>
 				<section id="resultados_busqueda"  class="container" style="display:none;">
 					<section class="box special features">
@@ -1212,7 +1174,7 @@ end if
 							</section>
 						</div>
 					</section>
-				</section>	
+				</section>	  
 <div class="modal fade" id="myModal7" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 <form name="formContacto" method="post" >
 <div class="modal-dialog">
@@ -1374,7 +1336,109 @@ end if
 	</form>
 </div>
 </div>
-<!-- #include file="ModalHeaderMenu.asp" -->
+<!-- Modal Login -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<form name="formLogin" method="post" >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Inicio Sesión</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+					<label>Rut</label>
+					<input class="form-control text-box-modal" placeholder="11111111-1" type="text" id="user_rut" name="user_rut" pattern="[0-9]|k"/>
+					<div data-role="popup" class="popUp-validacion" id="popUpUserRut"></div>
+				</div>
+				<div class="form-group">
+					<label>Contraseña</label>
+					<input class="form-control text-box-modal" type="password" name="passw" id="txtPassw"/>
+				</div>
+				</div>
+				<div class="modal-footer">
+					<!-- Olvidaste tu contraseña -->
+					<a data-toggle="modal" data-target="#myModal10" style="cursor:pointer;color:#F7931E;">Olvidaste tu contraseña </a>
+					<button type="button" class="btn btn-modal" onClick="javascript:validacion(document.forms.formLogin,'login2.asp?opc=in');">Ingresar</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="modal fade" id="myModal10" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<script type="text/javascript">
+			function fCarga(formulario, pagina)
+			{
+				if(formulario.textcorreo.value=="" )
+				{
+					mostrarMensaje('Para Continuar debe Completar los datos','error');
+					return false;
+				}
+				irA(formulario, pagina);
+			}
+		</script>
+		<form name="formLogin2" method="post" >
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">Recuperación de usuario o contraseña</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+						<label>Ingrese el mail informado</label>
+						<input class="form-control text-box-modal" type="text" name="textcorreo" pattern="[0-9]|k"/>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-modal" onClick="JavaScript:fCarga(document.forms.formLogin2,'Envio_datos.asp');">Enviar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- Modal Login Fin -->
+<!-- Modal Registro -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<form name="formReg1" method="post" >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">REGISTRO</h4>
+				</div>
+				<div class="modal-body ">
+					<div class="form-group">
+						<label>RAZÓN SOCIAL / NOMBRE</label>
+						<input class="form-control text-box-modal" type="text" style="color:#F7931E" id="Nom_Reg" name="Nom_Reg" value="<%=vNombre%>"/>
+					</div>
+					<div class="form-group">
+						<label>RUT</label>
+						<input class="form-control text-box-modal" placeholder="11111111-1" type="text" style="color:#F7931E" id ="Rut_Reg" name="Rut_Reg" value="<%=vRut%>"/>
+						<div data-role="popup" class="popUp-validacion" id="popUpRegRut"></div>
+					</div>
+					<div class="form-group">
+						<label>CORREO</label>
+						<input class="form-control text-box-modal" type="text" style="color:#F7931E" id="Mail_Reg" name="Mail_Reg" value="<%=vMail%>"/>
+					</div>
+					<div class="form-group">
+						<label>CONTRASEÑA</label>
+						<input class="form-control text-box-modal" placeholder="8 dígitos Alfanuméricos" type="password" style="color:#F7931E" id ="password" name="password" value="<%=vPassword%>"/>
+						<div data-role="popup" class="popUp-validacion" id="popUpRegPass"></div>
+					</div>
+					<div class="form-group">
+						<label>REINGRESAR CONTRASEÑA</label>
+						<input class="form-control text-box-modal" type="password" placeholder="********" style="color:#F7931E" id ="password2" name="password2" value="<%=vPassword%>"/>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-modal" style="background:#F7931E" onClick="javascript:validaDatos(document.forms.formReg1,'index.asp?est=new');">ENVIAR</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<!-- Modal Registro Fin -->
 <div class="modal fade" id="myModal8" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<form name="formLogin" method="post" >
 	<div class="modal-dialog">
@@ -1431,8 +1495,6 @@ end if
 			<script type="text/javascript" src="assets/js/funciones.js"></script>
 			<script type="text/javascript" src="assets/js/jquery.rut.js"></script>
 			<script type="text/javascript" src="assets/js/jquery.rut.min.js"></script>
-
-
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -1569,6 +1631,49 @@ end if
 		}
 	}
 
+	function ValorEquipo() {
+		var equipo = document.getElementById("equipo");
+		var equipo2 = document.getElementById("equipo2");
+
+		if (equipo2 != null) {
+			equipo.selectedIndex = equipo2.selectedIndex;
+		}
+		console.log('Equipo selectedIndex: ' + equipo.selectedIndex);
+	}
+
+	function ValorRegion() {
+		var region = document.getElementById("familia");
+		var region2 = document.getElementById("familia2");
+
+		if (region2 != null) {
+			region.selectedIndex = region2.selectedIndex;
+		}
+		console.log('Region selectedIndex: ' + region.selectedIndex);
+		CopiarComboCiudad();
+	}
+
+	function CopiarComboCiudad() {
+		var ciudad = document.getElementById("subcatagory");
+		var ciudad2 = document.getElementById("subcatagory2");
+		
+		if (ciudad2 != null) {
+			var html1 = ciudad.innerHTML;
+			html1 = html1.replace('subcategory', 'subcategory2');
+			ciudad2.innerHTML =  html1;
+		}
+		console.log('CopiarComboCiudad()');
+	}
+	
+	function ValorCiudad() {
+		var ciudad = document.getElementById("subcatagory");
+		var ciudad2 = document.getElementById("subcatagory2");
+
+		if (ciudad2 != null) {
+			ciudad.selectedIndex = ciudad2.selectedIndex;
+		}
+		console.log('Ciudad selectedIndex: ' + ciudad.selectedIndex);
+	}
+
 	// function validacion(formulario, pagina)
 	// {
 	// 	if(formulario.user_rut.value=="" || formulario.passw.value=="" )
@@ -1578,12 +1683,8 @@ end if
 	// 	}
 	// 	irA(formulario, pagina);
 	// }
-
-
-
 </script>
-
-<script>
+	<script>
 	//Agregado Funciones para lo nuevo  16.10.2017
 	$(function(){
 
@@ -1617,8 +1718,6 @@ end if
 		})
 	})
 </script>
-
-
-
+	
 	</body>
 </html>
