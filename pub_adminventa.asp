@@ -499,11 +499,14 @@ if request.QueryString("opc")= "eli" then
 	Set rs=nothing
 	Set rs = cn.Execute(sql)
 
+    Response.Redirect("pub_adminventa.asp?opc=edit2&id="& request.QueryString("id") & "&msg=4")
+	Response.End
+
 	%>
 	<script type="text/javascript">
-	    window.location="pub_adminventa.asp?msg=3";
-	    window.history.go(-1);
-	    location.reload(true);
+	    //window.location="pub_adminventa.asp?msg=3";
+	    //window.location.reload();
+	    
 	</script>
 <%	
 end if
@@ -777,7 +780,7 @@ end if
           </div>
 		<div class="form-actions">
             <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idvta');">Editar</button>
-            <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=eli');">Eliminar</button>
+            <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=eli&id=<%= request.QueryString("id") %>');">Eliminar</button>
 			<input name="bandera" type="hidden" id="Hidden1" value="1" />
 			<!--<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=new&idCP=<%=vCliPlan%>');">Nuevo</button>
 			<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idmaq2');">Eliminar</button>-->
