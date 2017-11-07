@@ -258,7 +258,8 @@ if request.QueryString("opc")= "sav8" then
 		if vMensaje = "1" then
 		%>
 		<script type="text/javascript">
-			window.location="pub_adminventa.asp?msg=3";
+		    window.location="pub_adminventa.asp?msg=3";
+
 		</script>
 		<%
 		elseif vMensaje = "2" then
@@ -363,13 +364,16 @@ if request.QueryString("opc")= "idmaq3" then
 		//window.location="act_dat.asp";
 		setTimeout(window.location="pub_adminventa.asp";, 3000);
 	</script>
+ 
 <%	else
 		if len(var_chk_sel) > 0 then
 				Response.Redirect("pub_adminventa.asp?opc=edit2&id="& var_chk_sel)
 				Response.End
+    
 		end if	
 	end if
 end if 
+
 if session ("Perfil_Administrador") = 1 then
 %>
     <%if request.QueryString("opc")= "sav" then 
@@ -480,7 +484,31 @@ end if
 		end if
 	end if
 end if
+    
+if request.QueryString("opc")= "eli" then 
+	
+	var_chk_sel=request.form("venta")
+	arr_chk_sel=split(var_chk_sel,",")
+
+	For i=LBound(arr_chk_sel) to UBound(arr_chk_sel)
+
+	Next 
+	sql ="exec spMantenedorVenta_Eliminar "
+	sql=sql & " '" & var_chk_sel & "' "	
+
+	Set rs=nothing
+	Set rs = cn.Execute(sql)
+
+	%>
+	<script type="text/javascript">
+	    window.location="pub_adminventa.asp?msg=3";
+	    window.history.go(-1);
+	    location.reload(true);
+	</script>
+<%	
+end if
 %>
+
 
     <script language = "JavaScript">
         <%
@@ -685,6 +713,7 @@ end if
         </div>
 		<div class="form-actions">
             <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idmaq3');">Editar</button>
+            <!--<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=eli');">Eliminar</button>-->
 			<!--<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'demo_tabla.asp?opc=new');">Nuevo</button>-->
 			<input name="bandera" type="hidden" id="bandera" value="1" />
 		</div>
@@ -748,6 +777,7 @@ end if
           </div>
 		<div class="form-actions">
             <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idvta');">Editar</button>
+            <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=eli');">Eliminar</button>
 			<input name="bandera" type="hidden" id="Hidden1" value="1" />
 			<!--<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=new&idCP=<%=vCliPlan%>');">Nuevo</button>
 			<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idmaq2');">Eliminar</button>-->
@@ -1158,18 +1188,24 @@ else
         var mensaje = $.getURLParam("msg");
         if (mensaje != null) {
             if (mensaje == 1) {
-                mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
+                mostrarMensaje('Venta Modificado Exitosamente.', 'success');
             } else if (mensaje == 2) {
-                mostrarMensaje('Equipo Agregado Exitosamente.', 'success');
+                mostrarMensaje('Venta Agregado Exitosamente.', 'success');
             } else if (mensaje == 3) {
-                mostrarMensaje('Este equipo ya existe con este nombre.', 'error');
+                mostrarMensaje('Venta Eliminado Exitosamente.', 'success');
             } else if (mensaje == 4) {
-                mostrarMensaje('Equipo Eliminado Exitosamente.', 'success');
+                mostrarMensaje('Venta Eliminado Exitosamente.', 'success');
             } else if (mensaje == 5) {
                 mostrarMensaje('Debe seleccionar solo un equipo.', 'success');
             }
         }
     });
+    function timedRefresh(timeoutPeriod) {
+        setTimeout("location.reload(true);",timeoutPeriod);
+    }
+
+
 </script>
+    
 </body>
 </html>

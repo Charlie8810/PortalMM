@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="assets/css/matrix-style.css" />
 <link rel="stylesheet" href="assets/css/matrix-media.css" />
 <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="assets/css/footable.core.css" rel="stylesheet">
+<link href="assets/css/bootstrap-select.min.css" rel="stylesheet" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="assets/css/mantenedores.css" />
 <script src="assets/js/jquery.min.js"></script> 
@@ -198,6 +200,7 @@ end if
 	<script type="text/javascript">
 		//mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
 	    window.location = "pub_adminventa.asp?msg=1";
+	    window.history.go(-2);
         //window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
 	</script>
 	<% else %>
@@ -215,6 +218,7 @@ end if
 	<script type="text/javascript">
 	    //mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
 	    window.location = "mant_venta.asp?msg=1";
+	    window.history.go(-2);
 	    //window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
 	</script>
 	<% else %>
@@ -515,11 +519,6 @@ end if
         <div class="widget-content nopadding">
 
             <script>
-
-          
-
-
-
                 $(document).ready(function(){
                  
                 <% dim est 
@@ -662,10 +661,11 @@ end if
                         Set rs=nothing
 					    Set rs = cn.Execute(sql)
                %>
-               <table class="table-bordered" style="width:100%;">
-                   <caption>Eliminar imagenes seleccionadas</caption>
+                <table class="table table-bordered table-striped with-check widget-title">
+                   <caption></caption>
                    <tr>
-                       <td style="text-align:center;">Seleccion</td>
+                       <td style="text-align:center;">seleccionar imagen a eliminar</td>
+
                        <td style="text-align:center;">Imagen</td>
                    </tr>
 
@@ -681,11 +681,12 @@ end if
                    <% rs.movenext 
                       loop  %>
                </table>
+              
 
 			<div class="form-actions">
 				<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav');">Guardar y Agregar Imagenes</button>
                 <button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav&end=1');">Guardar y Finalizar</button>
-				<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_venta.asp?opc=del');">Eliminar</button>
+				<!--<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_venta.asp?opc=del');">Eliminar</button>-->
            </div>
           </form>
         </div>
@@ -1169,9 +1170,9 @@ if session ("Perfil_Administrador") = 1 then
 		var mensaje = $.getURLParam("msg");
 		if (mensaje != null) {
 			if (mensaje == 1) {
-				mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
+				mostrarMensaje('Venta Modificado Exitosamente.', 'success');
 			} else if (mensaje == 2) {
-				mostrarMensaje('Equipo Agregado Exitosamente.', 'success');
+			    mostrarMensaje('Venta Agregado Exitosamente.', 'success');
 			} else if (mensaje == 3) {
 				mostrarMensaje('Este equipo ya existe con este nombre.', 'error');
 			} else if (mensaje == 4) {
