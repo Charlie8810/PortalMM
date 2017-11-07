@@ -1015,8 +1015,15 @@ if session ("Perfil_Administrador") = 1 then
             else
    if request.QueryString("end")="1" then
             %>
+
+                <form name="from_redirect" action="#" method="post" style="display:none;"> 
+                    <select name="vEquipos">
+						<option value="-1" selected="selected">SELECCIONE EQUIPO</option>
+                    </select>
+                </form>
+    
                 <script>
-                    window.location = "mant_venta.asp"
+                    javascript:irA(document.forms.from_redirect,'mant_venta.asp?opc=sch');
                 </script>
             <%
         else %>
@@ -1060,9 +1067,11 @@ if session ("Perfil_Administrador") = 1 then
         
 		reader = new FileReader();
 		reader.onload = function(event) 
-				{ var img = new Image; 
+		{ 
+                  var img = new Image; 
 				  img.onload = UpdatePreviewCanvas; 
-				  img.src = event.target.result;  }
+				  img.src = event.target.result;  
+        }
 		reader.readAsDataURL( file );
 	}
 
