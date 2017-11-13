@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/css/matrix-style.css" />
 <link rel="stylesheet" href="assets/css/matrix-media.css" />
 <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/css/footable.core.css" rel="stylesheet">
+<link href="assets/css/footable.core.css" rel="stylesheet">
 <link href="assets/css/bootstrap-select.min.css" rel="stylesheet" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="assets/css/mantenedores.css" />
@@ -121,28 +121,28 @@ end if
     
 '***************************  Fin Sesion   ********************************
 '************************* Inicia HTTP_REFERER ****************************
-'Estado_HTTP_REFERER = 0
-'if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
-'    sql="Exec Consultar_Paginas '"  & Request.ServerVariables("HTTP_REFERER") & "'"
-'    set Rs = nothing
-'    Set Rs = cn.Execute(sql)
-'    do while not rs.eof
-'        if instr(1,Request.ServerVariables("HTTP_REFERER"),Rs("Nombre_Pagina")) > 0 then
-'            Estado_HTTP_REFERER = 1
-'			exit do
-'        end if
-'        rs.movenext
-'    Loop
-'    Rs.close
-'    set Rs = nothing
-'    'if Estado_HTTP_REFERER = 0 then
-'    '    Response.Redirect("./index.asp?msg=3")
-'    '   Response.End
-'    'end if
-'else
-'    Response.Redirect("./index.asp?msg=3")
-'    Response.End
-'end if
+Estado_HTTP_REFERER = 0
+if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
+    sql="Exec Consultar_Paginas '"  & Request.ServerVariables("HTTP_REFERER") & "'"
+    set Rs = nothing
+    Set Rs = cn.Execute(sql)
+    do while not rs.eof
+        if instr(1,Request.ServerVariables("HTTP_REFERER"),Rs("Nombre_Pagina")) > 0 then
+            Estado_HTTP_REFERER = 1
+			exit do
+        end if
+        rs.movenext
+    Loop
+    Rs.close
+    set Rs = nothing
+    'if Estado_HTTP_REFERER = 0 then
+    '    Response.Redirect("./index.asp?msg=3")
+    '   Response.End
+    'end if
+else
+    Response.Redirect("./index.asp?msg=3")
+    Response.End
+end if
 ''************************** Fin HTTP_REFERER ******************************
 %>
 <body>
@@ -199,8 +199,8 @@ end if
 
 	<script type="text/javascript">
 		//mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
-	    window.location = "pub_adminventa.asp?msg=1";
-	    window.history.go(-2);
+	    window.location = "pub_adminventa.asp?opc=sch&msg=1";
+	    //window.location = "pub_adminventa.asp?msg=1";
         //window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
 	</script>
 	<% else %>
@@ -218,7 +218,6 @@ end if
 	<script type="text/javascript">
 	    //mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
 	    window.location = "mant_venta.asp?msg=1";
-	    window.history.go(-2);
 	    //window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
 	</script>
 	<% else %>
@@ -291,6 +290,26 @@ end if
 			Response.End
 		end if
 	end if
+end if
+
+if request.QueryString("opc")= "eli" then 
+	
+	var_chk_sel=request.form("venta")
+	arr_chk_sel=split(var_chk_sel,",")
+
+	For i=LBound(arr_chk_sel) to UBound(arr_chk_sel)
+
+	Next 
+	sql ="exec Elimina_Cliente "
+	sql=sql & " '" & var_chk_sel & "' "	
+
+	Set rs=nothing
+	Set rs = cn.Execute(sql)
+	%>
+	<script type="text/javascript">
+		window.location="act_dat.asp?msg=3";
+	</script>
+<%	
 end if
 %>
 
@@ -441,7 +460,7 @@ end if
 				  <th>Opcion</th>
                   <th>Marca</th>
                   <th>Modelo</th>
-                  <th>Año</th>
+                  <th>Año</th> 
                   <th>Estado</th>
 				  
 
@@ -452,7 +471,7 @@ end if
 				
 					sql="exec spMantenedorVenta_Listar "
 					sql=sql & " " & request.form("vEquipos") & ", " & session("id_usuario") & " "
-					
+					response.write(sql)
 					set rs = nothing
 					Set rs = cn.Execute(sql)
 					
@@ -489,7 +508,8 @@ end if
         </div>
 		<div class="form-actions">
             <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'mant_venta.asp?opc=idvta');">Editar</button>
-			<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'mant_venta.asp?opc=new');">Nuevo</button>
+			<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'mant_venta.asp?opc=eli');">Eliminar</button>
+			<!--<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'mant_venta.asp?opc=new');">Nuevo</button>-->
 			<input name="bandera" type="hidden" id="bandera" value="1" />
 		</div>
 		
@@ -519,6 +539,11 @@ end if
         <div class="widget-content nopadding">
 
             <script>
+
+          
+
+
+
                 $(document).ready(function(){
                  
                 <% dim est 
@@ -533,7 +558,7 @@ end if
                     $("#Marca").val("<%= rs("vent_equipo_marca") %>");
                     $("#Modelo").val("<%= rs("vent_equipo_modelo") %>");
                     $("#Anio").val("<%= rs("vent_anio") %>");
-                    $("#Precio").val("<%= rs("vent_equipo_precio") %>");
+                    $("#Precio").val("<%= FormatNumber(rs("vent_equipo_precio"),0) %>");
                     $("#familia").val("<%= rs("id_region") %>");
                     $("#familia").trigger("change");
                     $("#subcatagory").val("<%= rs("id_ciudad") %>");
@@ -661,11 +686,10 @@ end if
                         Set rs=nothing
 					    Set rs = cn.Execute(sql)
                %>
-                <table class="table table-bordered table-striped with-check widget-title">
+               <table class="table-bordered" style="width:100%;">
                    <caption></caption>
                    <tr>
                        <td style="text-align:center;">seleccionar imagen a eliminar</td>
-
                        <td style="text-align:center;">Imagen</td>
                    </tr>
 
@@ -681,11 +705,10 @@ end if
                    <% rs.movenext 
                       loop  %>
                </table>
-              
 
 			<div class="form-actions">
-				<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav');">Guardar y Agregar Imagenes</button>
-                <button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav&end=1');">Guardar y Finalizar</button>
+				<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav');">Agregar Imagenes</button>
+                <button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav&end=1&vId=<%=request.QueryString("id")%>');">Guardar y Finalizar</button>
 				<!--<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_venta.asp?opc=del');">Eliminar</button>-->
            </div>
           </form>
@@ -1015,15 +1038,8 @@ if session ("Perfil_Administrador") = 1 then
             else
    if request.QueryString("end")="1" then
             %>
-
-                <form name="from_redirect" action="#" method="post" style="display:none;"> 
-                    <select name="vEquipos">
-						<option value="-1" selected="selected">SELECCIONE EQUIPO</option>
-                    </select>
-                </form>
-    
                 <script>
-                    javascript:irA(document.forms.from_redirect,'mant_venta.asp?opc=sch');
+                    window.location = "mant_venta.asp"
                 </script>
             <%
         else %>
@@ -1067,11 +1083,9 @@ if session ("Perfil_Administrador") = 1 then
         
 		reader = new FileReader();
 		reader.onload = function(event) 
-		{ 
-                  var img = new Image; 
+				{ var img = new Image; 
 				  img.onload = UpdatePreviewCanvas; 
-				  img.src = event.target.result;  
-        }
+				  img.src = event.target.result;  }
 		reader.readAsDataURL( file );
 	}
 
@@ -1181,7 +1195,7 @@ if session ("Perfil_Administrador") = 1 then
 			if (mensaje == 1) {
 				mostrarMensaje('Venta Modificado Exitosamente.', 'success');
 			} else if (mensaje == 2) {
-			    mostrarMensaje('Venta Agregado Exitosamente.', 'success');
+				mostrarMensaje('Venta Agregado Exitosamente.', 'success');
 			} else if (mensaje == 3) {
 				mostrarMensaje('Este equipo ya existe con este nombre.', 'error');
 			} else if (mensaje == 4) {
