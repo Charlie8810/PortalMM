@@ -53,34 +53,17 @@ function validarDatos(formulario, pagina){
     }
 	
     if(Anio == null || Anio.length == 0 || /^\s+$/.test(Anio)){
-        //alert('ERROR: El Telefono de Contacto no debe estar en blanco');
         mostrarMensaje('El Año no debe estar en blanco', 'error');
         return false;
     }
     if (!/^([0-9])*$/.test(Anio)){
-        //alert("El valor " + TelefonoContacto + " no es un número");
         mostrarMensaje('El valor Año no es un número', 'error');
         return false;
     }
     if(Precio == null || Precio.length == 0 || /^\s+$/.test(Precio)){
-        //alert('ERROR: El Telefono de Contacto no debe estar en blanco');
         mostrarMensaje('El Precio no debe estar en blanco', 'error');
         return false;
     }
-    if (!/^([0-9])*$/.test(Precio)){
-        //alert("El valor " + TelefonoContacto + " no es un número");
-        mostrarMensaje('El valor Precio no es un número', 'error');
-        return false;
-    }
-    /*
-
-    if(Marca == null || Marca.length == 0 || /^\s+$/.test(Marca)){
-		mostrarMensaje('El campo Marca no debe ir vacío', 'error');
-		return false;
-	}
-
-
-    */
 
     irA(formulario, pagina);
     var fileInput = document.getElementById('foto1');
@@ -155,7 +138,7 @@ end if
 <div id="content">
 <div id="content-header">
 	<div id="messageDiv" class="col-md-12" style="display: none;">
-		<button type="button" class="close" data-dismiss="modal" onclick="ocultarMessage()" aria-hidden="true">×</button>
+		<button type="button" class="close" data-dismiss="modal" onClick="ocultarMessage()" aria-hidden="true">×</button>
 		<br />
 		<p>message</p>
 	</div>
@@ -199,8 +182,8 @@ end if
 
 	<script type="text/javascript">
 		//mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
-	    window.location = "pub_adminventa.asp?opc=sch&msg=1";
-	    //window.location = "pub_adminventa.asp?msg=1";
+	    window.location = "pub_adminventa.asp?msg=1";
+	    window.history.go(-2);
         //window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
 	</script>
 	<% else %>
@@ -216,14 +199,11 @@ end if
 	%>
 
 	<script type="text/javascript">
-	    //mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
 	    window.location = "mant_venta.asp?msg=1";
-	    //window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
+	    window.history.go(-2);
 	</script>
 	<% else %>
     <script type="text/javascript">
-        //mostrarMensaje('Equipo Modificado Exitosamente.', 'success');
-        //window.location = "mant_venta.asp?msg=1";
         window.location = "mant_venta.asp?opc=addImg&vta=<%= request.form("idVta")%>";
 	</script>
     <%
@@ -244,13 +224,12 @@ end if
             "'" & request.form("Descripcion") & "', " &_
             "'" & request.form("estado") & "', " &_
             "" & session("id_usuario") & " " 
+
 	set rs = nothing
 	Set rs = cn.Execute(sql)
 	
 		%>
 		<script type="text/javascript">
-			//mostrarMensaje('Equipo Agregado Exitosamente.','success');
-		    //window.location="mant_venta.asp?msg=2";
 		    window.location="mant_venta.asp?opc=addImg&vta=<%= rs("IdVenta")%>";
 		  
 		</script>
@@ -265,7 +244,6 @@ end if
 	Set rs = cn.Execute(sql)
 	%>
 	<script type="text/javascript">
-		//mostrarMensaje('Equipo Eliminado Exitosamente.', 'success');
 		window.location="mant_venta.asp?msg=4";
 	</script>
 <%
@@ -281,7 +259,6 @@ end if
 	if i > 1 then
 	%>
 	<script type="text/javascript">
-		//mostrarMensaje('Debe seleccionar solo un equipo.', 'success');
 		window.location="mant_venta.asp?msg=5";
 	</script>
 <%	else
@@ -406,7 +383,8 @@ end if
         <div class="widget-content nopadding">
           <form name="form1_crit" action="#" method="post" class="form-horizontal">
               <div class="control-group">
-				<label class="control-label">Equipos :</label>
+			  <br>
+				<label class="control-label" style=position:absolute;>Equipos :</label>
 				<div class="controls">
 					<%
 					sql="exec MantenedorEquipos "
@@ -431,12 +409,17 @@ end if
 						%>
 					</select>
 				</div>
+				<br>
             </div>
-                       
+            <br>
+			</div>
+			<div class="control-group">
+			<br>           
             <div class="form-actions">
               <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'mant_venta.asp?opc=sch');">Buscar</button>
 			  <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'mant_venta.asp?opc=new');">Nuevo</button>
             </div>
+			<br>
           </form>
         </div>
       </div>
@@ -450,8 +433,7 @@ end if
         <div class="widget-box">
           <div class="widget-title"> <span class="icon border-blue"><i class="icon-th"></i></span>
             <h5>Listado de Maquinas Venta</h5>
-          </div>
-		  
+          </div> 
 		  <div class="widget-content nopadding">
 		  <form name="form2_crit" action="#" method="post" class="form-horizontal">
             <table class="table table-bordered table-striped with-check">
@@ -461,9 +443,7 @@ end if
                   <th>Marca</th>
                   <th>Modelo</th>
                   <th>Año</th> 
-                  <th>Estado</th>
-				  
-
+                  <th>Estado</th>		  
                 </tr>
               </thead>
               <tbody>
@@ -471,7 +451,6 @@ end if
 				
 					sql="exec spMantenedorVenta_Listar "
 					sql=sql & " " & request.form("vEquipos") & ", " & session("id_usuario") & " "
-					response.write(sql)
 					set rs = nothing
 					Set rs = cn.Execute(sql)
 					
@@ -525,6 +504,7 @@ end if
         set rs = nothing
         Set rs = cn.Execute(sql)
         if not rs.eof then
+		vPrecio = rs("vent_equipo_precio")
 
   %>
   
@@ -539,11 +519,6 @@ end if
         <div class="widget-content nopadding">
 
             <script>
-
-          
-
-
-
                 $(document).ready(function(){
                  
                 <% dim est 
@@ -551,32 +526,25 @@ end if
                 if rs("vent_estado")<> True then
                     est = 0
                 end if
-                
+             
                  %>
-
                     $("#Equipo").val("<%= rs("Id_DatosComunes") %>");
                     $("#Marca").val("<%= rs("vent_equipo_marca") %>");
                     $("#Modelo").val("<%= rs("vent_equipo_modelo") %>");
                     $("#Anio").val("<%= rs("vent_anio") %>");
-                    $("#Precio").val("<%= FormatNumber(rs("vent_equipo_precio"),0) %>");
+                    //$("#Precio").val("<%=FormatNumber(rs("vent_equipo_precio"),0) %>");
                     $("#familia").val("<%= rs("id_region") %>");
                     $("#familia").trigger("change");
                     $("#subcatagory").val("<%= rs("id_ciudad") %>");
                     $("#Descripcion").val("<%= rs("vent_decripcion") %>");
                     $("#estado").val("<%= est %>");
                     $("#idVta").val("<%= rs("id_venta") %>");
-                
+              
                 });
-
             </script>
-
-
-
            <form name="form3_crit" method="post" class="form-horizontal">
-
-
                <div class="control-group">
-				<label class="control-label">Equipo :</label>
+				<label class="control-label" style=position:absolute;>Equipo :</label>
 				<div class="controls">
 					<%
 					sql="exec MantenedorEquipos "
@@ -601,38 +569,45 @@ end if
 						%>
 					</select>
 				</div>
+				<br>
             </div>
-
-
-
+			<br>
                <div>
-                <label class="control-label">Marca :</label>
+                <label class="control-label" style=position:absolute;>Marca :</label>
                 <div class="controls">
                     <input type="text" class="span11" name="Marca" id="Marca"  />
                 </div>
+				<br>
             </div>
+			<br>
             <div>
-                <label class="control-label">Modelo :</label>
+                <label class="control-label" style=position:absolute;>Modelo :</label>
                 <div class="controls">
                     <input type="text" class="span11" name="Modelo" id="Modelo" />
                 </div>
+				<br>
             </div>
+			<br>
             <div>
-                <label class="control-label">Año :</label>
+                <label class="control-label" style=position:absolute;>Año :</label>
                 <div class="controls">
                     <input type="text" class="span11" name="Anio" id="Anio" />
                 </div>
+				<br>
             </div>
+			<br>
             <div>
-                <label class="control-label">Precio :</label>
+                <label class="control-label" style=position:absolute;>Precio :</label>
                 <div class="controls">
-                    <input type="text" class="span11" name="Precio" id="Precio" />
+                    <input type="text" class="span11" name="Precio"  value="<%="$" & FormatNumber((vPrecio),0)%>" onKeyUp="puntitos(this,this.value.charAt(this.value.length-1))"/>
                 </div>
+				<br>
             </div>
+			<br>
             <div>
-                                    <label class="control-label">Región :</label>
+                                    <label class="control-label" style=position:absolute;>Región :</label>
                                     <div class="controls">
-                                        <select size="1" id="familia" class="span11" name="familia" onchange="javascript:sublist(this.form, familia.value);" style="color: #3B5998; cursor: pointer;" value="<%=Ucase(vRegion)%>">
+                                        <select size="1" id="familia" class="span11" name="familia" onChange="javascript:sublist(this.form, familia.value);" style="color: #3B5998; cursor: pointer;" value="<%=Ucase(vRegion)%>">
                                             <option selected value="0">Región</option>
                                             <%
                                                 familias_Sql = "SELECT Id_DatosComunes, Descripcion FROM Datos_Comunes WHERE Tipo = 3 and Nivel = 1 and Estado = 1"
@@ -646,37 +621,42 @@ end if
                                             %>
                                         </select>
                                     </div>
-
+									<br>
                                 </div>
+								<br>
                                 <div>
-                                    <label class="control-label">Ciudad :</label>
+                                    <label class="control-label" style=position:absolute;>Ciudad :</label>
                                     
                                     <div class="controls">
                                         <select id="subcatagory" name="subcatagory" class="span11" style="color: #3B5998; cursor: pointer;">
                                             <option selected value="0">Ciudad</option>
                                         </select>
                                     </div>
+									<br>
                                  </div>   
-                                    
+                                 <br>   
 
                 <div>
-                    <label class="control-label">Descripción :</label>
+                    <label class="control-label" style=position:absolute;>Descripción :</label>
                     <div class="controls">
                         <textarea rows="4" cols="50" class="span11" name="Descripcion" id="Descripcion">
                             </textarea>
                     </div>
+					<br>
                 </div>
-
+				<br><br><br>
 
             <div class="control-group">
-              <label class="control-label">Estado :</label>
+              <label class="control-label" style=position:absolute;>Estado :</label>
               <div class="controls">
 			    <select name="estado" id="estado" class="span11">
 					<option value="1">Activado</option>
 					<option value="0">Desactivado</option>
 				</select>
               </div>
+			  <br>
 			</div>
+			
                <input type="hidden" name="idVta" id="idVta" value="" />
 
                <%
@@ -706,11 +686,14 @@ end if
                       loop  %>
                </table>
 
-			<div class="form-actions">
+			<div class="form-actions" align="center">
+			<br>
 				<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav');">Agregar Imagenes</button>
                 <button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav&end=1&vId=<%=request.QueryString("id")%>');">Guardar y Finalizar</button>
+                <button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_venta.asp?opc=sav&end=1&vId=<%=request.QueryString("id")%>');">Eliminar</button>
 				<!--<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_venta.asp?opc=del');">Eliminar</button>-->
            </div>
+		   <br>
           </form>
         </div>
       </div>
@@ -784,13 +767,13 @@ end if
             <div>
                 <label class="control-label">Precio :</label>
                 <div class="controls">
-                    <input type="text" class="span11" name="Precio" id="Precio" />
+                    <input type="text" class="span11" name="Precio" id="Precio" onKeyUp="puntitos(this,this.value.charAt(this.value.length-1),0)"/>
                 </div>
             </div>
             <div>
                                     <label class="control-label">Región :</label>
                                     <div class="controls">
-                                        <select size="1" id="familia" class="span11" name="familia" onchange="javascript:sublist(this.form, familia.value);" style="color: #3B5998; cursor: pointer;" value="<%=Ucase(vRegion)%>">
+                                        <select size="1" id="familia" class="span11" name="familia" onChange="javascript:sublist(this.form, familia.value);" style="color: #3B5998; cursor: pointer;" value="<%=Ucase(vRegion)%>">
                                             <option selected value="0">Región</option>
                                             <%
                                                 familias_Sql = "SELECT Id_DatosComunes, Descripcion FROM Datos_Comunes WHERE Tipo = 3 and Nivel = 1 and Estado = 1"
@@ -1038,8 +1021,15 @@ if session ("Perfil_Administrador") = 1 then
             else
    if request.QueryString("end")="1" then
             %>
+
+                <form name="from_redirect" action="#" method="post" style="display:none;"> 
+                    <select name="vEquipos">
+						<option value="-1" selected="selected">SELECCIONE EQUIPO</option>
+                    </select>
+                </form>
+    
                 <script>
-                    window.location = "mant_venta.asp"
+                    javascript:irA(document.forms.from_redirect,'mant_venta.asp?opc=sch');
                 </script>
             <%
         else %>
@@ -1156,7 +1146,7 @@ if session ("Perfil_Administrador") = 1 then
                 <div class="controls">
                     <div>
                         <canvas id="previewcanvas"></canvas>
-                        <input type="file" name="file1" onchange="return ShowImagePreview( this.files );" />
+                        <input type="file" name="file1" onChange="return ShowImagePreview( this.files );" />
                     </div>
 
                    
@@ -1167,6 +1157,7 @@ if session ("Perfil_Administrador") = 1 then
 			<div class="form-actions">
 				<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_venta.asp?opc=sav_img&vta=<%=  request.QueryString("vta") %>');">Guardar y Agragar Otra</button>
                 <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_venta.asp?opc=sav_img&end=1&vta=<%=  request.QueryString("vta") %>');">Guardar y Finalizar</button>
+                <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_venta.asp?opc=sav_img&end=1&vta=<%=  request.QueryString("vta") %>');">Eliminar</button>
            </div>
           </form>
         </div>
@@ -1205,6 +1196,71 @@ if session ("Perfil_Administrador") = 1 then
 			}
 		}
 	});
+	
+function puntitos(donde,caracter,campo)
+{
+var decimales = true
+dec = campo
+pat = /[\*,\+,\(,\),\?,\\,\$,\[,\],\^]/
+valor = donde.value
+largo = valor.length
+crtr = true
+if(isNaN(caracter) || pat.test(caracter) == true)
+	{
+	if (pat.test(caracter)==true) 
+		{caracter = "\\" + caracter}
+	carcter = new RegExp(caracter,"g")
+	valor = valor.replace(carcter,"")
+	donde.value = valor
+	crtr = false
+	}
+else
+	{
+	var nums = new Array()
+	cont = 0
+	for(m=0;m<largo;m++)
+		{
+		if(valor.charAt(m) == "." || valor.charAt(m) == " " || valor.charAt(m) == ",")
+			{continue;}
+		else{
+			nums[cont] = valor.charAt(m)
+			cont++
+			}
+		
+		}
+	}
+
+if(decimales == true) {
+	ctdd = eval(1 + dec);
+	nmrs = 1
+	}
+else {
+	ctdd = 1; nmrs = 3
+	}
+var cad1="",cad2="",cad3="",tres=0
+if(largo > nmrs && crtr == true)
+	{
+	for (k=nums.length-ctdd;k>=0;k--){
+		cad1 = nums[k]
+		cad2 = cad1 + cad2
+		tres++
+		if((tres%3) == 0){
+			if(k!=0){
+				cad2 = "." + cad2
+				}
+			}
+		}
+		
+	for (dd = dec; dd > 0; dd--)	
+	{cad3 += nums[nums.length-dd] }
+	//if(decimales == true)
+	//{cad2 += "," + cad3}
+	 donde.value = cad2
+	}
+donde.focus()
+}	
+</script>
+	
 </script>
 </body>
 </html>

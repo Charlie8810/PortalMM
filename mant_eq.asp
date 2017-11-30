@@ -15,6 +15,13 @@
 <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="assets/css/mantenedores.css" />
+
+<!-- Paginación GSC-->
+<link rel="stylesheet" href="dataTable/jquery.dataTables.css">
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="dataTable/jquery.dataTables.min.js"></script>
+<script src="dataTable/table.js"></script>
+<!-- Fin Paginación -->
 </head>
 <script type="text/javascript">
 function validarDatos(formulario, pagina){
@@ -89,7 +96,7 @@ end if
 <div id="content">
 <div id="content-header">
 	<div id="messageDiv" class="col-md-12" style="display: none;">
-		<button type="button" class="close" data-dismiss="modal" onclick="ocultarMessage()" aria-hidden="true">×</button>
+		<button type="button" class="close" data-dismiss="modal" onClick="ocultarMessage()" aria-hidden="true">×</button>
 		<br />
 		<p>message</p>
 	</div>
@@ -192,7 +199,7 @@ end if
         <div class="widget-content nopadding">
           <form name="form1_crit" action="#" method="post" class="form-horizontal">
               <div class="control-group">
-				<label class="control-label">Equipos :</label>
+				<label class="control-label" style=position:absolute;>Equipos :</label>
 				<div class="controls">
 					<%
 					sql="exec MantenedorEquipos "
@@ -218,11 +225,14 @@ end if
 					</select>
 				</div>
             </div>
-                       
+			</div>
+			<div class="control-group">
+
             <div class="form-actions">
               <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'mant_eq.asp?opc=sch');">Buscar</button>
 			  <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'mant_eq.asp?opc=new');">Nuevo</button>
             </div>
+			<br>
           </form>
         </div>
       </div>
@@ -240,7 +250,7 @@ end if
 		  
 		  <div class="widget-content nopadding">
 		  <form name="form2_crit" action="#" method="post" class="form-horizontal">
-            <table class="table table-bordered table-striped with-check">
+            <table id="tabla" class="table table-bordered table-striped with-check">
               <thead>
                 <tr>
 				  <th>Opcion</th>
@@ -332,26 +342,33 @@ end if
         </div>
         <div class="widget-content nopadding">
            <form name="form3_crit" method="post" class="form-horizontal">
-			<div>
-			  <label class="control-label">Nombre :</label>
+            <div class="control-group">
+
+			  <label class="control-label" style=position:absolute;>Nombre :</label>
               <div class="controls">
                 <input type="text" class="span11" name="Nombre" id="Nombre" value="<%=vNombre%>"/>
 				<input type="hidden" name="idEquipos" value="<%=vEquipos%>"/>
-			  </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Estado :</label>
+			  </div><br><br>
+
+
+
+
+              <label class="control-label" style=position:absolute;>Estado :</label>
               <div class="controls">
 			    <select name="estado" class="span11" value="<%=vEstado%>">
 					<option value="1">Activado</option>
 					<option value="0">Desactivado</option>
 				</select>
               </div>
+			  <br>
 			</div>
-			<div class="form-actions">
+        <div class="control-group">
+		<br>
+  		<div class="form-actions">
 				<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_eq.asp?opc=sav');">Guardar</button>
 				<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_eq.asp?opc=del');">Eliminar</button>
            </div>
+		   <br>
           </form>
         </div>
       </div>
@@ -374,24 +391,32 @@ end if
         </div>
         <div class="widget-content nopadding">
            <form name="form3_crit" method="post" class="form-horizontal">
-			<div>
-			  <label class="control-label">Nombre :</label>
+            <div class="control-group">
+
+			  <label class="control-label" style=position:absolute;>Nombre :</label>
               <div class="controls">
                 <input type="text" class="span11" name="Nombre" id="Nombre"/>
-			</div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Estado :</label>
+			</div><br><br>
+
+
+
+
+
+              <label class="control-label" style=position:absolute;>Estado :</label>
               <div class="controls">
 			    <select name="estado" class="span11">
 					<option value="1">Activado</option>
 					<option value="0">Desactivado</option>
 				</select>
               </div>
+			  <br>
 			</div>
+			<div class="control-group">
+			<br>
 			<div class="form-actions">
 				<button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_eq.asp?opc=sav2');">Guardar</button>
            </div>
+		   <br>
           </form>
         </div>
       </div>

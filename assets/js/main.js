@@ -88,8 +88,8 @@
 						delay:		0,
 						range:		0.5,
 						anchor:		'top',
-						on:			function() { $header.addClass('alt reveal'); $nav2.css('display','none'); document.getElementById('nav2').innerHTML =  '';},//[Renato]
-						off:		function() { $header.removeClass('alt'); var html = document.getElementById('nav1').innerHTML; for (var i = 0; i < 4; i++) {html = html.replace('select-wrapper','select-wrappe2');} html = html.replace('btn-header','btn-header2'); html = html.replace('id="familia"','id="familia2"'); html = html.replace('familia.value','familia2.value'); html = html.replace('id="subcatagory"','id="subcatagory2"'); html = html.replace('name="subcatagory"','name="subcatagory2"'); html = html.replace('javascript:sublist(','javascript:sublist2('); html = html.replace('carrito-numero','carrito-numero-header'); html = html.replace('nav-ul-top','nav2-ul-top'); document.getElementById('nav2').innerHTML =  html; $nav2.css('display','block');} //[Renato]
+						on:			function() { $header.addClass('alt reveal'); $nav2.css('display','none'); document.getElementById('nav2').innerHTML =  ''; $('#btnEntrar').css('display','block');},//[Renato]
+						off:		function() { $header.removeClass('alt'); var html = document.getElementById('nav1').innerHTML; for (var i = 0; i < 4; i++) {html = html.replace('select-wrapper','select-wrappe2');} html = html.replace('btn-header','btn-header2'); html = html.replace('id="familia"','id="familia2"'); html = html.replace('familia.value','familia2.value'); html = html.replace('id="subcatagory"','id="subcatagory2"'); html = html.replace('name="subcatagory"','name="subcatagory2"'); html = html.replace('id="equipo"','id="equipo2"'); html = html.replace('name="equipo"','name="equipo2"'); html = html.replace('javascript:sublist(','javascript:sublist('); html = html.replace('carrito-numero','carrito-numero-header'); html = html.replace('nav-ul-top','nav2-ul-top'); html = html.replace('id="tipo"','id="tipoVenta2"'); html = html.replace('bt_cotizar','bt_cotizar2'); document.getElementById('nav2').innerHTML =  html; $nav2.css('display','block'); $('#btnEntrar').css('display','none'); } //[Renato]
 					});
 
 				});

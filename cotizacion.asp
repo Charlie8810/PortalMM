@@ -146,29 +146,29 @@ if request.QueryString("est") = "5" then
 			MailObject.From	= vCorreo_Cotizacion
 			MailObject.To	= vMailUsuario
 			MailObject.Subject = "Envio de Cotizacion"
-			Cuerpo = "<br><br><h3 style=color:#3B5998>Estimado(a) Cliente de Mundo Maquinaria, <br>&nbsp;&nbsp;&nbsp;&nbsp;Se ha enviado una cotizacion con los siguientes datos:</h3>"
-			Cuerpo = Cuerpo & " <br><br><h4 style=color:#F7931E> Tipo Cotizacion: " & vTipoCotiza & "<br>Nombre: " & vNombreUsuario & "<br> mail: " & vMailUsuario & "<br> Telefono: " & vTelefonoUsuario & "<br> Equipo: " & vEquipo & "</a>"
+			Cuerpo = "<br><br><h3 style=color:#3B5998>Estimado(a) usuario de Mundo Maquinaria, <br>&nbsp;&nbsp;&nbsp;&nbsp;Se ha enviado la siguiente cotización a toda nuestra Red de clientes.</h3>"
+			Cuerpo = Cuerpo & " <br><h4 style=color:#F7931E> <br>Nombre: " & vNombreUsuario & "<br> mail: " & vMailUsuario & "<br> Telefono: " & vTelefonoUsuario & "<br><br><br> Tipo Cotizacion: " & vTipoCotiza & "<br> Equipo: " & vEquipo & "</a>"
 			Cuerpo = Cuerpo & "<br>Region: " & vRegion 
 			Cuerpo = Cuerpo & "<br> Ciudad: " & vCiudad 
 			if vMensaje <> "" then
 				Cuerpo = Cuerpo & "<br> Mensaje: " & vMensaje
 			end if
-			Cuerpo = Cuerpo & "<br>Adicionales: <br><br>"
-			if vOperador <> "NO" then
+			Cuerpo = Cuerpo & "<br><br>Adicionales: <br>"
+			if vOperador <> "NO" or vOperador <> "0"  then
 				Cuerpo = Cuerpo & "Con Operador:" & vOperador 
 			end if 
-			if vCombustible <> "NO" then
+			if vCombustible <> "NO" or vCombustible <> "0"  then
 				Cuerpo = Cuerpo & "<br> Con Combustible: " 
 				Cuerpo = Cuerpo & vCombustible
 			end if
-			if vTraslados <> "NO" then		
+			if vTraslados <> "NO" or vTraslados <> "0"  then		
 				Cuerpo = Cuerpo & "<br> Con Traslados: " 
 				Cuerpo = Cuerpo & vTraslados
 			end if
-			if vPlazos <> "" then
+			if vPlazos <> "" or vPlazos <> "0" then
 				Cuerpo = Cuerpo & "<br> Condicion de Plazo: " & vPlazos
 			end if
-			Cuerpo = Cuerpo & "</h4><br><br>"
+			Cuerpo = Cuerpo & "</h4><br>"
 			Cuerpo = Cuerpo & "<h3 style=color:#3B5998>Atentamente,<br>"
 			Cuerpo = Cuerpo & "Equipo Mundo Maquinaria</h3>"
 			Cuerpo = Cuerpo & "<br><br><img src= http://www.mundomaquinaria.cl/marchablanca/images/logo2.png>"
@@ -200,29 +200,29 @@ if request.QueryString("est") = "5" then
 			MailObject.From	= vCorreo_Cotizacion
 			MailObject.To	= vMailCotizacion 
 			MailObject.Subject = "Envio de Cotizacion"
-			Cuerpo = "<br><br><h3 style=color:#3B5998>Estimado(a) Cliente de Mundo Maquinaria, <br>&nbsp;&nbsp;&nbsp;&nbsp;Se realizo un cotiacion que coincide con sus Equipos y Regiones los datos son los siguientes:</h3>"
-			Cuerpo = Cuerpo & " <br><br><h4 style=color:#F7931E> Tipo Cotizacion: " & vTipoCotiza & "<br>Nombre: " & vNombreUsuario & "<br> mail: " & vMailUsuario & "<br> Telefono: " & vTelefonoUsuario & "<br> Equipo: " & vEquipo & "</a>"
+			Cuerpo = "<br><br><h3 style=color:#3B5998>Estimado(a) Cliente de Mundo Maquinaria, <br>&nbsp;&nbsp;&nbsp;&nbsp;Se ha realizado una cotización que coincide con la disponibilidad de su equipo en la siguiente región:</h3>"
+			Cuerpo = Cuerpo & " <br><h4 style=color:#F7931E> <br>Nombre: " & vNombreUsuario & "<br> mail: " & vMailUsuario & "<br> Telefono: " & vTelefonoUsuario & "<br>Tipo Cotizacion: " & vTipoCotiza & "<br> Equipo: " & vEquipo & "</a>"
 			Cuerpo = Cuerpo & "<br>Region: " & vRegion 
 			Cuerpo = Cuerpo & "<br> Ciudad: " & vCiudad 
 			if vMensaje <> "" then
 				Cuerpo = Cuerpo & "<br> Mensaje: " & vMensaje
 			end if
-			Cuerpo = Cuerpo & "<br>Adicionales: <br><br>"
-			if vOperador <> "NO" then
+			Cuerpo = Cuerpo & "<br><br>Adicionales: <br>"
+			if vOperador <> "NO" or vOperador <> "0"  then
 				Cuerpo = Cuerpo & "Con Operador:" & vOperador 
 			end if 
-			if vCombustible <> "NO" then
+			if vCombustible <> "NO" or vCombustible <> "0"  then
 				Cuerpo = Cuerpo & "<br> Con Combustible: " 
 				Cuerpo = Cuerpo & vCombustible
 			end if
-			if vTraslados <> "NO" then		
+			if vTraslados <> "NO" or vTraslados <> "0"  then		
 				Cuerpo = Cuerpo & "<br> Con Traslados: " 
 				Cuerpo = Cuerpo & vTraslados
 			end if
-			if vPlazos <> "" then
+			if vPlazos <> "" or vPlazos <> "0" then
 				Cuerpo = Cuerpo & "<br> Condicion de Plazo: " & vPlazos
 			end if
-			Cuerpo = Cuerpo & "</h4><br><br>"
+			Cuerpo = Cuerpo & "</h4><br>"
 			Cuerpo = Cuerpo & "<h3 style=color:#3B5998>Atentamente,<br>"
 			Cuerpo = Cuerpo & "Equipo Mundo Maquinaria</h3>"
 			Cuerpo = Cuerpo & "<br><br><img src= http://www.mundomaquinaria.cl/marchablanca/images/logo2.png>"
@@ -379,7 +379,7 @@ end if
 						<div class="12u">
 
 							<!-- Table -->
-								<section class="box box-table">
+								<section class="box2 box-table">
 									<h3><p align="justify">Este es el detalle de su cotización.</p></h3>
 
 									<div class="table-wrapper">
@@ -434,7 +434,7 @@ end if
 								<div class="carousel-inner">
 								<%
 								sql="exec MantenedorPublicidad "
-								sql=sql & " 4 , -1 , '' , 0 , 0, '', 1233, ''"
+								sql=sql & " 4 , -1 , '' , 0 , 0, '', 1234, '',''"
 								set rs4 = nothing
 								Set rs4 = cn.Execute(sql)
 
@@ -451,19 +451,22 @@ end if
 								sql=sql & " '' , "
 								sql=sql & " 0 , "
 								sql=sql & " 0 , "
-								sql=sql & " '', 1233, ''"
+								sql=sql & " '', 1234, '',''"
 								set rs5 = nothing
 								Set rs5 = cn.Execute(sql)
 								if not rs5.eof then
 									Do while not rs5.eof
 								%>
 								<div class="item">
-									<img src="<%=rs5("ruta")%>" alt="" />
-
+									<img src="<%=rs5("ruta")%>" alt="" width="400" height="175" style="align:justify" />
 								</div>
 								<%
 									rs5.movenext
 									loop
+								else
+								%>
+								
+								<%
 								end if
 								%>
 								</div>
@@ -474,12 +477,12 @@ end if
 									<li data-target="#carousel-example" data-slide-to="2"></li>
 								</ol>
 								<!--PREVIUS-NEXT BUTTONS-->
-								<a class="left carousel-control" href="#carousel-example" data-slide="prev">
+								<!--<a class="left carousel-control" href="#carousel-example" data-slide="prev">
 									<span class="glyphicon glyphicon-chevron-left"></span>
 								</a>
 								<a class="right carousel-control" href="#carousel-example" data-slide="next">
 									<span class="glyphicon glyphicon-chevron-right"></span>
-								</a>
+								</a>-->
 							</div>
 						</section>
 					</div>

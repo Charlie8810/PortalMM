@@ -60,7 +60,7 @@ if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
     '   Response.End
     'end if
 else
-    Response.Redirect("./index.asp?msg=4")
+    Response.Redirect("./index.asp")
     Response.End
 end if
 '************************** Fin HTTP_REFERER ******************************

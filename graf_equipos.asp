@@ -27,20 +27,13 @@ if vExp<>"xls" then%>
 <link rel="stylesheet" href="assets/css/matrix-style.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="assets/css/mantenedores.css" />
+<!-- Paginación GSC-->
+<link rel="stylesheet" href="dataTable/jquery.dataTables.css">
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="dataTable/jquery.dataTables.min.js"></script>
+<script src="dataTable/table.js"></script>
+<!-- Fin Paginación -->
 
-<!-- <link href="assets/css/pages.css" rel="stylesheet" type="text/css" />
-
-<script src="assets/js/modernizr.min.js"></script>
-
-<script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
-
-          ga('create', 'UA-69506598-1', 'auto');
-          ga('send', 'pageview');
-    </script> -->
 <%end if%>
 </head>
 <%
@@ -87,7 +80,7 @@ if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
     '   Response.End
     'end if
 else
-    Response.Redirect("./index.asp?msg=6")
+    Response.Redirect("./index.asp")
     Response.End
 end if
 '************************** Fin HTTP_REFERER ******************************
@@ -133,71 +126,78 @@ end if
 	<%if vExp<>"xls" then %>
 				<!-- Start content -->
 				<form name="form1_crit" action="#" method="post" class="form-horizontal">
-			  <div style="text-align: left;">
-				<label class="control-label">Nombre Cliente :</label>
-				<div class="modal-body">
-					<input class="form-control text-box-modal span11" type="text" name="nombre_cli" />
-				</div>
-				</div>
-				<div style="text-align: left;">
+			  <div class="control-group" >
 
-				<label class="control-label">Equipos :</label>
-				<div class="modal-body">
-					<%
-					sql ="exec Seleccionar_Datos_Comunes "
-					sql = sql & "1 "
-					Set rs=nothing
-					Set rs = cn.Execute(sql)
-					%>
+					<label class="control-label" style=position:absolute;>Nombre Cliente :</label>
+					<div class="controls">
+						<input class="form-control text-box-modal span11" type="text" name="nombre_cli" />
+					</div>
+					<label class="control-label" style=position:absolute;>Rut :</label>
+					<div class="controls">
+						<input class="form-control text-box-modal span11" type="text" name="rut_cli" />
+					</div>
+					<label class="control-label" style=position:absolute;>Equipos :</label>
+					<div class="controls">
+						<%
+						sql ="exec Seleccionar_Datos_Comunes "
+						sql = sql & "1 "
+						Set rs=nothing
+						Set rs = cn.Execute(sql)
+						%>
+						<select name="vEquipo" id="vEquipo" class="span11 text-box-modal" style="color:#F7931E" value="<%=vEquipo%>">
+						<%
 
-					<select name="vEquipo" id="vEquipo" class="span11 text-box-modal" style="color:#F7931E" value="<%=vEquipo%>">
-					<%
-						response.write "<option value=-1>SELECCIONE EQUIPO</option>"
-						if not rs.eof then
-							do while not rs.eof
-								if cdbl(rs("Id_DatosComunes")) = cdbl(vEquipo) then
-									response.write "<option selected value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
-								else
-									response.write "<option value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
-								end if
-								rs.movenext
-							loop
-						end if
+							response.write "<option value=-1>SELECCIONE EQUIPO</option>"
+							if not rs.eof then
+								do while not rs.eof
+									if cdbl(rs("Id_DatosComunes")) = cdbl(vEquipo) then
+										response.write "<option selected value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
+									else
+
+										response.write "<option value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
+									end if
+
+									rs.movenext
+								loop
+
+							end if
+							%>
+						</select>
+					</div>
+				
+					<label class="control-label" style=position:absolute;>Región :</label>
+					<div class="controls">
+						<%
+						sql ="exec Seleccionar_Datos_Comunes "
+						sql = sql & "3 "
+						Set rs=nothing
+						Set rs = cn.Execute(sql)
 						%>
-					</select>
-				</div>
-				</div>
-				<div style="text-align: left;">
-				<label class="control-label">Región :</label>
-				<div class="modal-body">
-					<%
-					sql ="exec Seleccionar_Datos_Comunes "
-					sql = sql & "3 "
-					Set rs=nothing
-					Set rs = cn.Execute(sql)
-					%>
-					<select name="vRegion" id="vRegion" class="span11 text-box-modal" style="color:#F7931E" value="<%=vRegion%>">
-					<%
-						response.write "<option value=-1>SELECCIONE REGIÓN</option>"
-						if not rs.eof then
-							do while not rs.eof
-								if cdbl(rs("Id_DatosComunes")) = cdbl(vRegion) then
-									response.write "<option selected value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
-								else
-									response.write "<option value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
-								end if
-								rs.movenext
-							loop
-						end if
-						%>
-					</select>
-				</div>
-       </div>
+						<select name="vRegion" id="vRegion" class="span11 text-box-modal" style="color:#F7931E" value="<%=vRegion%>">
+						<%
+							response.write "<option value=-1>SELECCIONE REGIÓN</option>"
+							if not rs.eof then
+								do while not rs.eof
+									if cdbl(rs("Id_DatosComunes")) = cdbl(vRegion) then
+										response.write "<option selected value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
+									else
+										response.write "<option value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
+									end if
+									rs.movenext
+								loop
+							end if
+							%>
+						</select>
+					</div>
+			<div class="control-group" >
             <div class="form-actions">
               <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'graf_equipos.asp?opc=sch');">Buscar</button>
 			  <button type="submit" class="btn btn-success" onClick="irAFuera(document.forms.form1_crit,'graf_equipos.asp?opc=sch&exp=xls','_blank')">Exportar</button>
-
             </div>
+			</div>
+			</div>
+
+
 	<%else%>
 <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr class="tituloazul">
@@ -210,18 +210,7 @@ end if
 				<div class="row">
 							<div class="col-sm-12">
 								<div class="card-box">
-								<%if vExp<>"xls" then%>
-									<label class="form-inline">Visualización
-										<select id="demo-show-entries" class="span1 input-sm">
-											<option value="5">5</option>
-											<option value="10">10</option>
-											<option value="15">15</option>
-											<option value="20">20</option>
-										</select>
-										Filas
-									</label>
-								<%end if%>
-									<table id="demo-foo-pagination" class="table table-bordered table-striped with-check" data-page-size="5">
+									<table id="tabla"  class="table table-bordered table-striped with-check">
 										<thead>
 											<tr>
 												<th> NOMBRE CLIENTE </th>
@@ -237,8 +226,8 @@ end if
 											sql="exec INFORMEEQUIPOS "
 											sql=sql & " '" & request.form("vEquipo") & "', "
 											sql=sql & " '" & request.form("nombre_cli") & "', "
-											sql=sql & " '" & request.form("vRegion") & "' "
-
+											sql=sql & " '" & request.form("vRegion") & "', "
+											sql=sql & " '" & request.form("rut_cli") & "' "
 											set rs = nothing
 											Set rs = cn.Execute(sql)
 

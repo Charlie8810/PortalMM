@@ -46,12 +46,49 @@ if not rs.eof then
 	Set MailObject = Nothing
 	Set cdoConfig = Nothing
 
-'sql="exec InsertaPagoRegistro "
-	'sql=sql & " '" & vRut & "', " 					
-	'sql=sql & " '2' " 
+	sql="exec listarDatosUsuarioPlanesPorRUT "
+	sql=sql & " '" & request.QueryString("rut") & "' " 					
 
-	'set Rs = nothing
-	'Set Rs = cn.Execute(sql)	
+
+	set Rs1 = nothing
+	Set Rs1 = cn.Execute(sql)
+	
+	nombre 	= rs1("nombreEmpresa")
+	mail	= rs1("mailCotizacion")
+	plan	= rs1("tip_plan")
+	plan2	= rs1("tip_plan2")
+	plan3	= rs1("nombre")
+	
+	sch = "http://schemas.microsoft.com/cdo/configuration/"
+	Set cdoConfig = CreateObject("CDO.Configuration")
+	With cdoConfig.Fields
+		.Item("http://schemas.microsoft.com/cdo/configuration/sendusing") = cdoSendUsingPort
+	.Item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = iServer
+	.Item("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = 465
+	.Item("http://schemas.microsoft.com/cdo/configuration/smtpconnectiontimeout") = 50
+	.Item("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") = 1
+	.Item("http://schemas.microsoft.com/cdo/configuration/sendusername") = "contacto@mundomaquinaria.cl" 
+	.Item("http://schemas.microsoft.com/cdo/configuration/sendpassword") = "webweb008"
+	.Item("http://schemas.microsoft.com/cdo/configuration/smtpusessl") = 1
+	.Update
+	End With
+
+	Set MailObject = Server.CreateObject("CDO.Message")
+	Set MailObject.Configuration = cdoConfig
+	MailObject.From	= vCorreo_mundo_maquinaria
+	MailObject.To	= vMailCotizacion & ";" & mail
+	MailObject.Subject = "Pago Automatico - Mundo Maquinaria"
+	Cuerpo = "<br><br>Estimado(a) Cliente de Mundo Maquinaria, <br>&nbsp;&nbsp;&nbsp;&nbsp;Se ha registrado correctamente en http://www.mundomaquinaria.cl"
+	Cuerpo = Cuerpo & "<br><br>&nbsp;&nbsp;&nbsp;&nbsp;"
+	Cuerpo = Cuerpo & "Los datos de su plan son:<br><br> Nombre:" & nombre & "<br> Tipo Pago: WebPay <br> Mail: " & mail & "<br> Plan: " & plan &" " & plan2&" "& plan3
+	Cuerpo = Cuerpo & "<br><br>"
+	Cuerpo = Cuerpo & "<h3 style=color:#3B5998>Atentamente,<br>"
+	Cuerpo = Cuerpo & "Equipo Mundo Maquinaria</h3>"
+	Cuerpo = Cuerpo & "<br><br><img src= http://www.mundomaquinaria.cl/marchablanca/images/logo2.png>"
+	MailObject.HTMLBody = Cuerpo
+	MailObject.Send
+	Set MailObject = Nothing
+	Set cdoConfig = Nothing
 	
 end if
 %>

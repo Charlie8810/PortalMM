@@ -5,24 +5,25 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">Inicio Sesión</h4>
+                        <h4 class="modal-title" id="myModalLabel">INICIO SESIÓN</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                        <label>Rut</label>
+                        <label>RUT</label>
                         <input class="form-control text-box-modal" placeholder="11111111-1" type="text" id="user_rut" name="user_rut" pattern="[0-9]|k"/>
                         <div data-role="popup" class="popUp-validacion" id="popUpUserRut"></div>
                     </div>
                     <div class="form-group">
-                        <label>Contraseña</label>
+                        <label>CONTRASEÑA</label>
                         <input class="form-control text-box-modal" type="password" name="passw"/>
                     </div>
                     </div>
                     <div class="modal-footer">
-                        <!-- Olvidaste tu contraseña -->
-                        <a data-toggle="modal" data-target="#myModal10" style="cursor:pointer;color:#F7931E;">Olvidaste tu contraseña </a>
-                        <button type="button" class="btn btn-modal" onClick="javascript:validacion(document.forms.formLogin,'login2.asp?opc=in');">Ingresar</button>
-                    </div>
+					<!-- Olvidaste tu contraseña -->
+					<a data-toggle="modal" data-target="#myModal10" style="cursor:pointer;color:#F7931E;">OLVIDASTE TU CONTRASEÑA </a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="btn btn-modal" onClick="javascript:validacion(document.forms.formLogin,'login2.asp?opc=in');">INGRESAR</button>
+				</div>
                 </div>
             </div>
         </form>
@@ -43,16 +44,16 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">Recuperación de usuario o contraseña</h4>
+                            <h4 class="modal-title" id="myModalLabel">RECUPERACIÓN DE USUARIO O CONTRASEÑA</h4>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                            <label>Ingrese el mail informado</label>
+                            <label>INGRESE MAIL REGISTRADO</label>
                             <input class="form-control text-box-modal" type="text" name="textcorreo" pattern="[0-9]|k"/>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-modal" onClick="JavaScript:fCarga(document.forms.formLogin2,'Envio_datos.asp');">Enviar</button>
+                            <button type="button" class="btn btn-modal" onClick="JavaScript:fCarga(document.forms.formLogin2,'Envio_datos.asp');">ENVIAR</button>
                         </div>
                     </div>
                 </div>

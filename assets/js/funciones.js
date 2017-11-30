@@ -365,6 +365,16 @@ function validaDatos(formulario, pagina){
 		mostrarMensaje('Estimado Usuario, Las contraseñas ingresadas no son iguales', 'error');
 		//alert("Las contraseñas no son iguales")
 		return false;
+	}else if (Pass1.length < 8 || Pass1.length > 15) {
+		mostrarMensaje('Estimado Usuario, La contraseña debe tener de 8 a 15 dígitos', 'error');
+                return false;
+	} else {
+		var resultado = ValidarNivelSeguridadPass('password');
+		//console.log('resultado: ' + resultado);
+		if (resultado == false) {
+			mostrarMensaje('Estimado Usuario, La contraseña debe ser alfanumérica', 'error');
+                        return false;
+		}
 	}
 		irA(formulario, pagina);
 
@@ -377,4 +387,10 @@ function validacion(formulario, pagina)
 		return false;
 	}
 	irA(formulario, pagina);
+}function ValidarNivelSeguridadPass(passId) {
+	var str = $('#' + passId).val();
+	var pattern = new RegExp('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$');
+	var resultado = pattern.test(str);
+	return resultado;
+	//alert(resultado);
 }

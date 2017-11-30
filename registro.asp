@@ -388,10 +388,10 @@ vMail = request.QueryString("mail")
 						<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg1" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Arriendo</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Arriendo</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">desde $27.000 + IVA</h4>
-								<h6 style="font-weight:bold; color:#3B5998;">*valor mensual en plan anual</h6>
+								<h4 style="font-size: 17px; font-weight: 600;">desde $27.000 + IVA</h4>
+								<h6 style="font-size: 17px; font-weight: 600;">*valor mensual en plan anual</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg1,'Registro.asp?tip=4&vIdPlan=38&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
 								</ul>
@@ -401,10 +401,10 @@ vMail = request.QueryString("mail")
 						<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg2" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Servicio Técnico</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Servicio Técnico</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">*desde $21.990 + IVA</h4>
-								<h6 style="font-weight:bold; color:#3B5998;">*valor mensual en plan anual</h6>
+								<h4 style="font-size: 17px; font-weight: 600;">*desde $21.990 + IVA</h4>
+								<h6 style="font-size: 17px; font-weight: 600;">*valor mensual en plan anual</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg2,'Registro.asp?tip=5&vIdPlan=39&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
 								</ul>
@@ -414,10 +414,10 @@ vMail = request.QueryString("mail")
 						<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg3" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Rental + ST</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Rental + ST</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">*desde $39.990 + IVA</h4>
-								<h6 style="font-weight:bold; color:#3B5998;">*valor mensual en plan anual</h6>
+								<h4 style="font-size: 17px; font-weight: 600;">*desde $39.990 + IVA</h4>
+								<h6 style="font-size: 17px; font-weight: 600;">*valor mensual en plan anual</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg3,'Registro.asp?tip=6&vIdPlan=40&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
 								</ul>
@@ -429,9 +429,9 @@ vMail = request.QueryString("mail")
 							<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg1" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Mensuales</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Mensuales</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">desde $35.000 + IVA</h4>
+								<h4 style="font-size: 17px; font-weight: 600;">desde $35.000 + IVA</h4>
 								<h6 style="font-weight:bold; color:#FFF;">_</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg1,'Registro.asp?tip=1&vTipPlan=2362&vIdPlan=38&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
@@ -442,10 +442,10 @@ vMail = request.QueryString("mail")
 						<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg2" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Semestrales</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Semestrales</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">*desde $29.000 + IVA</h4>
-								<h6 style="font-weight:bold; color:#3B5998;">*valor mensual en plan semestral</h6>
+								<h4 style="font-size: 17px; font-weight: 600;">*desde $29.000 + IVA</h4>
+								<h6 style="font-size: 17px; font-weight: 600;">*valor mensual en plan semestral</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg2,'Registro.asp?tip=2&vTipPlan=2362&vIdPlan=39&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
 								</ul>
@@ -455,10 +455,10 @@ vMail = request.QueryString("mail")
 						<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg3" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Anuales</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Anuales</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">*desde $27.000 + IVA</h4>
-								<h6 style="font-weight:bold; color:#3B5998;">*valor mensual en plan anual</h6>
+								<h4 style="font-size: 17px; font-weight: 600;">*desde $27.000 + IVA</h4>
+								<h6 style="font-size: 17px; font-weight: 600;">*valor mensual en plan anual</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg3,'Registro.asp?tip=3&vTipPlan=2362&vIdPlan=40&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
 								</ul>
@@ -469,10 +469,10 @@ vMail = request.QueryString("mail")
 						<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg1" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Mensuales</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Mensuales</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">desde $28.000 + IVA</h4>
-								<h6 style="font-weight:bold; color:#FFF;">_</h6>
+								<h4 style="font-size: 17px; font-weight: 600;">desde $28.000 + IVA</h4>
+								<h6 style="font-size: 17px; font-weight: 600;">_</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg1,'Registro.asp?tip=1&vTipPlan=2363&vIdPlan=38&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
 								</ul>
@@ -482,10 +482,10 @@ vMail = request.QueryString("mail")
 						<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg2" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Semestrales</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Semestrales</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">*desde $23.990 + IVA</h4>
-								<h6 style="font-weight:bold; color:#3B5998;">*valor mensual en plan semestral</h6>
+								<h4 style="font-size: 17px; font-weight: 600;">*desde $23.990 + IVA</h4>
+								<h6 style="font-size: 17px; font-weight: 600;">*valor mensual en plan semestral</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg2,'Registro.asp?tip=2&vTipPlan=2363&vIdPlan=39&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
 								</ul>
@@ -495,10 +495,10 @@ vMail = request.QueryString("mail")
 						<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg3" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Anuales</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Anuales</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">*desde $21.990 + IVA</h4>
-								<h6 style="font-weight:bold; color:#3B5998;">*valor mensual en plan anual</h6>
+								<h4 style="font-size: 17px; font-weight: 600;">*desde $21.990 + IVA</h4>
+								<h6 style="font-size: 17px; font-weight: 600;">*valor mensual en plan anual</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg3,'Registro.asp?tip=3&vTipPlan=2363&vIdPlan=40&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
 								</ul>
@@ -509,9 +509,9 @@ vMail = request.QueryString("mail")
 						<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg1" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Mensuales</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Mensuales</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">desde $50.990 + IVA</h4>
+								<h4 style="font-size: 17px; font-weight: 600;">desde $50.990 + IVA</h4>
 								<h6 style="font-weight:bold; color:#FFF;">_</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg1,'Registro.asp?tip=1&vTipPlan=2364&vIdPlan=38&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
@@ -522,10 +522,10 @@ vMail = request.QueryString("mail")
 						<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg2" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Semestrales</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Semestrales</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">*desde $42.990 + IVA</h4>
-								<h6 style="font-weight:bold; color:#3B5998;">*valor mensual en plan anual</h6>
+								<h4 style="font-size: 17px; font-weight: 600;">*desde $42.990 + IVA</h4>
+								<h6 style="font-size: 17px; font-weight: 600;">*valor mensual en plan anual</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg2,'Registro.asp?tip=2&vTipPlan=2364&vIdPlan=39&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
 								</ul>
@@ -535,10 +535,10 @@ vMail = request.QueryString("mail")
 						<div class="col-md-4">
 							<div class="box special">
 								<form name="form_reg3" action="#" method="post">
-								<h3 style="font-weight:bold; color:#3B5998;">Anuales</h4>
+								<h3 style="font-size: 17px; font-weight: 600;">Anuales</h4>
 								<hr>
-								<h4 style="font-weight:bold; color:#3B5998;">*desde $39.990 + IVA</h4>
-								<h6 style="font-weight:bold; color:#3B5998;">*valor mensual en plan anual</h6>
+								<h4 style="font-size: 17px; font-weight: 600;">*desde $39.990 + IVA</h4>
+								<h6 style="font-size: 17px; font-weight: 600;">*valor mensual en plan anual</h6>
 								<ul class="actions">
 									<button type="button" class="button fit small" style="background:#F7931E" onClick="javascript:irA(document.forms.form_reg3,'Registro.asp?tip=3&vTipPlan=2364&vIdPlan=40&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>');">REVISAR</button>
 								</ul>
@@ -578,8 +578,9 @@ vMail = request.QueryString("mail")
 		<div class="planbox">
 			<div class="title"><h4 class="caps"><strong><%=vNombrePlan%></strong></h4></div>
 			<div class="prices">
-				<strong>$<%=FormatNumber(vValor,0)%><i></i></strong>/mes + IVA</br></br>
-				<a style="cursor:pointer;" onClick="javascript:irA(document.forms.form2_crit,'det_plan.asp?vIdPlan=<%=vIdPlan%>&vIdTipPlan=<%=vIdTipPlan%>rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>&WP=1&TB=<%=vCodigo%>');">Contratar</a>						
+
+
+				<strong>$<%=FormatNumber(vValor,0)%><i></i></strong>/mes + IVA</br></br>						
 			</div>
 			<ul>
 				<li><%=vDesc2%></li>
@@ -588,6 +589,7 @@ vMail = request.QueryString("mail")
 				<!--<li><%=vDesc4%></li>-->
 				<li><%=vDesc5%></li>
 			</ul>
+			<a style="cursor:pointer;" onClick="javascript:irA(document.forms.form2_crit,'det_plan.asp?vIdPlan=<%=vIdPlan%>&vIdTipPlan=<%=vIdTipPlan%>&rut=<%=vRut%>&nombre=<%=vNombre%>&mail=<%=vMail%>&WP=1&TB=<%=vCodigo%>');">Contratar</a>
 		</div>
 		</div>
 	<%
@@ -811,19 +813,20 @@ vMail = request.QueryString("mail")
 				<footer id="footer">
 					<ul class="icons">
 						&nbsp;&nbsp;&nbsp;&nbsp;
-						<li><a href="https://twitter.com/mundomaquinaria" class="icon fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
-						<li><a href="https://www.facebook.com/mundomaquinaria" class="icon fa-facebook" target="_blank"><span class="label">Facebook</span></a></li>
-						<li><a href="https://www.instagram.com/mundomaquinaria.cl/" class="icon fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+						<li><a href="https://twitter.com/mundomaquinaria" class="icon fa-twitter" target="_blank" style="color: #ffffff!important;font-size: 16px;background: transparent;border-radius: 0px !important;padding: 0px 0px;position: relative;"><span class="label" >Twitter</span></a></li>
+						<li><a href="https://www.facebook.com/mundomaquinaria" class="icon fa-facebook" target="_blank" style="color: #ffffff!important;font-size: 16px;background: transparent;border-radius: 0px !important;padding: 0px 0px;position: relative;"><span class="label">Facebook</span></a></li>
+						<li><a href="https://www.instagram.com/mundomaquinaria.cl/" class="icon fa-instagram" target="_blank" style="color: #ffffff!important;font-size: 16px;background: transparent;border-radius: 0px !important;padding: 0px 0px;position: relative;"><span class="label">Instagram</span></a></li>
+
 
 					</ul>
 					<ul class="copyright">
-						<li><a data-toggle="modal" data-target="#myModal7">Contacto </a></li>
-						<li><a data-toggle="modal" data-target="#myModal3">Privacidad</a></li>
-						<li><a data-toggle="modal" data-target="#myModal8">Quiénes somos</a></li>
-						<li><a data-toggle="modal" data-target="#myModal5">Términos de uso</a></li>
+						<li><a data-toggle="modal" data-target="#myModal7"style="background: transparent;font-size: small;padding: 0 0 0 0; border-radius: 0;text-transform: capitalize;font-weight: 100;">Contacto </a></li>
+						<li><a data-toggle="modal" data-target="#myModal3"style="background: transparent;font-size: small;padding: 0 0 0 0; border-radius: 0;text-transform: capitalize;font-weight: 100;">Privacidad</a></li>
+						<li><a data-toggle="modal" data-target="#myModal8"style="background: transparent;font-size: small;padding: 0 0 0 0; border-radius: 0;text-transform: capitalize;font-weight: 100;">Quiénes somos</a></li>
+						<li><a data-toggle="modal" data-target="#myModal5"style="background: transparent;font-size: small;padding: 0 0 0 0; border-radius: 0;text-transform: capitalize;font-weight: 100;">Términos de uso</a></li>
 					</ul>
-					<ul class="copyright">
-						<li>&copy; Todos los derechos reservados.</li><li>Diseñado por: <a href="http://gofour.cl">Go Four</a></li>
+					<ul class="copyright" style="font-weight: 100;font-size: small">
+						<li>&copy; Todos los derechos reservados.</li><li>Diseñado por: <a href="http://gofour.cl" style="background: transparent;font-size: small;padding: 0 0 0 0; border-radius: 0;text-transform: capitalize;font-weight: 100;">Go Four</a></li>
 					</ul>
 
 				</footer>
@@ -858,7 +861,7 @@ vMail = request.QueryString("mail")
 			margin-bottom: 0px !important;
 		}
 		.host_plans .planbox li {
-			color: #f7931e !important;
+			color: #f7931e;
 		}
 		.host_plans .planbox li strong {
 			color: #f7931e !important;

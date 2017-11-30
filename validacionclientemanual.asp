@@ -1,13 +1,10 @@
 <!--#include file="con_app.asp"-->
-
-	<!--	<script type="text/javascript">
-			//alert("Cotización agregada exitosamente.");
-			//window.location="http://www.mundomaquinaria.cl/marchablanca/index.asp?msg=13";
-		</script>-->
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<%
+			Const cdoSendUsingPort = 2
+	iServer = "smtp.gmail.com"
 		Response.CodePage = 65001
 		Response.CharSet = "utf-8"
 		%>
@@ -38,20 +35,61 @@
 
 	set Rs = nothing
 	Set Rs = cn.Execute(sql)
-	%>
 	
+	
+	sql="exec listarDatosUsuarioPlanesPorRUT "
+	sql=sql & " '" & request.QueryString("rut") & "' " 					
+
+	set Rs1 = nothing
+	Set Rs1 = cn.Execute(sql)
+	
+	nombre 	= rs1("nombreEmpresa")
+	mail	= rs1("mailCotizacion")
+	plan	= rs1("tip_plan")
+	plan2	= rs1("tip_plan2")
+	plan3	= rs1("nombre")
+	
+	sch = "http://schemas.microsoft.com/cdo/configuration/"
+	Set cdoConfig = CreateObject("CDO.Configuration")
+	With cdoConfig.Fields
+		.Item("http://schemas.microsoft.com/cdo/configuration/sendusing") = cdoSendUsingPort
+	.Item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = iServer
+	.Item("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = 465
+	.Item("http://schemas.microsoft.com/cdo/configuration/smtpconnectiontimeout") = 50
+	.Item("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate") = 1
+	.Item("http://schemas.microsoft.com/cdo/configuration/sendusername") = "contacto@mundomaquinaria.cl" 
+	.Item("http://schemas.microsoft.com/cdo/configuration/sendpassword") = "webweb008"
+	.Item("http://schemas.microsoft.com/cdo/configuration/smtpusessl") = 1
+	.Update
+	End With
+
+	Set MailObject = Server.CreateObject("CDO.Message")
+	Set MailObject.Configuration = cdoConfig
+	MailObject.From	= vCorreo_mundo_maquinaria
+	MailObject.To	= vMailCotizacion & ";" & mail
+	MailObject.Subject = "Pago Manual - Mundo Maquinaria"
+	Cuerpo = "<br><br>Estimado(a) Cliente de Mundo Maquinaria, <br>&nbsp;&nbsp;&nbsp;&nbsp;Se ha registrado correctamente en http://www.mundomaquinaria.cl"
+	Cuerpo = Cuerpo & "<br><br>&nbsp;&nbsp;&nbsp;&nbsp;"
+	Cuerpo = Cuerpo & "Los datos de su plan son:<br><br> Nombre:" & nombre & "<br> Tipo Pago: Manual <br> Mail: " & mail & "<br> Plan: " & plan &" " & plan2&" "& plan3
+	Cuerpo = Cuerpo & "<br><br>"
+	Cuerpo = Cuerpo & "<h3 style=color:#3B5998>Atentamente,<br>"
+	Cuerpo = Cuerpo & "Equipo Mundo Maquinaria</h3>"
+	Cuerpo = Cuerpo & "<br><br><img src= http://www.mundomaquinaria.cl/marchablanca/images/logo2.png>"
+	MailObject.HTMLBody = Cuerpo
+	MailObject.Send
+	Set MailObject = Nothing
+	Set cdoConfig = Nothing
+	
+	%>
 	<body class="landing">
 		<div id="messageDiv" style="display: none;">
 		</div>
 		<div id="page-wrapper">
-
 			<!-- Header -->
 				<header id="header" class="alt">
-
 					<h1><a href="index.asp"><img src="./images/logo_chico.png" /></a></h1>
 					<div class="form-group" style="height: 15%;">
 					<nav id="nav">
-
 						<ul>
 							<!-- [Renato] : Inicio -->
 							<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" viewBox="0 0 50 50" x="0px" y="0px" width="32px" height="32px" enable-background="new 0 0 50 50" class="svg-icon-user">
@@ -65,17 +103,14 @@
 								<button class="button btn-entrar nav-button" id="btnEntrar" style="background:#3B5998" data-toggle="modal" data-target="#myModal1">
 								ENTRAR
 							</button>
-
 							</li>
-
 							<li>
 							    <div class="btn-header">
 								<button type="button" class="button btn-entrar nav-button" id="btnPublicaTuMaquina" style="background:#F7931E" data-toggle="modal" data-target="#myModal2">
 									PUBLICA TU MAQUINA AQUÍ
 								</button>
-                                                                </div>
-
-							</li>
+                                </div>
+						</li>
 						</ul>
 					</nav>
 					</div>
@@ -84,48 +119,23 @@
 						<nav id="nav2" style="display: none;"></nav>
 					</div>
 					<!-- [Renato] : Fin -->
-
-
 				</header>
-
 			<!-- Banner -->
 				<section id="banner" class="banner-index">
 					<h2>Bienvenido al Equipo de Mundo Maquinaria</h2>
-					<p>Ud cuenta con 5 dias de gracia.</p>
+					<p>Estimado cliente, usted cuenta con 5 días para realizar el pago correspondiente al plan contratado.</p>
+                    <p>De no realizarse, su cuenta quedará suspendida.</p>
+                    <p>Indicaciones para realizar pago fueron enviadas a su correo.</p>
 					<p>La cuenta a la que debe cancelar es:</p>
 					<p> Banco XXXXXX</p>
 					<p> Cuenta Corriente N° XXXXX</p>
 					<p> RUT N° XXXXX-X</p>
 					<p> Mail pago: contacto@mundomaquinaria.cl</p>		
 				</section>
-
 			<!-- Main -->
 				<section id="main" class="container">
-
 					<!-- Modal -->
 										<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-										<!--<script type="text/javascript">
-											function validacion(formulario, pagina)
-											{
-												if(formulario.user_rut.value=="" || formulario.passw.value=="" )
-												{
-													jQuery('#message-div').attr('class','col-md-6 message-error');
-													jQuery('#message-div').show();
-													var asd = pagina.message-div.innerHTML;
-													alert(asd);
-													//html = html.replace('<p></p>','<p>Para Continuar debe Completar los datos de Ingreso</p>');
-													return false;
-												}
-
-													irA(formulario, pagina);
-
-											}
-
-											function ocultarMessage()
-											{
-												jQuery('#message-div').hide();
-											}
-										</script>-->
 											<form name="formLogin" method="post" >
 											<div class="modal-dialog">
 
@@ -146,10 +156,6 @@
 													</div>
 													</div>
 													<div class="modal-footer">
-										<!-- Olvidaste tu contraseña -->
-										<!--	<button class="button btn-entrar" style="background:#3B5998" data-toggle="modal" data-target="#myModal10">
-											Olvidaste tu contraseña
-											</button>-->
 											<a data-toggle="modal" data-target="#myModal10" style="cursor:pointer;color:#F7931E;">Olvidaste tu contraseña </a>
 
 
@@ -453,18 +459,58 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script type="text/javascript" src="assets/js/funciones.js"></script>
-			<!-- <script type="text/javascript" src="assets/js/jquery.rut.js"></script> -->
-			<!-- <script type="text/javascript" src="assets/js/jquery.rut.min.js"></script> -->
-		<script type="text/javascript">
-			$(document).ready(function(){
-				var mensaje = $.getURLParam("msg");
-				if(mensaje == 1) {
-					mostrarMensaje('Se registró correctamente, se le enviará un mail con su información de ingreso.', 'success');
-				}
-			});
-			
-			
-			function validacion(formulario, pagina)
+			<script type="text/javascript" src="assets/js/jquery.rut.js"></script> 
+			<script type="text/javascript" src="assets/js/jquery.rut.min.js"></script> 
+<script type="text/javascript">
+$('#textfield').blur(function(){
+			var rut = $('#textfield').val();
+			var rutFormateado = $.formatRut(rut);
+			$('#textfield').val(rutFormateado);
+
+			if (rut != '')
+			{
+				if (checkRut(rut, 'popUpRut')) { cargaAplicacion(); }
+			}
+			else if (rut == '')
+			{
+				mensajePopUp('Rut es obligatorio', 'popUpRut');
+			}
+			else if (rut != '')
+			{
+				checkRut(rut, 'popUpRut');
+			}
+		});
+
+		$('#user_rut').blur(function(){
+			var rut = $('#user_rut').val();
+			var rutFormateado = $.formatRut(rut);
+			$('#user_rut').val(rutFormateado);
+
+			if (rut != '')
+			{
+				checkRut(rut, 'popUpUserRut');
+			}
+			else if (rut == '')
+			{
+				mensajePopUp('Rut es obligatorio', 'popUpUserRut'); 
+			}
+		});
+
+		$('#Rut_Reg').blur(function() {
+			var rut = $('#Rut_Reg').val();
+			var rutFormateado = $.formatRut(rut);
+			$('#Rut_Reg').val(rutFormateado);
+
+			if (rut != '')
+			{
+				checkRut(rut, 'popUpRegRut');
+			}
+			else if (rut == '')
+			{
+				mensajePopUp('Rut es obligatorio', 'popUpRegRut');
+			}
+		});	
+		function validacion(formulario, pagina)
 	{
 		if(formulario.user_rut.value=="" || formulario.passw.value=="" )
 		{
@@ -473,7 +519,7 @@
 		}
 		irA(formulario, pagina);
 	}
-		</script>
+</script>
 	</body>
 </html>
 

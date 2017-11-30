@@ -60,7 +60,7 @@ if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
     '   Response.End
     'end if
 else
-    Response.Redirect("./index.asp?msg=4")
+    Response.Redirect("./index.asp")
     Response.End
 end if
 '************************** Fin HTTP_REFERER ******************************
@@ -152,7 +152,7 @@ function validarDatos(formulario, pagina){
 <div id="content">
 <div id="content-header">
   <div id="messageDiv" class="col-md-12" style="display: none;">
-		<button type="button" class="close" data-dismiss="modal" onclick="ocultarMessage()" aria-hidden="true">×</button>
+		<button type="button" class="close" data-dismiss="modal" onClick="ocultarMessage()" aria-hidden="true">×</button>
 		<br />
 		<p>message</p>
 	</div>
@@ -341,35 +341,44 @@ if not rs.eof then
         </div>
         <div class="widget-content nopadding">
            <form name="form3_crit" method="post" class="form-horizontal">
-			<div>
-			  <label class="control-label">Nombre :</label>
-              <div class="controls">
-                <input type="text" class="span11" name="Nombre" id="Nombre" value="<%=vNombre%>"/>
-				<input type="hidden" class="span11" name="IdCliente" value="<%=vIdUsuario%>"/>
-			  </div>
-            </div>
-             <div>
-			  <label class="control-label">Rut :</label>
-              <div class="controls">
-                <input type="text" class="span11" name="Rut" id="Rut" value="<%=vRut%>"/>
-			  </div>
-            </div>
-			<div>
-			  <label class="control-label">Direccion :</label>
-              <div class="controls">
-                <input type="text" class="span11" name="Direccion" id="Direccion" value="<%=vDireccion%>"/>
-			  </div>
-            </div>
-			<div>
-			  <label class="control-label">Mail :</label>
-              <div class="controls">
-                <input type="text" class="span11" name="Mail" id="Mail" value="<%=vMail%>"/>
-			  </div>
-            </div>
-			<div>
-			  <label class="control-label">Estado Cliente :</label>
+			<div class="control-group" >
 
-			  <div class="controls">
+			  	<label class="control-label" style=position:absolute;>Nombre :</label>
+              	<div class="controls">
+					<input type="text" class="span11" name="Nombre" id="Nombre" value="<%=vNombre%>"/>
+					<input type="hidden" class="span11" name="IdCliente" value="<%=vIdUsuario%>"/>
+			 	</div><br><br>
+            
+
+
+
+                <label class="control-label" style=position:absolute;>Rut :</label>
+                <div class="controls">
+                	<input type="text" class="span11" name="Rut" id="Rut" value="<%=vRut%>"/>
+			  	</div><br><br>
+            	
+
+
+
+			    <label class="control-label" style=position:absolute;>Direccion :</label>
+              	<div class="controls">
+                	<input type="text" class="span11" name="Direccion" id="Direccion" value="<%=vDireccion%>"/>
+			    </div><br><br>
+            	
+
+
+
+			    <label class="control-label" style=position:absolute;>Mail :</label>
+              	<div class="controls">
+                	<input type="text" class="span11" name="Mail" id="Mail" value="<%=vMail%>"/>
+			  	</div><br><br>
+            
+
+
+
+			    <label class="control-label" style=position:absolute;>Estado Cliente :</label>
+
+			  	<div class="controls">
 					<%
 					sql ="exec Seleccionar_Datos_Comunes "
 					sql = sql & "5 "
@@ -392,12 +401,16 @@ if not rs.eof then
 						end if
 						%>
 					</select>
-				</div>
+				</div><br><br>
+
             </div>
+			
+			<div class="control-group" >
+			<br>
 			<div class="form-actions">
 				<button type="button" id="btnGuardarE" class="btn btn-success" onClick="guardarUsuario('Rut', document.forms.form3_crit,'usr_adm.asp?opc=sav&vIdUsuario=<%=vIdUsuario%>')">Guardar</button>
 				<button type="button" id="btnEliminarE" class="btn btn-success" onClick="irA(document.forms.form3_crit,'usr_adm.asp?opc=del&vIdUsuario=<%=vIdUsuario%>')">Eliminar</button>
-			</div>
+			</div><br>
           </form>
         </div>
       </div>
@@ -427,41 +440,59 @@ if not rs.eof then
         </div>
         <div class="widget-content nopadding">
            <form name="form3_crit" method="post" class="form-horizontal">
-			<div>
-			  <label class="control-label">Nombre :</label>
-              <div class="controls">
-                <input type="text" class="span11" name="Nombre" id="Nombre"/>
-				<input type="hidden" class="span11" name="IdCliente"/>
-			  </div>
-            </div>
-             <div>
-			  <label class="control-label">Rut :</label>
-              <div class="controls">
-                <input type="text" class="span11" name="Rut2" id="Rut2"/>
-			  </div>
-            </div>
-			<div>
-			  <label class="control-label">Contraseña :</label>
-              <div class="controls">
-                <input type="password" class="span11" name="pass2" id="pass2"/>
-			  </div>
-            </div>
-			<div>
-			  <label class="control-label">Repetir Contraseña :</label>
-              <div class="controls">
-                <input type="password" class="span11" name="pass2" id="pass2"/>
-			  </div>
-            </div>
-			<div>
-			  <label class="control-label">Mail :</label>
-              <div class="controls">
-                <input type="text" class="span11" name="Mail" id="Mail"/>
-			  </div>
-            </div>
-			<div>
-			  <label class="control-label">Estado Usuario :</label>
+			<div class="control-group" >
 
-			  <div class="controls">
+			  	<label class="control-label" style=position:absolute;>Nombre :</label>
+              	<div class="controls">
+					<input type="text" class="span11" name="Nombre" id="Nombre"/>
+					<input type="hidden" class="span11" name="IdCliente"/>
+			  	</div><br><br>
+            
+
+
+
+                <label class="control-label" style=position:absolute;>Rut :</label>
+              	<div class="controls">
+                	<input type="text" class="span11" name="Rut2" id="Rut2"/>
+			  	</div><br><br>
+            
+			    <label class="control-label" style=position:absolute;>Contraseña :</label>
+
+
+
+
+
+
+
+
+
+
+              	<div class="controls">
+                	<input type="password" class="span11" name="pass2" id="pass2"/>
+			 	</div><br><br>
+
+
+
+
+
+
+
+
+
+
+
+			  	<label class="control-label" style=position:absolute;>Repetir Contraseña :</label>
+              	<div class="controls">
+                	<input type="password" class="span11" name="pass2" id="pass2"/>
+			  	</div><br><br>
+            
+			  	<label class="control-label" style=position:absolute;>Mail :</label>
+              	<div class="controls">
+                	<input type="text" class="span11" name="Mail" id="Mail"/>
+			  	</div><br><br>
+            
+			  	<label class="control-label" style=position:absolute;>Estado Usuario :</label>
+	         	<div class="controls">
 					<%
 					sql ="exec Seleccionar_Datos_Comunes "
 					sql = sql & "5 "
@@ -484,11 +515,15 @@ if not rs.eof then
 						end if
 						%>
 					</select>
-				</div>
+				</div><br><br>
+
             </div>
+			
+			<div class="control-group" >
+			<br>
 			<div class="form-actions">
 				<button type="button" id="btnGuardarC" class="btn btn-success" onClick="irA(document.forms.form3_crit,'usr_adm.asp?opc=new2')">Guardar</button>
-			</div>
+			</div><br>
           </form>
         </div>
       </div>

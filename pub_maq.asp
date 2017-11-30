@@ -2,6 +2,10 @@
 
 <html>
 <head>
+<%
+	Response.CodePage = 65001
+	Response.CharSet = "utf-8"
+%>
 <link rel="icon" type="image/png" href="./images/icon.ico" />
 <title>Mundo Maquinaria</title>
 <meta charset="UTF-8" />
@@ -17,20 +21,19 @@
 <link rel="stylesheet" href="assets/css/matrix-media.css" />
 <link rel="stylesheet" href="assets/css/mantenedores.css" />
 
-<link rel="stylesheet" href="assets/css/pages.css" type="text/css" />
-
-<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
-
-<link href="assets/css/pages.css" rel="stylesheet" type="text/css" />
-
 <script src="assets/js/modernizr.min.js"></script>
+<!-- Paginación GSC-->
+<link rel="stylesheet" href="dataTable/jquery.dataTables.css">
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="dataTable/jquery.dataTables.min.js"></script>
+<script src="dataTable/table.js"></script>
+<!-- Fin Paginación -->
 </head>
 <script language = "JavaScript">
 			<%
 			productos_Sql = "SELECT Id_DatosComunes, Descripcion, Nivel_Superior FROM Datos_Comunes WHERE Tipo=4 and Nivel = 1 and Estado = 1 "
 			Set rs=nothing
-			Set rs = cn.Execute(productos_Sql)
+			Set rs = cn.Execute(productos_Sql) 
 			x=0
 			%>
 
@@ -124,7 +127,7 @@ function validarCambio(formulario, pagina){
 			return false;
 		}
 	if(cmb_Region == null || cmb_Region == 0){
-			mostrarMensaje('Debe seleccionar una Región','error');
+			mostrarMensaje('Debe seleccionar una Regi?n','error');
 			return false;
 		}
 
@@ -176,14 +179,23 @@ if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
     '   Response.End
     'end if
 else
-    Response.Redirect("./index.asp?msg=4")
+    Response.Redirect("./index.asp")
     Response.End
 end if
 '************************** Fin HTTP_REFERER ******************************
 %>
 <body>
+<%	
+if vExp<>"xls" then
+	vNombre2     = request.Form("nombre_cli")
+else
+	
+	vNombre2     = request.Form("nombre_cli")
+	
+end if
+%>
   <div id="messageDiv" class="" style="display: none;">
-    <button type="button" class="close" data-dismiss="modal" onclick="ocultarMessage()" aria-hidden="true">×</button>
+    <button type="button" class="close" data-dismiss="modal" onClick="ocultarMessage()" aria-hidden="true">?</button>
     <br />
     <p>message</p>
   </div>
@@ -194,7 +206,7 @@ end if
 <div id="content">
 <div id="content-header">
 	<div id="messageDiv" class="col-md-12" style="display: none;">
-		<button type="button" class="close" data-dismiss="modal" onclick="ocultarMessage()" aria-hidden="true">×</button>
+		<button type="button" class="close" data-dismiss="modal" onClick="ocultarMessage()" aria-hidden="true">?</button>
 		<br />
 		<p>message</p>
 	</div>
@@ -220,7 +232,7 @@ end if
 	if not rs.eof then
 	%>
 	<script type="text/javascript">
-		//mostrarMensaje('Su Plan no permite realizar esta operación, favor revisar su plan con el Administrador.', 'error');
+		//mostrarMensaje('Su Plan no permite realizar esta operaci?n, favor revisar su plan con el Administrador.', 'error');
 		window.location="pub_maq.asp?msg=1";
 	</script>
 	<%
@@ -258,7 +270,7 @@ if request.QueryString("opc")= "sav2" then
 		if vMensaje = "1" then
 		%>
 		<script type="text/javascript">
-			window.location="pub_maq.asp?msg=3";
+			window.location="pub_maq.asp?opc=sch&msg=3&busc=2";
 		</script>
 		<%
 		elseif vMensaje = "2" then
@@ -277,6 +289,18 @@ if request.QueryString("opc")= "sav2" then
 		%>
 		<script type="text/javascript">
 			window.location="pub_maq.asp?msg=1";
+		</script>
+		<%
+		elseif vMensaje = "7" then
+		%>
+		<script type="text/javascript">
+			window.location="pub_maq.asp?msg=7";
+		</script>
+		<%
+		elseif vMensaje = "8" then
+		%>
+		<script type="text/javascript">
+			window.location="pub_maq.asp?msg=8";
 		</script>
 		<%
 		end if
@@ -342,7 +366,6 @@ if request.QueryString("opc")= "idmaq2" then
 	
 	%>
 	<script type="text/javascript">
-		//mostrarMensaje('Los Equipos se eliminaron existosamente', 'error');
 		window.location="pub_maq.asp?msg=4";
 	</script>
 <%	
@@ -375,15 +398,11 @@ if session ("Perfil_Administrador") = 1 then
 <div class="widget-content nopadding">
           <form name="form1_crit" action="#" method="post" class="form-horizontal">
               <div class="control-group">
-				<label class="control-label">Nombre Cliente :</label>
+				<label class="control-label" style=position:absolute;>Nombre Cliente :</label>
 				<div class="controls">
-					<input class="span11" type="text" name="nombre_cli" />
+					<input class="span11" type="text" name="nombre_cli" value="<%=vNombre2%>" />
 				</div>
-				<label class="control-label">Rut Cliente :</label>
-				<div class="controls">
-					<input class="span11" type="text" name="rut_cli" />
-				</div>
-           		<label class="control-label">Estado Cliente :</label>
+				<label class="control-label" style=position:absolute;>Estado Cliente :</label>
 				<div class="controls">
 					<%
 					sql ="exec Seleccionar_Datos_Comunes "
@@ -407,12 +426,18 @@ if session ("Perfil_Administrador") = 1 then
 						%>
 					</select>
 				</div>
-              </div>         
+				
+              </div>
+			 
+			  </div>
+			  
+			<div class="control-group">         
             <div class="form-actions">
               <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'pub_maq.asp?opc=sch');">Buscar</button>
 			  <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'pub_maq.asp?opc=new');">Nuevo</button>
 			  <button type="submit" class="btn btn-success" onClick="irAFuera(document.forms.form1_crit,'pub_maq.asp?opc=sch&exp=xls','_blank')">Exportar</button>
-            </div>
+            </div>			
+			<br>
           </form>
         </div>
 	<%if request.QueryString("opc")="sch" then %>
@@ -426,7 +451,8 @@ if session ("Perfil_Administrador") = 1 then
 		  
 		  <div class="widget-content nopadding">
 		  <form name="form2_crit" action="#" method="post" class="form-horizontal">
-            <table class="table table-bordered table-striped with-check">
+            <!--<table class="table table-bordered table-striped with-check">-->
+			<table id="tabla" class="table table-bordered table-striped with-check" >
               <thead>
                 <tr>
 				  <th>Opcion</th>
@@ -498,6 +524,29 @@ if session ("Perfil_Administrador") = 1 then
   <%if request.QueryString("opc")="edit2" then %>
   <div class="widget-content nopadding">
 		  <form name="form2_crit" action="#" method="post" class="form-horizontal">
+			 <table class="table table-bordered table-striped with-check">
+				<%
+				sql="exec ListaEquiposCliente "
+				sql=sql & " '" & request.form("Categoria") & "', "
+				sql=sql & " '" & request.form("Equipo") & "', "
+				sql=sql & " '" & request.form("vRegion") & "', "
+				sql=sql & " " & request.QueryString("id") & " "
+				set rs = nothing
+				Set rs = cn.Execute(sql)
+				if not rs.eof then
+					vNomEmpresa = rs("nombreEmpresa")
+					vRutEmpresa = rs("rutEmpresa")
+				%>
+				<tbody>
+				<tr class="gradeX">
+				  <th>&nbsp;</th>
+				  <th><%=vNomEmpresa%></th>
+				  <th><%=vRutEmpresa%></th>
+				</tr>
+				</tbody>
+				<%end if%>
+			</table>
+			<br>
             <table class="table table-bordered table-striped with-check">
               <thead>
                 <tr>
@@ -525,12 +574,11 @@ if session ("Perfil_Administrador") = 1 then
 
 						vIdCliPlan	= rs("IdDetalleClientePlan")
 						vCliPlan 	= rs("id_cliente_plan")
-
 						vDescTipo	= rs("categoria")
 						vDescEquipo	= rs("nombreEquipo")
 						vDescRegion	= rs("region")
-						
-
+						vNomEmpresa = rs("nombreEmpresa")
+						vRutEmpresa = rs("rutEmpresa")
 						%>
 
 						<tr class="gradeX">
@@ -549,12 +597,13 @@ if session ("Perfil_Administrador") = 1 then
 			</form>
           </div>
 		 
-        </div>
+        
 		<div class="form-actions">
-            <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_maq.asp?opc=idmaq3');">Editar</button>
+            <!--<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_maq.asp?opc=idmaq3');">Editar</button>
 			<input name="bandera" type="hidden" id="bandera" value="1" />
-			<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_maq.asp?opc=new&idCP=<%=vCliPlan%>');">Nuevo</button>
+			<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_maq.asp?opc=new&idCP=<%=vCliPlan%>');">Nuevo</button>-->
 			<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_maq.asp?opc=idmaq2');">Eliminar</button>
+		</div>
 		</div>
   <%end if%>
 <%
@@ -570,7 +619,7 @@ else
 <div class="widget-content nopadding">
           <form name="form1_crit" action="#" method="post" class="form-horizontal">
               <div class="control-group">
-				<label class="control-label">Categoria :</label>
+				<label class="control-label">Categoría :</label>
 				<div class="controls">
 					<%
 					sql ="exec Seleccionar_Datos_Comunes "
@@ -619,7 +668,7 @@ else
 					</select>
 				</div>
            
-				<label class="control-label">Región :</label>
+				<label class="control-label">Región:</label>
 				<div class="controls">
 					<%
 					sql ="exec Seleccionar_Datos_Comunes "
@@ -629,7 +678,7 @@ else
 					%>
 					<select name="vRegion" id="vRegion" class="span11" style="color:#F7931E" value="<%=vRegion%>">
 					<%
-						response.write "<option value=-1>SELECCIONE REGIÓN</option>"
+						response.write "<option value=-1>SELECCIONE REGION</option>"
 						if not rs.eof then
 							do while not rs.eof
 								if cdbl(rs("Id_DatosComunes")) = cdbl(vRegion) then
@@ -657,7 +706,7 @@ else
             <table class="table table-bordered table-striped with-check">
               <thead>
                 <tr>
-				  <th>Opcion</th>
+				  <th>Opción</th>
                   <th>Categoría</th>
                   <th>Equipo</th>
 				  <th>Región</th>
@@ -666,13 +715,18 @@ else
               </thead>
               <tbody>
 			  <%
-
-			sql="exec ListaEquiposCliente "
-			sql=sql & " " & request.form("Categoria") & ", "
-			sql=sql & " " & request.form("Equipo") & ", "
-			sql=sql & " " & request.form("vRegion") & ", "
-			sql=sql & " " & session("id_usuario") & " "
-
+			if request.QueryString("busc") = "2" then
+				sql="exec ListaEquiposCliente "
+				sql=sql & " -1, -1 ,-1, "
+				sql=sql & " " & session("id_usuario") & " "
+			
+			else
+				sql="exec ListaEquiposCliente "
+				sql=sql & " " & request.form("Categoria") & ", "
+				sql=sql & " " & request.form("Equipo") & ", "
+				sql=sql & " " & request.form("vRegion") & ", "
+				sql=sql & " " & session("id_usuario") & " "
+			end if
 					set rs = nothing
 					Set rs = cn.Execute(sql)
 
@@ -709,7 +763,7 @@ else
 		<div class="form-actions">
             <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_maq.asp?opc=idmaq');">Editar</button>
 			<input name="bandera" type="hidden" id="bandera" value="1" />
-			<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_maq.asp?opc=new&idCP=<%=vCliPlan%>');">Nuevo</button>
+			<!--<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_maq.asp?opc=new&idCP=<%=vCliPlan%>');">Nuevo</button>-->
 			<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_maq.asp?opc=idmaq2');">Eliminar</button>
 		</div>
 		<%end if%>
@@ -745,7 +799,7 @@ else
 
   <div class="widget-box">
 	 <div class="widget-content nopadding">
-		  <form name="form4_crit" action="#" method="post" class="form-horizontal">
+		  <form name="form4_crit" action="#" method="post" >
             <table class="table table-bordered table-striped with-check">
               <thead>
                 <tr>
@@ -776,12 +830,12 @@ else
 							</select>
 							<%elseif vIdTipoPlan = 2363 then%>
 							<select name="tipo" id="tipo" style="font-weight:bold; color:#3B5998; cursor: pointer;" >
-								<option value="41">SERVICIO TÉCNICO</option>
+								<option value="41">SERVICIO T?CNICO</option>
 							</select>
 							<%elseif vIdTipoPlan = 2364 then%>
 							<select name="tipo" id="tipo" style="font-weight:bold; color:#3B5998; cursor: pointer;" >
 								<option value="17">ARRIENDO</option>
-								<option value="41">SERVICIO TÉCNICO</option>
+								<option value="41">SERVICIO T?CNICO</option>
 							</select>
 							<%end if%>
 						  </th>
@@ -809,22 +863,27 @@ else
 							</select>
 						  </th>
 						  <th>
-							<!--<select name="region" id="region" style="font-weight:bold; color:#3B5998; cursor: pointer;" value="<%=vRegion%>">-->
-							<select id="familia" name="familia" onChange = "javascript:sublist(this.form, familia.value);" style="font-weight:bold; color:#3B5998; cursor: pointer;" value="<%=vRegion%>">
-								<option selected value = "0">REGION</option>
-								<%familias_Sql = "SELECT Id_DatosComunes, Descripcion FROM Datos_Comunes WHERE Tipo = 3 and Nivel = 1 and Estado = 1"
-								Set rs=nothing
-								Set rs = cn.Execute(familias_Sql)
-								do while not rs.eof
-									if cdbl(rs("Id_DatosComunes")) = cdbl(vRegion) then
-										response.write "<option value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
-									else
-										response.write "<option value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
-									end if
+							<%
+					sql ="exec Seleccionar_Datos_Comunes "
+					sql = sql & "3 "
+					Set rs=nothing
+					Set rs = cn.Execute(sql)
+					%>
+					<select name="familia" id="familia" class="span11" style="color:#F7931E" value="<%=vRegion%>">
+					<%
+						response.write "<option value=-1>SELECCIONE REGI?N</option>"
+						if not rs.eof then
+							do while not rs.eof
+								if cdbl(rs("Id_DatosComunes")) = cdbl(vRegion) then
+									response.write "<option selected value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
+								else
+									response.write "<option value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
+								end if
 								rs.movenext
-								loop
-								%>
-							</select>
+							loop
+						end if
+						%>
+					</select>
 						  </th>
 						</tr>
 						<%
@@ -841,8 +900,45 @@ else
        <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form4_crit,'pub_maq.asp?opc=del&id_detalle=<%=request.QueryString("id")%>');">Eliminar</button>
 	</div>
   <%end if%>
-  <%if request.QueryString("opc")="new" then %>
+  <%if request.QueryString("opc")="new" then 
+
+	sql ="exec TipoPlanPadreporUsuario "
+	sql=sql & "'" & session("id_usuario") & "' "
+
+	Set rs=nothing
+	Set rs = cn.Execute(sql)
+	if not rs.eof then
+		vIdTipoPlan		= rs("id_Tipo_Plan_Padre")
+		vIdPlan			= rs("id_plan")
+	end if
+%>
+  
+  
+  <%if vIdTipoPlan = "2364" and vIdPlan = "87" then%>
+  
   <div class="widget-box">
+	 <div class="widget-content nopadding">
+		  <form name="form5_crit" action="#" method="post" class="form-horizontal">
+            <table class="table table-bordered table-striped with-check">
+              <thead>
+                <tr>
+				 <!--<th>Tipo Cotización</th>-->
+                 <th>Equipo en regiones</th>		                   
+                </tr>
+              </thead>
+              <tbody>
+				<tr class="gradeX" style="width: 200px;">
+				<th style="width: 80px;">
+				  <button type="button"  class="btn btn-success"  onClick="javascript:irA(document.forms.form5_crit,'pub_maq2.asp?Id=<%=session("id_usuario")%>');">Seleccione equipos en regiones</button>
+				  </th>
+				</tr>
+              </tbody>
+            </table>
+			</form>
+          </div>
+	</div>
+	<%else%>
+	<div class="widget-box">
 	 <div class="widget-content nopadding">
 		  <form name="form5_crit" action="#" method="post" class="form-horizontal">
             <table class="table table-bordered table-striped with-check">
@@ -875,12 +971,12 @@ else
 							</select>
 							<%elseif vIdTipoPlan = 2363 then%>
 							<select name="tipo" id="tipo" style="font-weight:bold; color:#3B5998; cursor: pointer;" >
-								<option value="41">SERVICIO TÉCNICO</option>
+								<option value="41">SERVICIO T?CNICO</option>
 							</select>
 							<%elseif vIdTipoPlan = 2364 then%>
 							<select name="tipo" id="tipo" style="font-weight:bold; color:#3B5998; cursor: pointer;" >
 								<option value="17">ARRIENDO</option>
-								<option value="41">SERVICIO TÉCNICO</option>
+								<option value="41">SERVICIO T?CNICO</option>
 							</select>
 							<%end if%>
 						  </th>
@@ -930,6 +1026,7 @@ else
 			</form>
           </div>
 	</div>
+	<%end if%>
 	<div class="form-actions">
        <button type="button" class="btn btn-success" onClick="javascript:validarCambio(document.forms.form5_crit,'pub_maq.asp?opc=sav2&Id=<%=request.QueryString("idCP")%>');">Guardar</button>
 	</div>
@@ -952,14 +1049,13 @@ else
 <script src="assets/js/jquery.dataTables.min.js"></script>
 <script src="assets/js/matrix.js"></script>
 <script src="assets/js/matrix.tables.js"></script>
-	<script type="text/javascript" src="assets/js/funciones.js"></script>
-</script>
+<script type="text/javascript" src="assets/js/funciones.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		var mensaje = $.getURLParam("msg");
 		if (mensaje != null) {
 			if (mensaje == 1) {
-				mostrarMensaje('Su Plan no permite realizar esta operación, favor revisar su plan con el Administrador.', 'error');
+				mostrarMensaje('Su Plan no permite realizar esta operaci?n, favor revisar su plan con el Administrador.', 'error'); 
 			} else if (mensaje == 2) {
 				mostrarMensaje('Equipo Modificado Exitosamente', 'success');
 			} else if (mensaje == 3) {
@@ -970,9 +1066,20 @@ else
 				mostrarMensaje('Debe seleccionar solo un equipo.', 'error');
 			} else if (mensaje == 6) {
 				mostrarMensaje('El Equipo que intenta agregar, ya se encuentra creado para la region seleccionada.', 'error');	
+			} else if (mensaje == 7) {
+				mostrarMensaje('Ya ingreso todos los equipos correspondientes a su plan.', 'error');	
+			} else if (mensaje == 8) {
+				mostrarMensaje('Ya ingreso todos las regiones correspondientes a su plan.', 'error');	
+			} else if (mensaje == 9) {
+				mostrarMensaje('se ingresaron correctamente todos los equipos seleccionados, favor ingrese la regi?n.', 'error');	
 			}
 		}
 	});
 </script>
+
+
+
+
+
 </body>
 </html>

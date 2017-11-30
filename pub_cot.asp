@@ -159,7 +159,7 @@ if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
     '   Response.End
     'end if
 else
-    Response.Redirect("./index.asp?msg=4")
+    Response.Redirect("./index.asp")
     Response.End
 end if
 '************************** Fin HTTP_REFERER ******************************
@@ -173,22 +173,22 @@ end if
 <div id="content">
 <div id="content-header">
   <div id="breadcrumb"> <a href="index.asp" title="Go to Home" class="tip-bottom" style="color:#666666"><i class="icon-home"></i> Inicio</a></div>
-  <h1>Mantenedor de Publicidad Cotizacion</h1>
+  <h1>Mantenedor de Publicidad Cotización</h1> 
 </div>
 <%if request.QueryString("opc")= "sav" then 
 	sql="exec MantenedorPublicidad "
-	if request.form("estado") = 1 then
-		sql=sql & " 2,"
-	else		
-		sql=sql & " 6,"
+	sql=sql & " 2,"
+	sql=sql & " " & request.QueryString("id") & ", "
+	sql=sql & " '" & request.form("foto1") & "', " 
+	if request.form("vEstado")= 15 then
+		sql=sql & " 1 , "
+	else 
+		sql=sql & " 0 , "
 	end if
-	sql=sql & " " & request.form("idPublicidad") & ", "
-	sql=sql & " '" & request.form("foto1") & "', "
-	sql=sql & " '" & request.form("estado") & "' , "
 	sql=sql & " 1 , "
-	sql=sql & "'" & request.form("nombre") & "'," 
-	sql=sql & " 1234 ,''"
-
+	sql=sql & "'" & request.form("nombre") & "',"
+	sql=sql & " 1234,"
+	sql=sql & " '" & request.form("periodicidad") & "'  "
 	set rs = nothing
 	Set rs = cn.Execute(sql)
 	%>
@@ -200,13 +200,13 @@ end if
 end if
 if request.QueryString("opc")= "sav2" then 
 	sql="exec MantenedorPublicidad "
-	sql=sql & " 3,"
-	sql=sql & " -1, "
+	sql=sql & " 2,"
+	sql=sql & " '" & vIdPublicidad & "', "
 	sql=sql & " '" & request.form("foto1") & "', "
-	sql=sql & " " & request.form("estado") & " , "
+	sql=sql & " " & request.form("vEstado") & " , "
 	sql=sql & " 1 , "
 	sql=sql & "'" & request.form("nombre") & "',"
-	sql=sql & " 1234,'' "	
+	sql=sql & " 1234,'','' "	
 
 	set rs = nothing
 	Set rs = cn.Execute(sql)
@@ -224,34 +224,20 @@ end if
 	arr_chk_sel=split(var_chk_sel,",")
 
 	For i=LBound(arr_chk_sel) to UBound(arr_chk_sel)
-	Next 
-	if i > 1 then
+	Next
+
+	sql ="exec EliminaPublicidad "
+	sql=sql & " '" & var_chk_sel & "' "	
+
+	Set rs=nothing
+	Set rs = cn.Execute(sql)
+	
 	%>
 	<script type="text/javascript">
-		alert("Seleccione solo una publicidad.");
-		window.location="pub_cot.asp";
+		//mostrarMensaje('Los Equipos se eliminaron existosamente', 'error');
+		window.location="pub_cot.asp?msg=4";
 	</script>
-	<%
-	else
-		if len(var_chk_sel) > 0 then
-				
-			sql="exec MantenedorPublicidad "
-			sql=sql & " 8,"
-			sql=sql & " " & var_chk_sel & ", "
-			sql=sql & " '', "
-			sql=sql & " '' , "
-			sql=sql & " '' , "
-			sql=sql & " ''," 
-			sql=sql & " ''," 
-			sql=sql & " '' "
-
-			set rs = nothing
-			Set rs = cn.Execute(sql)
-		
-			Response.Redirect("pub_cot.asp")
-			Response.End
-		end if
-	end if			
+<%	
 end if
 if request.QueryString("opc")= "idmaq2" then 
 	
@@ -268,7 +254,7 @@ if request.QueryString("opc")= "idmaq2" then
 	</script>
 <%	else
 		if len(var_chk_sel) > 0 then
-			Response.Redirect("demo_tabla.asp?opc=edit&id="& var_chk_sel)
+			Response.Redirect("pub_cot.asp?opc=edit&id="& var_chk_sel)
 			Response.End
 		end if	
 	end if
@@ -280,16 +266,16 @@ end if
     <div class="span12">
       <div class="widget-box">
         <div class="widget-title"> <span class="icon border-blue"> <i class="icon-align-justify"></i> </span>
-          <h5>Mantenedor de Publicidad Cotizacion</h5>
+          <h5>Mantenedor de Publicidad Cuadro Cotización</h5>
         </div>
         <div class="widget-content nopadding">
           <form name="form1_crit" action="#" method="post" class="form-horizontal">
               <div class="control-group">
-				<label class="control-label">Publicidad :</label>
+				<label class="control-label" style=position:absolute;>Publicidad :</label>
 				<div class="controls">
 					<%
 					sql="exec MantenedorPublicidad "
-					sql=sql & " 1 , -1 , '' , 0 , 0, '', 1234,''"
+					sql=sql & " 1 , -1 , '' , 0 , 0, '', 1234,'',''"
 					set rs = nothing
 					Set rs = cn.Execute(sql)
 					
@@ -311,11 +297,13 @@ end if
 					</select>
 				</div>
             </div>
-                       
+			</div>
+			<div class="control-group">        
             <div class="form-actions">
               <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'pub_cot.asp?opc=sch');">Buscar</button>
-			  <a href="upload/upload_4.asp" class="btn btn-success" target="_blank" onclick="window.open(this.href, this.target, 'width=600,height=400'); return false;">Nuevo</a>
+			  <a href="upload/upload_2.asp" class="btn btn-success" target="_blank" onClick="window.open(this.href, this.target, 'width=600,height=400'); return false;">Nuevo</a>
             </div>
+			<br>
           </form>
         </div>
       </div>
@@ -354,8 +342,8 @@ end if
 					sql=sql & " " & request.form("vPublicidad") & ", "
 					sql=sql & " '' , "
 					sql=sql & " 0 , "
-					sql=sql & " 0 , '', 1234,'' "                 
-
+					sql=sql & " 0 , '', 1234,'','' "                 
+'response.write(sql)
 					set rs = nothing
 					Set rs = cn.Execute(sql)
 					
@@ -413,15 +401,20 @@ end if
 	sql=sql & " " & request.QueryString("id") & ", "
 	sql=sql & " '' , "
 	sql=sql & " 0 , "
-	sql=sql & " 0 , '', 1231,'' "                 
+	sql=sql & " 0 , '', 1234,'','' "                 
 
 	set rs = nothing
 	Set rs = cn.Execute(sql)
 	vIdPublicidad	= rs("id_publicidad")
 	vEstado			= rs("estado_publicidad")
 	vNombre			= rs("nombre")
+	vPeriodicidad	= rs("Periodicidad")
 	
-	
+	if vEstado = 1 then 
+		vEstado2 = 15
+	else
+		vEstado2 = 16
+	end if
 	if not rs.eof then
  %>
   <div class="span9">
@@ -431,7 +424,7 @@ end if
         </div>
         <div class="widget-content nopadding">
            <form name="form3_crit" method="post" class="form-horizontal">
-			<label class="control-label">Estado Publicidad :</label>
+			<label class="control-label" style=position:absolute;>Estado Publicidad :</label>
 				<div class="controls">
 					<%
 					sql ="exec Seleccionar_Datos_Comunes "
@@ -439,12 +432,12 @@ end if
 					Set rs=nothing
 					Set rs = cn.Execute(sql)
 					%>
-					<select name="vEstado" id="vEstado" class="span11" style="color:#F7931E" value="<%=vEstado%>">
+					<select name="vEstado" id="vEstado" class="span11" style="color:#F7931E" value="<%=vEstado2%>">
 					<%
 						response.write "<option value=-1>SELECCIONE ESTADO</option>"
 						if not rs.eof then
 							do while not rs.eof
-								if cdbl(rs("Id_DatosComunes")) = cdbl(vEstado) then
+								if cdbl(rs("Id_DatosComunes")) = cdbl(vEstado2) then
 									response.write "<option selected value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
 								else
 									response.write "<option value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
@@ -455,22 +448,46 @@ end if
 						%>
 					</select>
 				</div>
-				<label class="control-label">Nombre Publicidad :</label>
+				<br><br>
+				<label class="control-label" style=position:absolute;>Nombre Publicidad :</label>
 				<div class="controls">
 					<input class="span11" type="text" name="nombre" value="<%=vNombre%>" />
 				</div>
+				<br><br>
 			<div class="control-group">
-              <label class="control-label">Periodicidad :</label>
+              <label class="control-label" style=position:absolute;>Periodicidad :</label>
               <div class="controls">
-			    <select name="estado" class="texto2">
-					<option value="0">Lunes a Jueves</option>
-					<option value="1">Viernes a Domingo</option>
-				</select>
-              </div>
+					<%
+					sql ="exec Seleccionar_Datos_Comunes "
+					sql = sql & "13 "
+					Set rs=nothing
+					Set rs = cn.Execute(sql)
+					%>
+					<select name="Periodicidad" id="Periodicidad" class="span11" style="color:#F7931E" value="<%=vPeriodicidad%>">
+					<%
+						response.write "<option value=-1>SELECCIONE PERIODICIDAD</option>"
+						if not rs.eof then
+							do while not rs.eof
+								if cdbl(rs("Id_DatosComunes")) = cdbl(vPeriodicidad) then
+									response.write "<option selected value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
+								else
+									response.write "<option value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
+								end if
+								rs.movenext
+							loop
+						end if
+						%>
+					</select>
+				</div>
+				<br>
 			</div>
+			<br>
+			<div class="control-group">
+			<br>
 			<div class="form-actions">
-				<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'pub_cot.asp?opc=sav2');">Guardar</button>
+				<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'pub_cot.asp?opc=sav&id=<%=vIdPublicidad%>');">Guardar</button>
 			</div>
+			<br>
           </form>
         </div>
       </div>
@@ -479,6 +496,7 @@ end if
   <%
   end if
   end if%>
+
 </div>
 
 <!--Footer-part-->
@@ -495,6 +513,19 @@ end if
 <script src="assets/js/matrix.js"></script> 
 <script src="assets/js/matrix.tables.js"></script>
 	<script type="text/javascript" src="assets/js/funciones.js"></script>
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var mensaje = $.getURLParam("msg");
+		if (mensaje != null) {
+			if (mensaje == 1) {
+				mostrarMensaje('Publicidad Modificada Exitosamente.', 'success');
+			}
+			else if (mensaje == 4) {
+				mostrarMensaje('Publicidad Eliminada Exitosamente.', 'success');
+			}
+		}
+	});
 </script>
 </body>
 </html>

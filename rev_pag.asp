@@ -64,7 +64,7 @@ if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
     '   Response.End
     'end if
 else
-    Response.Redirect("./index.asp?msg=4")
+    Response.Redirect("./index.asp")
     Response.End
 end if
 '************************** Fin HTTP_REFERER ******************************
@@ -146,7 +146,18 @@ function validarDatos(formulario, pagina){
 	
 }
 </script>
+<!--  Ejecuciones sobre botones  -->
+<%
+if request.QueryString("est") = "planes" then
+    response.write("si llego")
 
+%>
+<script type="text/javascript">
+        window.location = "registro_Vista.asp?";
+</script>
+<% 
+end if
+%>
 <body>
 
 <!--Header-part-->
@@ -156,7 +167,7 @@ function validarDatos(formulario, pagina){
 <div id="content">
 <div id="content-header">
   <div id="messageDiv" class="col-md-12" style="display: none;">
-		<button type="button" class="close" data-dismiss="modal" onclick="ocultarMessage()" aria-hidden="true">×</button>
+		<button type="button" class="close" data-dismiss="modal" onClick="ocultarMessage()" aria-hidden="true">×</button>
 		<br />
 		<p>message</p>
 	</div>
@@ -217,6 +228,7 @@ end if
               <thead>
                 <tr>
 				  <th>Tipo Pago</th>
+				  <th>Plan</th>
 				  <th>Tipo Plan</th>
 				  <th>Valor Mensual</th>
 				  <th>Valor Total</th>
@@ -243,6 +255,7 @@ end if
 						do while not rs.eof
 						
 						vIdPago	 		= rs("id_Pago")
+						vPlan			= rs("pplan")
 						vTipoPlan		= rs("tip")
 						vFecPago		= rs("fec_pago")
 						vFecIni			= rs("fec_inicio")
@@ -258,6 +271,7 @@ end if
 						
 						<tr class="gradeX">
 						  <th><%=vId_Tipo_Pago%></th>
+						  <th><%=vplan%></th>
 						  <th><%=vTipoPlan%></th>
 						  <th>$ <%=FormatNumber(vValor,0)%> +IVA</th>
 						  <th>$ <%=FormatNumber(vValortotal,0)%> IVA Inc.</th>
@@ -284,6 +298,7 @@ end if
     </div>
 	<div class="widget-content nopadding">
 			<form name="form3_crit" method="post" class="form-horizontal">
+			        <br><br><br>
 					<div id="planes" class="host_plans">
 						<div class="container">
 							<div class="one_fourth_less">
@@ -296,7 +311,7 @@ end if
 								Set rs = cn.Execute(sql)
 								if not rs.eof then %>
 								<%end if%>	
-									<div class="title"><h4 class="caps"><strong><%=rs("Nombre")%></strong></h4></div>
+									<div class="title2"><h4 class="caps"><strong><%=rs("Nombre")%></strong></h4></div>
 							
 									<div class="prices">
 										<strong>$<%=formatnumber(rs("valor"),0)%><i>/mes</i></strong>+ IVA</br></br>
@@ -312,8 +327,13 @@ end if
 									</ul>
 							
 								</div>
-							</div><!-- end plan -->*Si ud. desea modificar su plan, favor contactarse a contacto@mundomaquinaria.cl
+							</div><!-- end plan -->*Si ud. desea modificar el plan contratado, debe contactarse con el<br> equipo de Mundo Maquinaria enviando un e-mail a contacto@mundomaquinaria.cl
+                                                    <div class="btn-header">
+								<a href="http://www.gofour.cl/dev/MM/registro_vista.asp" class="btn btn-success" type="button" style="background:#F7931E" target="_blank">REVISA LOS PLANES</a>
+                                <!--<input type="button" style="background:#F7931E" value="REVISA LOS PLANES" onClick="location.href = 'http://www.gofour.cl/dev/MM/registro_vista.asp' ">-->
 						</div>
+						</div>
+
 					</div>
 				</div>
 			</form>
@@ -322,6 +342,8 @@ end if
   </div>
 
 </div>
+
+
 
 <!--Footer-part-->
 <div class="row-fluid">
@@ -348,6 +370,7 @@ end if
 		}
 	});
 </script>
+
 <style>
 		#banner :last-child {
 			margin-bottom: 0px !important;
@@ -356,14 +379,15 @@ end if
 			color: #f7931e !important;
 		}
 		.host_plans .planbox li strong {
-			color: #f7931e !important;
+			color:#FFFFFF !important;
 		}
 		.host_plans .planbox .prices {
 			padding: 27px 0px 0px 0px !important;
 		}
 		.host_plans {
 			padding: 0px 0px !important;
-		}
+        margin-right: 0px;
+    }
 	</style>
 </body>
 </html>

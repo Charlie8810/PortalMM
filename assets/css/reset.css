@@ -9,13 +9,14 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
-margin: 0;
-padding: 0;
-border: 0;
-outline: 0;
-font-size: 100%;
-vertical-align: baseline;
-background: transparent;
+
+
+
+
+
+
+
+
 }
 
 /* body */
@@ -43,7 +44,8 @@ h6 {
 	font-family: 'Roboto', sans-serif;
 	font-weight: 500;
 	color: #2a363f;
-	letter-spacing: 0.5px;
+	
+
 }
 
 h1 a, 
@@ -64,9 +66,11 @@ h1 {
 }
 
 h2 { 
+/*
 	font-size: 27px; 
 	line-height: 32px;
 	margin-bottom: 20px;
+*/
 }
 
 h3 { 
@@ -76,10 +80,11 @@ h3 {
 }
 
 h4 { 
-	font-size: 18px; 
-	line-height: 25px;
-	margin-bottom: 10px;
-	font-style: normal;
+
+
+
+
+
 }
 
 h5 { 
@@ -133,8 +138,14 @@ p {
 
 /* Links */
 a {
-	color: #86c724;
-	text-decoration: none;
+color: #3b5990;
+    font-size: 23px;
+    background: #fff;
+    padding: 8px 29px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 a:hover {
 	text-decoration: none;

@@ -1,4 +1,4 @@
-ï»¿<!--#include file="con_app.asp"-->
+<!--#include file="con_app.asp"-->
 
 <html>
 <head>
@@ -24,23 +24,23 @@ function validarDatos(formulario, pagina){
 	var Equipos		= document.getElementById('Equipos').value;
 	
 	if(Nombre == null || Nombre.length == 0 || /^\s+$/.test(Nombre)){
-		mostrarMensaje('El campo Nombre no debe ir vacÃ­o', 'error');
+		mostrarMensaje('El campo Nombre no debe ir vacío', 'error');
 		return false;
 	}
 	if(Valor == null || Valor.length == 0 || /^\s+$/.test(Valor)){
-		mostrarMensaje('El Valor no debe ir vacÃ­o', 'error');
+		mostrarMensaje('El Valor no debe ir vacío', 'error');
 		return false;
 	}
 	if (!/^([0-9])*$/.test(Valor)){
-      mostrarMensaje('El valor "' + Valor + '" no es un nÃºmero', 'error');
+      mostrarMensaje('El valor "' + Valor + '" no es un número', 'error');
 	  return false;
 	}
 	if(Regiones == null || Regiones.length == 0 || /^\s+$/.test(Regiones)){
-		mostrarMensaje('El campo Regiones no debe ir vacÃ­o', 'error');
+		mostrarMensaje('El campo Regiones no debe ir vacío', 'error');
 		return false;
 	}
 	if (!/^([0-9])*$/.test(Regiones)){
-      mostrarMensaje('El valor "' + Regiones + '" no es un nÃºmero', 'error');
+      mostrarMensaje('El valor "' + Regiones + '" no es un número', 'error');
 	  return false;
 	}
 	if(Equipos == null || Equipos.length == 0 || /^\s+$/.test(Equipos)){
@@ -48,7 +48,7 @@ function validarDatos(formulario, pagina){
 		return false;
 	}
 	if (!/^([0-9])*$/.test(Equipos)){
-      mostrarMensaje('El valor "' + Equipos + '" no es un nÃºmero', 'error');
+      mostrarMensaje('El valor "' + Equipos + '" no es un número', 'error');
 	  return false;
 	}
 	
@@ -100,7 +100,7 @@ if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
     '   Response.End
     'end if
 else
-    Response.Redirect("./index.asp?msg=4")
+    Response.Redirect("./index.asp")
     Response.End
 end if
 '************************** Fin HTTP_REFERER ******************************
@@ -115,7 +115,7 @@ end if
 <div id="content">
 <div id="content-header">
 	<div id="messageDiv" class="col-md-12" style="display: none;">
-		<button type="button" class="close" data-dismiss="modal" onclick="ocultarMessage()" aria-hidden="true">Ã—</button>
+		<button type="button" class="close" data-dismiss="modal" onClick="ocultarMessage()" aria-hidden="true">×</button>
 		<br />
 		<p>message</p>
 	</div>
@@ -218,7 +218,7 @@ end if
         <div class="widget-content nopadding">
           <form name="form1_crit" action="#" method="post" class="form-horizontal">
               <div class="control-group">
-				<label class="control-label">Planes :</label>
+				<label class="control-label" style=position:absolute;>Planes :</label>
 				<div class="controls">
 					<%
 					sql="exec MantenedorPlanes "
@@ -244,11 +244,14 @@ end if
 					</select>
 				</div>
             </div>
-                       
+            </div>
+			<div class="control-group">
+			        
             <div class="form-actions">
               <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'mant_pl_sem.asp?opc=sch');">Buscar</button>
 			  <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'mant_pl_sem.asp?opc=new');">Nuevo</button>
             </div>
+			<br>
           </form>
         </div>
       </div>
@@ -270,6 +273,7 @@ end if
               <thead>
                 <tr>
 				  <th>Opcion</th>
+				  <th>Tipo Plan</th>
                   <th>Nombre</th>
                   <th>Valor</th>
 				  <th>Desc1</th>
@@ -297,6 +301,7 @@ end if
 						do while not rs.eof
 						
 						vPlanes		 	= rs("Id_Plan")
+						vPPlan          = rs("pplan")
 						vNombre			= rs("Nombre")
 						vValor			= rs("valor")
 						vDesc1			= rs("descripcion")
@@ -311,6 +316,7 @@ end if
 						
 						<tr class="gradeX">
 						  <td><input type="checkbox" name="Planes" id="Planes" style="display: block !important;" value=<%=vPlanes%>  /></td>
+						  <th><%=vPPlan%></th>
 						  <th><%=vNombre%></th>
 						  <th><%=formatnumber(vValor,0)%></th>
 						  <th><%=vDesc1%></th>
@@ -376,6 +382,7 @@ end if
 		
 		if not rs.eof then
 			vPlanes		 	= rs("Id_Plan")
+			vPPlan          = rs("pplan")
 			vNombre			= rs("Nombre")
 			vValor			= rs("valor")
 			vDesc1			= rs("descripcion")
@@ -399,67 +406,78 @@ end if
         <div class="widget-content nopadding">
            <form name="form3_crit" method="post" class="form-horizontal">
 			<div>
-			  <label class="control-label">Nombre :</label>
+			  <label class="control-label" style=position:absolute;>Tipo Plan :</label>
+              <div class="controls">
+                <input type="text" class="span11" name="Tplan" id="Tplan" value="<%=vPPlan%>"/>
+				<input type="hidden" name="Tplan" value="<%=vPPlan%>"/>
+			  </div><br>
+            </div><br>
+			<div>
+			  <label class="control-label" style=position:absolute;>Nombre :</label>
               <div class="controls">
                 <input type="text" class="span11" name="Nombre" id="Nombre" value="<%=vNombre%>"/>
 				<input type="hidden" name="idPlan" value="<%=vPlanes%>"/>
-			  </div>
-            </div>
+			  </div><br>
+            </div><br>
             <div>
-			  <label class="control-label">Valor :</label>
+			  <label class="control-label" style=position:absolute;>Valor :</label>
               <div class="controls">
                 <input type="text" class="span11" name="Valor" id="Valor"value="<%=vValor%>"/>
-			</div>
-            </div>
+			</div><br>
+            </div><br>
 			<div>
-			  <label class="control-label">Desc1 :</label>
+			  <label class="control-label" style=position:absolute;>Desc1 :</label>
               <div class="controls">
                 <input type="text" class="span11" name="Desc1" value="<%=vDesc1%>"/>
-				</div>
-			</div>
+				</div><br>
+			</div><br>
 			<div>
-			  <label class="control-label">Desc2 :</label>
+			  <label class="control-label" style=position:absolute;>Desc2 :</label>
               <div class="controls">
                 <input type="text" class="span11" name="Desc2" value="<%=vDesc2%>"/>
-			</div>
-            </div>
+			</div><br>
+            </div><br>
 			<div>
-			  <label class="control-label">Desc3 :</label>
+			  <label class="control-label" style=position:absolute;>Desc3 :</label>
               <div class="controls">
                 <input type="text" class="span11" name="Desc3" value="<%=vDesc3%>"/>
-			</div>
-            </div>
+			</div><br>
+            </div><br>
 			<div>
-			  <label class="control-label">Desc4 :</label>
+			  <label class="control-label" style=position:absolute;>Desc4 :</label>
               <div class="controls">
                 <input type="text" class="span11" name="Desc4" value="<%=vDesc4%>"/>
-			</div>
-            </div>
+			</div><br>
+            </div><br>
 			<div>
-			  <label class="control-label">Regiones :</label>
+			  <label class="control-label" style=position:absolute;>Regiones :</label>
               <div class="controls">
                 <input type="text" class="span11" name="Regiones" id="Regiones" value="<%=vRegiones%>"/>
-			</div>
-            </div>
+			</div><br>
+            </div><br>
 			<div>
-			  <label class="control-label">Equipos :</label>
+			  <label class="control-label" style=position:absolute;>Equipos :</label>
               <div class="controls">
                 <input type="text" class="span11" name="Equipos" id="Equipos" value="<%=vEquipo%>"/>
-			</div>
-            </div>	
+			</div><br>
+            </div><br>	
 			<div class="control-group">
-              <label class="control-label">Estado :</label>
+              <label class="control-label" style=position:absolute;>Estado :</label>
               <div class="controls">
 			    <select name="estado" class="span11" value="<%=vEstado%>">
 					<option value="1">Activado</option>
 					<option value="0">Desactivado</option>
 				</select>
-              </div>
+              </div><br>
+			</div><br>
 			</div>
+			<div class="control-group">
+			<br>
 			<div class="form-actions">
 				<button type="submit" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form3_crit,'mant_pl_sem.asp?opc=sav');">Guardar</button>
 				<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form3_crit,'mant_pl_sem.asp?opc=del');">Eliminar</button>
 			</div>
+			<br>
           </form>
         </div>
       </div>
@@ -485,66 +503,77 @@ end if
 				<div class="widget-content nopadding">
 				   <form name="form4_crit" method="post" class="form-horizontal">
 					<div>
-					  <label class="control-label">Nombre :</label>
+					  <label class="control-label" style=position:absolute;>Tipo Plan :</label>
+					  <div class="controls">
+						<input type="text" class="span11" name="Tplan" id="Tplan"/>
+						
+					  </div><br>
+					</div><br>
+					<div>
+					  <label class="control-label" style=position:absolute;>Nombre :</label>
 					  <div class="controls">
 						<input type="text" class="span11" name="Nombre" id="Nombre"/>
 						
-					  </div>
-					</div>
+					  </div><br>
+					</div><br>
 					<div>
-					  <label class="control-label">Valor :</label>
+					  <label class="control-label" style=position:absolute;>Valor :</label>
 					  <div class="controls">
 						<input type="text" class="span11" name="Valor" id="Valor"/>
-					</div>
-					</div>
+					</div><br>
+					</div><br>
 					<div>
-					  <label class="control-label">Desc1 :</label>
+					  <label class="control-label" style=position:absolute;>Desc1 :</label>
 					  <div class="controls">
 						<input type="text" class="span11" name="Desc1"/>
-						</div>
-					</div>
+						</div><br>
+					</div><br>
 					<div>
-					  <label class="control-label">Desc2 :</label>
+					  <label class="control-label" style=position:absolute;>Desc2 :</label>
 					  <div class="controls">
 						<input type="text" class="span11" name="Desc2"/>
-					</div>
-					</div>
+					</div><br>
+					</div><br>
 					<div>
-					  <label class="control-label">Desc3 :</label>
+					  <label class="control-label" style=position:absolute;>Desc3 :</label>
 					  <div class="controls">
 						<input type="text" class="span11" name="Desc3"/>
-					</div>
-					</div>
+					</div><br>
+					</div><br>
 					<div>
-					  <label class="control-label">Desc4 :</label>
+					  <label class="control-label" style=position:absolute;>Desc4 :</label>
 					  <div class="controls">
 						<input type="text" class="span11" name="Desc4"/>
-					</div>
-					</div>
+					</div><br>
+					</div><br>
 					<div>
-					  <label class="control-label">Regiones :</label>
+					  <label class="control-label" style=position:absolute;>Regiones :</label>
 					  <div class="controls">
 						<input type="text" class="span11" name="Regiones" id="Regiones"/>
-					</div>
-					</div>
+					</div><br>
+					</div><br>
 					<div>
-					  <label class="control-label">Equipos :</label>
+					  <label class="control-label" style=position:absolute;>Equipos :</label>
 					  <div class="controls">
 						<input type="text" class="span11" name="Equipos" id="Equipos"/>
-					</div>
-					</div>	
+					</div><br>
+					</div><br>	
 					<div class="control-group">
-					  <label class="control-label">Estado :</label>
+					  <label class="control-label" style=position:absolute;>Estado :</label>
 					  <div class="controls">
 						<select name="estado" class="span11">
 							<option value="1">Activado</option>
 							<option value="0">Desactivado</option>
 						</select>
-					  </div>
+					  </div><br>
+					</div><br>
 					</div>
+					<div class="control-group">
+					<br>
 					<div class="form-actions">
 						<button type="submit" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form4_crit,'mant_pl_sem.asp?opc=sav2');">Guardar</button>
 					</div>
+					<br>
 				  </form>
 				</div>
 			  </div>

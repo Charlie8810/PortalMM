@@ -245,30 +245,13 @@ lngDataLenth = lngEndPos - lngBeginPos
 strFileData = mid(strData,lngBeginPos,lngDataLenth)
 'Create the file. 
 Set fso = CreateObject("Scripting.FileSystemObject")
-
-Set f = fso.OpenTextFile(Server.MapPath("..") & "\upload\" &_
+Set f = fso.OpenTextFile(server.mappath("..") & "\upload\" &_
 FileName, ForWriting, True)
 f.Write strFileData
 Set f = nothing
 Set fso = nothing
 
 lngNumberUploaded = lngNumberUploaded + 1
-
-set cn =  server.CreateObject("ADODB.Connection")
-cn.ConnectionTimeout = 3600
-cn.Open "Driver={SQL Server}; Server=200.63.100.77;uid=sa_Go4MM;Database=MundoMaquinaria;pwd=9Vym7i%7"
-'Insertar en la base de datos
-sql="exec MantenedorPublicidad "
-sql=sql & " 3,"
-sql=sql & " -1, "
-sql=sql & " '" & FileName & "', "
-sql=sql & " 1 , "
-sql=sql & " 1 , "
-sql=sql & "'" & FileName & "',"
-sql=sql & " 1231 "	
-
-set rs = nothing
-Set rs = cn.Execute(sql)
 
 End if
 

@@ -2,6 +2,9 @@
 <html>
 
 <head>
+<%
+vExp=request.QueryString("exp")
+if vExp<>"xls" then%>
 <link rel="icon" type="image/png" href="./images/icon.ico" />
 <title>Mundo Maquinaria</title>
 <meta charset="UTF-8" />
@@ -20,9 +23,32 @@
 <link rel="stylesheet" href="assets/css/matrix-style.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="assets/css/mantenedores.css" />
+<%end if%>
 </head>
-
+<%
+if vExp="xls" then
+    Response.AddHeader "content-disposition", "attachment; filename=Reporte_Cotizaciones_" & year(now) &"-"& month(now) &"-"& day(now) & "_" & hour(now) & "_" & minute(now) & ".xls"
+    Response.ContentType = "application/excel"
+end if
+%>
 <body class="body-graficos">
+<%
+if vExp<>"xls" then
+	vBusca=false
+	if trim(request.QueryString("opc"))="sch" then
+		'opcion buscar
+		vBusca=true
+	end if
+
+else
+	vBusca=true
+	vTxt_Nombre = request.Form("nombre_cli")
+	vTxt_Plan   = request.Form("vPlan")
+	vTxt_Region = request.Form("vRegion")
+
+end if
+%>
+<%if vExp<>"xls" then%>
 <!--Header-part-->
 <div id="header">
 </div>
@@ -34,6 +60,7 @@
 		</div>
 		<h1>Informe Resumen</h1>
 	</div>
+<%end if%>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-12">
@@ -41,7 +68,25 @@
 				<p class="text-muted page-title-alt">Bienvenido al panel de informes</p>
 			</div>
 		</div>
+	<form name="form1_crit" action="#" method="post" class="form-horizontal">
+		<table width="79%" border="0" align="center" cellpadding="0" cellspacing="0">
+			<tr class="parrafoazulch">
+				<td>Fecha Desde:</td>
+				<td>
+					<input class="span12 text-box-modal" type="text" name="fecha_ini" placeholder="dd-mm-aaaa" />
+				</td>
+				<td>Fecha Hasta:</td>
+				<td><input class="span12 text-box-modal" type="text" name="fecha_fin" placeholder="dd-mm-aaaa" /></td>
 
+			</tr>
+		</table>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'graficos.asp?opc=sch');">Buscar</button>
+			  <button type="submit" class="btn btn-success" onClick="irAFuera(document.forms.form1_crit,'graficos.asp?opc=sch&exp=xls','_blank')">Exportar</button>
+
+            </div>
+	</form>
+<%if request.QueryString("opc") = "sch" then%>
 		<div class="row">
 			<div class="col-md-6 col-lg-3">
 				<div class="widget-bg-color-icon card-box fadeInDown animated">
@@ -51,6 +96,17 @@
 					<div class="text-right">
 						<%
 						sql = "exec NClientes"
+						if request.form("fecha_ini") = "" then
+							sql=sql & " '01-01-2017', "
+						else
+							sql=sql & " '" & request.form("fecha_ini") & "', "
+						end if
+						if request.form("fecha_fin") = "" then
+							sql=sql & " '31-12-2030' "
+						else
+							sql=sql & " '" & request.form("fecha_fin") & "' "
+						end if
+
 						Set rs = nothing
 						Set rs = cn.Execute(sql)
 						if not rs.eof then
@@ -59,10 +115,11 @@
 						%>
 						<h3 class="text-dark"><b class="counter"><%=vNClientes%></b></h3>
 						<p class="text-muted">Clientes</p>
+						
 					</div>
 					<div class="clearfix"></div>
 				</div>
-				*N° total de clientes
+					*N° total de clientes
 			</div>
 			
 			<div class="col-md-6 col-lg-3">
@@ -73,6 +130,17 @@
 					<div class="text-right">
 						<%
 						sql = "exec NCotizacion"
+						if request.form("fecha_ini") = "" then
+							sql=sql & " '01-01-2017', "
+						else
+							sql=sql & " '" & request.form("fecha_ini") & "', "
+						end if
+						if request.form("fecha_fin") = "" then
+							sql=sql & " '31-12-2030' "
+						else
+							sql=sql & " '" & request.form("fecha_fin") & "' "
+						end if	
+				
 						Set rs = nothing
 						Set rs = cn.Execute(sql)
 						if not rs.eof then
@@ -95,6 +163,17 @@
 					<div class="text-right">
 						<%
 						sql = "exec NEquipos"
+						if request.form("fecha_ini") = "" then
+							sql=sql & " '01-01-2017', "
+						else
+							sql=sql & " '" & request.form("fecha_ini") & "', "
+						end if
+						if request.form("fecha_fin") = "" then
+							sql=sql & " '31-12-2030' "
+						else
+							sql=sql & " '" & request.form("fecha_fin") & "' "
+						end if
+	
 						Set rs = nothing
 						Set rs = cn.Execute(sql)
 						if not rs.eof then
@@ -117,6 +196,16 @@
 					<div class="text-right">
 						<%
 						sql = "exec NVisitas"
+						if request.form("fecha_ini") = "" then
+							sql=sql & " '01-01-2017', "
+						else
+							sql=sql & " '" & request.form("fecha_ini") & "', "
+						end if
+						if request.form("fecha_fin") = "" then
+							sql=sql & " '31-12-2030' "
+						else
+							sql=sql & " '" & request.form("fecha_fin") & "' "
+						end if						
 						Set rs = nothing
 						Set rs = cn.Execute(sql)
 
@@ -132,14 +221,14 @@
 			</div>
 			*N° total de visitas
 		</div>
-
-
+		<%end if%>
+		
 	</div>
 </div> <!-- container -->
 <script>
 	var resizefunc = [];
 </script>
-
+<%if vExp<>"xls" then%>
 <!-- jQuery  -->
 <script src="assets2/js/jquery.min.js"></script>
 <script src="assets2/js/bootstrap.min.js"></script>
@@ -186,5 +275,6 @@
 
 	});
 </script>
+<%end if%>
 </body>
 </html>

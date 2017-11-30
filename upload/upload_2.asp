@@ -255,7 +255,7 @@ lngNumberUploaded = lngNumberUploaded + 1
 
 set cn =  server.CreateObject("ADODB.Connection")
 cn.ConnectionTimeout = 3600
-cn.Open "Driver={SQL Server}; Server=200.63.100.77;uid=sa_Go4MM;Database=MundoMaquinaria;pwd=9Vym7i%7"
+cn.Open "Driver={SQL Server}; Server=200.63.100.77;uid=mm-user001;Database=mundomaq_prod;pwd=Cwe3h61#"
 'Insertar en la base de datos
 sql="exec MantenedorPublicidad "
 sql=sql & " 3,"
@@ -264,7 +264,7 @@ sql=sql & " '" & FileName & "', "
 sql=sql & " 1 , "
 sql=sql & " 1 , "
 sql=sql & "'" & FileName & "',"
-sql=sql & " 1232 "	
+sql=sql & " 1232,'' ,''"	
 set rs = nothing
 Set rs = cn.Execute(sql)
 

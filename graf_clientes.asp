@@ -87,7 +87,7 @@ if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
     '   Response.End
     'end if
 else
-    Response.Redirect("./index.asp?msg=13")
+    Response.Redirect("./index.asp")
     Response.End
 end if
 '************************** Fin HTTP_REFERER ******************************
@@ -133,78 +133,76 @@ end if
 	<%if vExp<>"xls" then %>
 				<!-- Start content -->
 				<form name="form1_crit" action="#" method="post" class="form-horizontal">
-			  <div style="text-align: left;">
-				<label class="control-label">Nombre Cliente :</label>
-				<div class="modal-body">
-					<input class="form-control text-box-modal span11" type="text" name="nombre_cli" />
-				</div>
-				</div>
-				
-				<div style="text-align: left;">
-				<label class="control-label">Rut :</label>
-				<div class="modal-body">
-					<input class="form-control text-box-modal span11" type="text" name="rut_cli" />
-				</div>
-				</div>
-				
-				<div style="text-align: left;">
+				 <div class="control-group" >
 
-				<label class="control-label">Planes :</label>
-				<div class="modal-body">
-					<%
-					sql ="exec LISTAPLANES "
-					Set rs=nothing
-					Set rs = cn.Execute(sql)
-					%>
+					<label class="control-label" style=position:absolute;>Nombre Cliente :</label>
+				    <div class="controls">
+						<input class="form-control text-box-modal span11" type="text" name="nombre_cli" />
+					</div>
+					<label class="control-label" style=position:absolute;>Rut :</label>
+				    <div class="controls">
+						<input class="form-control text-box-modal span11" type="text" name="rut_cli" />
+				    </div>
+					<label class="control-label" style=position:absolute;>Planes :</label>
+					<div class="controls">
+						<%
 
-					<select name="vPlan" id="vPlan" class="text-box-modal span11" style="color:#F7931E" value="<%=vPlan%>">
-					<%
-						response.write "<option value=-1>SELECCIONE PLAN</option>"
-						if not rs.eof then
-							do while not rs.eof
-								if cdbl(rs("id_plan")) = cdbl(vPlan) then
-									response.write "<option selected value=" & rs("id_plan") & ">" & ucase(rs("Planes")) & "</option>"
-								else
-									response.write "<option value=" & rs("id_plan") & ">" & ucase(rs("Planes")) & "</option>"
-								end if
-								rs.movenext
-							loop
-						end if
+						sql ="exec LISTAPLANES "
+						Set rs=nothing
+						Set rs = cn.Execute(sql)
 						%>
-					</select>
-				</div>
-				</div>
-				<div style="text-align: left;">
-				<label class="control-label">Región :</label>
-				<div class="modal-body">
-					<%
-					sql ="exec Seleccionar_Datos_Comunes "
-					sql = sql & "3 "
-					Set rs=nothing
-					Set rs = cn.Execute(sql)
-					%>
-					<select name="vRegion" id="vRegion" class="text-box-modal span11" style="color:#F7931E" value="<%=vRegion%>">
-					<%
-						response.write "<option value=-1>SELECCIONE REGIÓN</option>"
-						if not rs.eof then
-							do while not rs.eof
-								if cdbl(rs("Id_DatosComunes")) = cdbl(vRegion) then
-									response.write "<option selected value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
-								else
-									response.write "<option value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
-								end if
-								rs.movenext
-							loop
-						end if
+						<select name="vPlan" id="vPlan" class="text-box-modal span11" style="color:#F7931E" value="<%=vPlan%>">
+						<%
+							response.write "<option value=-1>SELECCIONE PLAN</option>"
+							if not rs.eof then
+								do while not rs.eof
+									if cdbl(rs("id_plan")) = cdbl(vPlan) then
+										response.write "<option selected value=" & rs("id_plan") & ">" & ucase(rs("Planes")) & "</option>"
+									else
+
+										response.write "<option value=" & rs("id_plan") & ">" & ucase(rs("Planes")) & "</option>"
+									end if
+
+									rs.movenext
+								loop
+
+							end if
+							%>
+						</select>
+					</div>
+					<label class="control-label" style=position:absolute;>Región :</label>
+					<div class="controls">
+						<%
+						sql ="exec Seleccionar_Datos_Comunes "
+						sql = sql & "3 "
+						Set rs=nothing
+						Set rs = cn.Execute(sql)
 						%>
-					</select>
+						<select name="vRegion" id="vRegion" class="text-box-modal span11" style="color:#F7931E" value="<%=vRegion%>">
+						<%
+							response.write "<option value=-1>SELECCIONE REGIÓN</option>"
+							if not rs.eof then
+								do while not rs.eof
+									if cdbl(rs("Id_DatosComunes")) = cdbl(vRegion) then
+										response.write "<option selected value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
+									else
+										response.write "<option value=" & rs("Id_DatosComunes") & ">" & ucase(rs("Descripcion")) & "</option>"
+									end if
+									rs.movenext
+								loop
+							end if
+							%>
+						</select>
 				</div>
-       </div>
+        	</div>
+			<div class="control-group" >
             <div class="form-actions">
               <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'graf_clientes.asp?opc=sch');">Buscar</button>
 			  <button type="submit" class="btn btn-success" onClick="irAFuera(document.forms.form1_crit,'graf_clientes.asp?opc=sch&exp=xls','_blank')">Exportar</button>
 
             </div>
+			</div>
+
 	<%else%>
 <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr class="tituloazul">
@@ -218,15 +216,7 @@ end if
 							<div class="col-sm-12">
 								<div class="card-box">
 								<%if vExp<>"xls" then%>
-									<label class="form-inline">Visualización
-										<select id="demo-show-entries" class="span1 input-sm">
-											<option value="5">5</option>
-											<option value="10">10</option>
-											<option value="15">15</option>
-											<option value="20">20</option>
-										</select>
-										Filas
-									</label>
+
 								<%end if%>
 									<table id="demo-foo-pagination" class="table table-bordered table-striped with-check" data-page-size="5">
 										<thead>

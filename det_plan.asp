@@ -1,10 +1,5 @@
 <!--#include file="con_app.asp"-->
 <!DOCTYPE HTML>
-<!--
-	Alpha by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 	<head>
 		<%
@@ -13,13 +8,8 @@ iServer = "smtp.gmail.com"
 		Response.CodePage = 65001
 		Response.CharSet = "utf-8"
 		%>
-		<!-- [Renato] : Se comenta llamada de hoja de estilo, ya que no existe. -->
-		<!-- <link rel="stylesheet" type="text/css" href="estilo.css" /> --> 
 		
 		<link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONT AWESOME STYLE  -->
-		<!-- <link href="assets/css/font-awesome.css" rel="stylesheet" /> -->
-    <!-- CUSTOM STYLE  -->
 		<link href="assets/css/style.css" rel="stylesheet" />
 		<link rel="icon" type="image/png" href="./images/icon.ico" />
 		<title>Mundo Maquinaria</title>
@@ -90,31 +80,6 @@ iServer = "smtp.gmail.com"
 </script>
 	</head>
 <%
-if request.QueryString("WP") = "1" then 
-
-	'sql="Exec InsertaCliente "
-	'sql=sql & " '" & request.QueryString("nombre") & "', "     	 'nombre 
-	'sql=sql & " '" & request.QueryString("rut") & "', "      'equipo
-	'sql=sql & " 1344 " & ", " 	 'region
-	'sql=sql & " '', " 'ciudad
-	'sql=sql & " '', " 'passw
-	'sql=sql & " '', " 'direccion
-	'sql=sql & " '', " 'rubro
-	'sql=sql & " '', " 'nombreContacto
-	'sql=sql & " '', " 'mailContacto
-	'sql=sql & " '" & request.QueryString("mail") & "', " 'mailCotizacion
-	'sql=sql & " '', " 'telefonoContacto
-	'sql=sql & " '" & request.queryString("vIdPlan") & "', " 'idPlan
-	'sql=sql & " '" & 1 & "', " 'vigencia 
-	'sql=sql & " '', " 'cargoContacto
-	'sql=sql & " '', " 'logo
-	'sql=sql & " '' " 'idTipoPago
-
-	'set Rs = nothing
-	'Set Rs = cn.Execute(sql)
-
-end if
-
 if request.QueryString("opc") = "new" then   
 	
 	vNombre	=	request.form("nombre")
@@ -149,8 +114,6 @@ if request.QueryString("opc") = "new" then
 	
 %>
 <script type="text/javascript">
-	//alert("Se registro correctamente, se le enviara un mail con su informacion de ingreso.");
-	//mostrarMensaje('Se registró correctamente, se le enviará un mail con su información de ingreso.', 'success');
 	window.location="det_plan.asp?tipPag=1&vIdPlan=<%=vIdPlan%>&vRut=<%=vRut%>&TB=<%=vTB%>&msg=1";
 </script>
 <%
@@ -181,7 +144,6 @@ if request.QueryString("opc")="PagManual" then
 	Set MailObject.Configuration = cdoConfig
 	MailObject.From	= "contacto@mundomaquinaria.cl"
 	MailObject.To	= vCorreo_mundo_maquinaria
-	'MailObject.To	= "guillermo.salazar@gofour.cl ; angel.salazar@gofour.cl"
 	MailObject.Subject = "Registro Cliente - Mundo Maquinaria"
 	Cuerpo = "<br><br>Estimado(a) Administrador de Mundo Maquinaria, <br>&nbsp;&nbsp;&nbsp;&nbsp;Se ha registrado un nuevo cliente con pago manual. Favor validar el pago."
 	Cuerpo = Cuerpo & " .<br><br>&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -229,8 +191,6 @@ if request.QueryString("opc")="PagManual" then
 	Set cdoConfig = Nothing	
 %>
 	<script type="text/javascript">
-	//alert("Se registro correctamente, se le enviara un mail con su informacion de ingreso.");
-	//mostrarMensaje('Mensaje enviado exitosamente','success');
 	window.location="validacionclientemanual.asp?msg=1";
 </script>
 <%
@@ -263,8 +223,6 @@ if request.QueryString("est") = "2" then
 
 	Set MailObject = Server.CreateObject("CDO.Message")
 	Set MailObject.Configuration = cdoConfig
-	'MailObject.BodyFormat = 0
-	'MailObject.mailformat = 0
 	MailObject.From	= vCorreo_mundo_maquinaria
 	MailObject.To	= vCorreo_mundo_maquinaria
 	'MailObject.To	= "gscarmona1@gmail.com"

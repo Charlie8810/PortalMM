@@ -60,7 +60,7 @@ if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
     '   Response.End
     'end if
 else
-    Response.Redirect("./index.asp?msg=4")
+    Response.Redirect("./index.asp")
     Response.End
 end if
 '************************** Fin HTTP_REFERER ******************************
@@ -73,16 +73,25 @@ function validarDatos(formulario, pagina){
 	
 	var regex = /^(?=.*[az])(?=.*[AZ])(?=.*[0-9])(?=.{8,})/;
 	if(Pass1 != Pass2 ){
-		//mostrarMensaje('Las contraseñas no son iguales', 'error');
-		alert("Las contraseñas no son iguales")
+		mostrarMensaje('Estimado Usuario, Las contraseñas no son iguales', 'error');
+		//alert("Las contraseñas no son iguales")
 		document.form1_crit.Pass1.focus()
 		return false;
+	} else if (Pass1.length < 8 || Pass1.length > 15) {
+		mostrarMensaje('Estimado Usuario, La contraseña debe tener de 8 a 15 dígitos', 'error');
+                return false;
+	} else {
+		if (!ValidarNivelSeguridadPass('pass')) {
+			mostrarMensaje('Estimado Usuario, La contraseña debe ser alfanumérica', 'error');		
+                        return false;	
 	}
-	if ( !regex.test(Pass1) ){
-       // alert("Error: La dirección de correo " + MailContacto + " es incorrecta.");
-	   mostrarMensaje('La password debe tener de 8 a 15 digitos, debe contener una minuscula y un numero', 'error');
-		return false;
 		}
+
+	// if ( !regex.test(Pass1) ){
+    //    // alert("Error: La dirección de correo " + MailContacto + " es incorrecta.");
+	//    mostrarMensaje('La password debe tener de 8 a 15 digitos, debe contener una minuscula y un numero', 'error');
+	// 	return false;
+	// 	}
 
 	irA(formulario, pagina);
 
@@ -98,7 +107,7 @@ function validarDatos(formulario, pagina){
 <div id="content">
 <div id="content-header">
   <div id="messageDiv" class="col-md-12" style="display: none;">
-		<button type="button" class="close" data-dismiss="modal" onclick="ocultarMessage()" aria-hidden="true">×</button>
+		<button type="button" class="close" data-dismiss="modal" onClick="ocultarMessage()" aria-hidden="true">×</button>
 		<br />
 		<p>message</p>
 	</div>
@@ -143,26 +152,27 @@ end if
           <form name="form1_crit" action="#" method="post" class="form-horizontal">
               <div class="control-group">
 
-				<label class="control-label">Contraseña anterior :</label>
-				<div class="modal-body">
-					<input class="span11 text-box-modal" type="password" id=pass_ant name="pass_ant" />
+				<label class="control-label" style=position:absolute;>Contraseña anterior :</label>
+				<div class="controls">
+					<input class="span11 text-box-modal" placeholder="Min 8 digitos. Entre números y letras" type="password" id=pass_ant name="pass_ant" />
 				</div>
-				<label class="control-label">Nueva Contraseña :</label>
-				<div class="modal-body">
-					<input class="span11 text-box-modal" type="password" id=pass name="pass" />
+				<label class="control-label" style=position:absolute;>Nueva Contraseña :</label>
+				<div class="controls">
+					<input class="span11 text-box-modal" placeholder="Min 8 digitos. Entre números y letras" type="password" id=pass name="pass" />
 				</div>
-				<label class="control-label">Repita Contraseña :</label>
-				<div class="modal-body">
-					<input class="span11 text-box-modal" type="password" id=pass2 name="pass2" />
+				<label class="control-label" style=position:absolute;>Repita Contraseña :</label>
+				<div class="controls">
+					<input class="span11 text-box-modal" placeholder="Min 8 digitos. Entre números y letras" type="password" id=pass2 name="pass2" />
+				</div>
 				</div>
 
-				</div>
-
-            <div class="form-actions">
+			<div class="control-group">
+			<div class="form-actions">
 			  <button type="button" class="btn btn-success" onClick="javascript:validarDatos(document.forms.form1_crit,'act_pass.asp?opc=sav');">Guardar</button>
             </div>
           </form>
 
+			</div>
 
 </div>
 

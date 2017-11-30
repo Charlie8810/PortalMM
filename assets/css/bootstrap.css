@@ -1073,7 +1073,7 @@ h5 .small,
 .h5 .small,
 h6 .small,
 .h6 .small {
-  font-size: 75%;
+  font-size: 75%; 
 }
 h1,
 .h1 {
@@ -2388,7 +2388,7 @@ output {
 .form-control[readonly],
 fieldset[disabled] .form-control {
   cursor: not-allowed;
-  background-color: #eee;
+  /*background-color: #eee;*/
   opacity: 1;
 }
 textarea.form-control {
@@ -2417,7 +2417,7 @@ input[type="month"].input-lg {
   line-height: 46px;
 }
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 0px;
 }
 .radio,
 .checkbox {
@@ -2725,7 +2725,7 @@ select[multiple].input-lg {
   padding: 6px 12px;
   margin-bottom: 0;
   font-size: 14px;
-  font-weight: normal;
+  font-weight: bold;
   line-height: 1.42857143;
   text-align: center;
   white-space: nowrap;
@@ -2769,9 +2769,8 @@ fieldset[disabled] .btn {
   opacity: .65;
 }
 .btn-default {
-  color: #333;
-  background-color: #fff;
-  border-color: #ccc;
+  color: #fff;
+  background-color: #f7931e;
 }
 .btn-default:hover,
 .btn-default:focus,
@@ -5461,7 +5460,7 @@ button.close {
 .modal-footer {
   padding: 15px;
   text-align: right;
-  border-top: 1px solid #e5e5e5;
+  border-top: 2px solid #f7931e;
 }
 .modal-footer .btn + .btn {
   margin-bottom: 0;
@@ -5719,7 +5718,7 @@ button.close {
 .carousel {
   position: relative;
 }
-.carousel-inner {
+.carousel-inner  {
   position: relative;
   width: 100%;
   overflow: hidden;
@@ -5770,7 +5769,7 @@ button.close {
   top: 0;
   bottom: 0;
   left: 0;
-  width: 15%;
+ /* width: 15%; */
   font-size: 20px;
   color: #fff;
   text-align: center;
@@ -5778,7 +5777,7 @@ button.close {
   filter: alpha(opacity=50);
   opacity: .5;
 }
-.carousel-control.left {
+.carousel-control.left  .carousel-control.left2 {
   background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);
   background-image:      -o-linear-gradient(left, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);
   background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, .5)), to(rgba(0, 0, 0, .0001)));
@@ -5786,7 +5785,7 @@ button.close {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
   background-repeat: repeat-x;
 }
-.carousel-control.right {
+.carousel-control.right  .carousel-control.right2 {
   right: 0;
   left: auto;
   background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%);

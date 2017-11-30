@@ -692,7 +692,7 @@ end if
                                     <%
 									sql ="exec DetalleVentaMaquinaria "
 									sql = sql & request.QueryString("id")
-                                    
+						   
 									Set rs=nothing
 									Set rs = cn.Execute(sql)
 
@@ -718,7 +718,7 @@ end if
                                                     <%
                                                         sql ="exec spMantenedorVenta_ListarImagenes "
 									                    sql = sql & request.QueryString("id")
-                                    
+                                 
 									                    Set rs=nothing
 									                    Set rs = cn.Execute(sql)
                                                         dim incrementor , textoActivo 
@@ -754,11 +754,10 @@ end if
                      <%
 									sql ="exec DetalleVentaMaquinaria "
 									sql = sql & request.QueryString("id")
-                                    
 									Set rs=nothing
 									Set rs = cn.Execute(sql)
 
-
+									vMailUsuario = rs("mail")
 									%>
                                                 <!--PREVIUS-NEXT BUTTONS-->
                                                   <a class="left carousel-control" href="#carousel-example" data-slide="prev">
@@ -797,7 +796,30 @@ end if
                                                     <p class="text-primary" style="margin-bottom:1px;"><% response.Write(rs("vent_equipo_modelo") ) %></p>
                                                 </td>
                                             </tr>
-                                            
+                                            <tr>
+                                               <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;">Región</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;"><% response.Write(rs("region") ) %></p>
+                                                </td>
+                                            </tr>
+											<tr>
+                                               <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;">Ciudad</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;"><% response.Write(rs("ciudad") ) %></p>
+                                                </td>
+                                            </tr>
+											<tr>
+                                               <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;">Publicado el:</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-primary" style="margin-bottom:1px;"><%= Day(rs("vent_fecha")) & "/" & Month(rs("vent_fecha")) & "/" & Year(rs("vent_fecha")) %></p>
+                                                </td>
+                                            </tr>
                                         </table>
                                     </div>
                                     <div class="col-md-3">
@@ -853,7 +875,7 @@ if(request.QueryString("handle") = "newvta") then
 	Set MailObject.Configuration = cdoConfig
 
 	MailObject.From	= vCorreo_Cotizacion
-	MailObject.To	= vMailCotizacion & ";" & vMailUsuario
+	MailObject.To	= vMailUsuario
 	MailObject.Subject = "Contacto Venta Mundo Maquinaria"
 	Cuerpo = "<br><br><h3 style=color:#3B5998>Estimado(a) Cliente de Mundo Maquinaria, <br>&nbsp;&nbsp;&nbsp;&nbsp;Se ha enviado una consulta de venta "
 	Cuerpo = Cuerpo & "con los siguientes datos:</h3> <br><br><h4 style=color:#F7931E>  Rut: " & request.Form("vta_rut") & "<br>Nombre: " & request.Form("vta_nombre") & "<br> mail: " & request.Form("vta_mail") & "<br> Telefono: " & request.Form("vta_fono") & "<br> Equipo: " & rs("vent_anio") & " " & rs("Descripcion") & " " & rs("vent_equipo_marca") & " " & rs("vent_equipo_modelo") & "</a>"
@@ -868,7 +890,11 @@ if(request.QueryString("handle") = "newvta") then
 	Set MailObject = Nothing
 	Set cdoConfig = Nothing
 
-
+	%>
+	<script type="text/javascript">
+		window.location="resultado_busqueda.asp?eq=0&msg=18";
+	</script>
+	<%
 
 end if
     
@@ -1175,6 +1201,8 @@ end if
 			mostrarMensaje('Estimado Usuario, se envio un correo con sus datos al mail registrado.', 'success');
 		} else if (mensaje == 17) {
 			mostrarMensaje('Estimado Usuario, el MAIL ingresado ya es parte de nuestros registros', 'error');
+		} else if (mensaje == 18) {
+			mostrarMensaje('Estimado Usuario, se ha enviado su contacto al vendedor', 'success');
 		}
 
 		$('#vta_rut').blur(function(){

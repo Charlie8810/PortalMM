@@ -445,42 +445,69 @@
 	text-align: center;
 	font-family: 'Roboto', sans-serif;
 }
+
+.host_plans2 {
+	float: left;
+	width: 100%;
+	padding: 100px 0px;
+	text-align: center;
+	font-family: 'Roboto', sans-serif;
+}
+
 .host_plans .planbox {
 	float: left;
-	width: 100%;
-	border: 1px solid #e3e3e3;
-	border-radius: 3px;
+    width: 100%;
+
+
+    border-radius: 20px;
+	height: 470px;
 }
 .host_plans .planbox .title {
-	float: left;
-	width: 100%;
-	padding: 20px 0px 10px 0px;
+    float: left;
+    margin-left: 33px;
+    width: 75%;
+    padding: 0px 0px 10px 0px;
+    border-bottom-style: dotted;
+    border-color: #3b5998;
+    border-width: 5px;
 }
+
+.host_plans .planbox .title2 {
+    float: left;
+    margin-left: 33px;
+    width: 75%;
+    padding: 0px 0px 10px 0px;
+    border-color: #3b5998;
+}
+
 .host_plans .planbox .prices {
-	background: #5f686f;
-	display: inline-block;
-	margin-bottom: 35px;
-	position: relative;
-	width: 100%;
-	padding: 27px 0px 23px 0px;
-	color: #fff;
-}
-.host_plans .planbox .prices:before {
-	border-top: 15px solid #5f686f;
-	border-left: 136px solid transparent;
-	border-right: 136px solid transparent;
-	content: "";
-	height: 0;
-	left: 0;
-	position: absolute;
-	bottom: -15px;
-	width: 0;
+	background: #ffffff;
+
+    margin-bottom: 30px;
+
+    width: 100%;
+    padding: 100px 0px 19px 0px;
+    color: #3b5998;
+
+
+
+
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+
+
+    border-bottom-right-radius: 110px;
+    border-bottom-left-radius: 110px;
+
+
+
+    margin-top: -30px;
 }
 .host_plans .planbox .prices strong {
-	color: #fff;
-	font-size: 45px;
-	font-weight: 800;
-	display: block;
+    color: #3b5998;
+    font-size: 45px;
+    font-weight: 800;
+    display: block;
 }
 .host_plans .planbox .prices strong i {
 	color: #fff;
@@ -521,11 +548,17 @@
 	margin: 0px 0px 20px 0px;
 }
 .host_plans .planbox li {
-	float: left;
-	width: 100%;
-	padding: 9px 0px;
-	color: #2a363f;
-	border-bottom: 1px solid #f3f3f3;
+    float: left;
+    width: 90%;
+    margin-left: 13px;
+    padding: 10px 0px;
+    color: #ffffff !important;
+
+    background: #f7781e;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
 }
 .host_plans .planbox li.last {
 	border-bottom: none;

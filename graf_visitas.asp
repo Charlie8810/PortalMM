@@ -88,7 +88,7 @@ if len(Request.ServerVariables("HTTP_REFERER")) > 0 then
     '   Response.End
     'end if
 else
-    Response.Redirect("./index.asp?msg=4")
+    Response.Redirect("./index.asp")
     Response.End
 end if
 '************************** Fin HTTP_REFERER ******************************
@@ -138,10 +138,10 @@ end if
 			<tr class="parrafoazulch">
 				<td>Fecha Desde:</td>
 				<td>
-					<input class="span12 text-box-modal" type="text" name="fecha_ini" placeholder="aaaa-mm-dd" />
+					<input class="span12 text-box-modal" type="text" name="fecha_ini" placeholder="dd-mm-aaaa" />
 				</td>
 				<td>Fecha Hasta:</td>
-				<td><input class="span12 text-box-modal" type="text" name="fecha_fin" placeholder="aaaa-mm-dd" /></td>
+				<td><input class="span12 text-box-modal" type="text" name="fecha_fin" placeholder="dd-mm-aaaa" /></td>
 
 			</tr>
 		</table>
@@ -164,16 +164,7 @@ end if
 							<div class="col-sm-12">
 								<div class="card-box">
 								<%if vExp<>"xls" then%>
-									<label class="form-inline">Visualización
-										<select id="demo-show-entries" class="span1 input-sm">
-											<option value="5">5</option>
-											<option value="10">10</option>
-											<option value="15">15</option>
-											<option value="20">20</option>
-										</select>
-										Filas
-									</label>
-								
+							
 									<table id="demo-foo-pagination" class="table table-bordered table-striped with-check" data-page-size="5">
 
 										<thead>
@@ -184,7 +175,7 @@ end if
 										</thead>
 										<tbody>
 											<%											
-											sql="set dateformat ymd; exec INFORMEVISITAS "
+											sql="exec INFORMEVISITAS "
 											if request.form("fecha_ini") = "" then
 												sql=sql & " '2017-01-01', "
 											else
@@ -195,7 +186,7 @@ end if
 											else
 												sql=sql & " '" & request.form("fecha_fin") & "' "
 											end if
-																		
+										
 											set rs = nothing
 											Set rs = cn.Execute(sql)
 

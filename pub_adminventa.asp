@@ -183,7 +183,7 @@ end if
 %>
 <body>
   <div id="messageDiv" class="" style="display: none;">
-    <button type="button" class="close" data-dismiss="modal" onclick="ocultarMessage()" aria-hidden="true">×</button>
+    <button type="button" class="close" data-dismiss="modal" onClick="ocultarMessage()" aria-hidden="true">×</button>
     <br />
     <p>message</p>
   </div>
@@ -194,7 +194,7 @@ end if
 <div id="content">
 <div id="content-header">
 	<div id="messageDiv" class="col-md-12" style="display: none;">
-		<button type="button" class="close" data-dismiss="modal" onclick="ocultarMessage()" aria-hidden="true">×</button>
+		<button type="button" class="close" data-dismiss="modal" onClick="ocultarMessage()" aria-hidden="true">×</button>
 		<br />
 		<p>message</p>
 	</div>
@@ -258,8 +258,7 @@ if request.QueryString("opc")= "sav8" then
 		if vMensaje = "1" then
 		%>
 		<script type="text/javascript">
-		    window.location="pub_adminventa.asp?msg=3";
-
+			window.location="pub_adminventa.asp?msg=3";
 		</script>
 		<%
 		elseif vMensaje = "2" then
@@ -364,16 +363,13 @@ if request.QueryString("opc")= "idmaq3" then
 		//window.location="act_dat.asp";
 		setTimeout(window.location="pub_adminventa.asp";, 3000);
 	</script>
- 
 <%	else
 		if len(var_chk_sel) > 0 then
 				Response.Redirect("pub_adminventa.asp?opc=edit2&id="& var_chk_sel)
 				Response.End
-    
 		end if	
 	end if
 end if 
-
 if session ("Perfil_Administrador") = 1 then
 %>
     <%if request.QueryString("opc")= "sav" then 
@@ -484,7 +480,7 @@ end if
 		end if
 	end if
 end if
-    
+
 if request.QueryString("opc")= "eli" then 
 	
 	var_chk_sel=request.form("venta")
@@ -493,25 +489,20 @@ if request.QueryString("opc")= "eli" then
 	For i=LBound(arr_chk_sel) to UBound(arr_chk_sel)
 
 	Next 
-	sql ="exec spMantenedorVenta_Eliminar "
+	sql ="exec EliminaEquiposVentas "
 	sql=sql & " '" & var_chk_sel & "' "	
 
 	Set rs=nothing
 	Set rs = cn.Execute(sql)
-
-    Response.Redirect("pub_adminventa.asp?opc=edit2&id="& request.QueryString("id") & "&msg=4")
-	Response.End
-
 	%>
 	<script type="text/javascript">
-	    //window.location="pub_adminventa.asp?msg=3";
-	    //window.location.reload();
-	    
+	    window.location="pub_adminventa.asp?msg=3";
+	    window.history.go(-1);
+	    location.reload(true);
 	</script>
 <%	
 end if
 %>
-
 
     <script language = "JavaScript">
         <%
@@ -603,15 +594,15 @@ end if
 <div class="widget-content nopadding">
           <form name="form1_crit" action="#" method="post" class="form-horizontal">
               <div class="control-group">
-				<label class="control-label">Nombre Cliente :</label>
+				<label class="control-label" style=position:absolute;>Nombre Cliente :</label>
 				<div class="controls">
 					<input class="span11" type="text" name="nombre_cli" />
 				</div>
-				<label class="control-label">Rut Cliente :</label>
+				<label class="control-label" style=position:absolute;>Rut Cliente :</label>
 				<div class="controls">
 					<input class="span11" type="text" name="rut_cli" />
 				</div>
-           		<label class="control-label">Estado Cliente :</label>
+				<label class="control-label" style=position:absolute;>Estado Cliente :</label>
 				<div class="controls">
 					<%
 					sql ="exec Seleccionar_Datos_Comunes "
@@ -635,12 +626,17 @@ end if
 						%>
 					</select>
 				</div>
-              </div>         
+				
+              </div>
+			    
+			  </div>
+			<div class="control-group">         
             <div class="form-actions">
               <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'pub_adminventa.asp?opc=sch');">Buscar</button>
 			 <!-- <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form1_crit,'pub_adminventa.asp?opc=new');">Nuevo</button>-->
 			  <!--<button type="submit" class="btn btn-success" onClick="irAFuera(document.forms.form1_crit,'pub_adminventa.asp?opc=sch&exp=xls','_blank')">Exportar</button>-->
             </div>
+			<br>
           </form>
         </div>
 	<%if request.QueryString("opc")="sch" then %>
@@ -677,7 +673,11 @@ end if
 						sql=sql & " -1 , "
 					end if	
 					sql=sql & " '" & request.form("nombre_cli") & "', "
-					sql=sql & " " & request.form("vEstado") & " "       
+					if request.form("vEstado") <> "" then
+						sql=sql & " '" & request.form("vEstado") & "' "       
+					else
+						sql=sql & " -1  "
+					end if	
 					set rs = nothing
 					Set rs = cn.Execute(sql)
 					
@@ -716,7 +716,6 @@ end if
         </div>
 		<div class="form-actions">
             <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idmaq3');">Editar</button>
-            <!--<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=eli');">Eliminar</button>-->
 			<!--<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'demo_tabla.asp?opc=new');">Nuevo</button>-->
 			<input name="bandera" type="hidden" id="bandera" value="1" />
 		</div>
@@ -780,7 +779,7 @@ end if
           </div>
 		<div class="form-actions">
             <button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idvta');">Editar</button>
-            <button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=eli&id=<%= request.QueryString("id") %>');">Eliminar</button>
+			<button type="submit" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=eli');">Eliminar</button>
 			<input name="bandera" type="hidden" id="Hidden1" value="1" />
 			<!--<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=new&idCP=<%=vCliPlan%>');">Nuevo</button>
 			<button type="button" class="btn btn-success" onClick="javascript:irA(document.forms.form2_crit,'pub_adminventa.asp?opc=idmaq2');">Eliminar</button>-->
@@ -1195,7 +1194,8 @@ else
             } else if (mensaje == 2) {
                 mostrarMensaje('Venta Agregado Exitosamente.', 'success');
             } else if (mensaje == 3) {
-                mostrarMensaje('Venta Eliminado Exitosamente.', 'success');
+				mostrarMensaje('Venta Eliminado Exitosamente.', 'success');
+                
             } else if (mensaje == 4) {
                 mostrarMensaje('Venta Eliminado Exitosamente.', 'success');
             } else if (mensaje == 5) {
@@ -1203,12 +1203,11 @@ else
             }
         }
     });
-    function timedRefresh(timeoutPeriod) {
+     function timedRefresh(timeoutPeriod) {
         setTimeout("location.reload(true);",timeoutPeriod);
     }
 
-
+	
 </script>
-    
 </body>
 </html>
